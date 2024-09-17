@@ -11,13 +11,16 @@
     <div id="lista" style="max-width:100%;  background-color: white; padding:20px; height: 93%;"></div>
 
     <script>
-        var folder = 'imagens';
+        var dirEditor = localStorage.getItem('POSTS_RFF_DIR_EDITOR');
+        dirEditor = dirEditor.replace('rffeditor/', '');
+        var folder = dirEditor+'imagens';
+        var urlFiles = localStorage.getItem('POSTS_RFF_URL_EDITOR');
         function getListFiles(files){
             const xhttp = new XMLHttpRequest();
             xhttp.onload=function(){
                 document.getElementById('lista').innerHTML = this.responseText;
             }
-            xhttp.open("GET", "getListFiles.php?pasta="+files);
+            xhttp.open("GET", "getListFiles.php?pasta="+files+"&url="+urlFiles);
             xhttp.send();
         }
         getListFiles(folder);

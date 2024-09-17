@@ -5,7 +5,7 @@
 
 <title>Editor de Texto JavaScript ::: Linha de Código (Robson Farias)</title>
     <link rel="stylesheet" type="text/css" href="<?php echo POSTS_RFF_DIR_EDITOR; ?>editorRobsonFarias.css" />
-    <link class="cssRecursos" rel="stylesheet" type="text/css" href="<?php echo POSTS_RFF_DIR_EDITOR; ?>janMovEdiExc.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo POSTS_RFF_DIR_EDITOR; ?>janMovEdiExc.css" />
 <style>
     .tabela tr td{
         padding: 10px;
@@ -420,29 +420,29 @@
     .breakTextLeft label {
         color: #000;
         /* background-image: url(https://dl.dropbox.com/s/yvzrr9o54s2llkr/uol.png); */
-        background-image: url(<?php echo POSTS_RFF_DIR_EDITOR; ?>imgEditor/alignMedia-breakText-left.svg);
+        background-image: url(<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/alignMedia-breakText-left.svg);
     }
 
     .breakTextCenter label {
         color: #000;
         /* background-image: url(https://dl.dropbox.com/s/yvzrr9o54s2llkr/uol.png); */
-        background-image: url(<?php echo POSTS_RFF_DIR_EDITOR; ?>imgEditor/alignMedia-breakText-center.svg);
+        background-image: url(<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/alignMedia-breakText-center.svg);
     }
 
     .breakTextRight label {
         color: #000;
         /* background-image: url(https://dl.dropbox.com/s/yvzrr9o54s2llkr/uol.png); */
-        background-image: url(<?php echo POSTS_RFF_DIR_EDITOR; ?>imgEditor/alignMedia-breakText-right.svg);
+        background-image: url(<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/alignMedia-breakText-right.svg);
     }
 
     .esquerda label {
         /* background-image: url(https://dl.dropbox.com/s/i4z39zy2mtb7xq1/paypal.png); */
-        background-image: url(<?php echo POSTS_RFF_DIR_EDITOR; ?>imgEditor/alignMedia-float-left.svg);
+        background-image: url(<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/alignMedia-float-left.svg);
     }
 
     .direita label {
         /* background-image: url(https://dl.dropbox.com/s/myj41602bom0g8p/bankslip.png); */
-        background-image: url(<?php echo POSTS_RFF_DIR_EDITOR; ?>imgEditor/alignMedia-float-right.svg);
+        background-image: url(<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/alignMedia-float-right.svg);
     }
 
     .payment-methods input:focus + label {
@@ -497,7 +497,7 @@
         border-radius: 8px;
         z-index: 10001;
         padding-top: 50px;
-        background-image: url('<?php echo POSTS_RFF_DIR_EDITOR; ?>imgEditor/arrastar.png');
+        background-image: url('<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/arrastar.png');
         background-size: 100% 8%;
         background-repeat: repeat-x;
     }
@@ -683,9 +683,9 @@
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/defaultnumbering.svg" title="Numeração" onClick="ordenarLista()" />
     
 
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/color.svg" title="Mudar a cor do texto" onclick="window.open('<?php echo POSTS_RFF_DIR_EDITOR; ?>windowColorText.php', 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no')" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/color.svg" title="Mudar a cor do texto" onclick="window.open('<?php echo POSTS_RFF_URL_EDITOR; ?>windowColorText.php', 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no')" />
     
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/backcolor.svg" title="Cor de destaque do texto" onClick="window.open('<?php echo POSTS_RFF_DIR_EDITOR; ?>windowColorBackGroundText.php', 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no')" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/backcolor.svg" title="Cor de destaque do texto" onClick="window.open('<?php echo POSTS_RFF_URL_EDITOR; ?>windowColorBackGroundText.php', 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no')" />
 
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/resetattributes.svg" title="Remover formatação" onClick="removeFormatT()" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/subscript.svg" title="Colocar em subescrito" onClick="addSubScript(), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="subescrito" />
@@ -694,7 +694,9 @@
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/changecasetolower.svg" title="Deixar texto em caixa baixa" onClick='insertTag("span", "style=\"text-transform:lowercase;\"")' />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/capitalize.svg" title="Deixar iniciais das palavras em caixa alta" onClick='insertTag("span", "style=\"text-transform:capitalize;\"")' />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/capitular.svg" title="Inserir capitular" onClick='insertTag("p", "class=\"p\""), this.setAttribute("style", "background-color:#cdcdcd;"), selectElem()' id="p" />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertShadowText.svg" title="Inserir sombra no texto" onClick="insertTagsNew('rffTextShadow'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffTextShadow" />
+    <!-- <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertShadowText.svg" title="Inserir sombra no texto" onClick="insertTagsNew('rffTextShadow'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffTextShadow" /> -->
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertShadowText.svg" title="Inserir sombra no texto" onClick="insertTag('rff', 'style=\'text-shadow: 2px 2px 2px rgba(0,0,0,0.4), 2px 2px 2px rgba(0,0,0,0.4);\''), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rff" />
+    
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonText.svg" title="Inserir um neon no texto" onClick="insertTagsNew('rffNeonText'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffNeonText" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonTextEColorWhite.svg" title="Inserir um neon no texto e deixar o texto transparente" onClick="insertTagsNew('rffNeonTextEColorWhite'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffNeonTextEColorWhite" />
     

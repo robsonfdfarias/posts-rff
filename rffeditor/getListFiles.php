@@ -2,24 +2,45 @@
 
 //$pasta = filter_input(INPUT_GET, $_GET['pasta'], FILTER_SANITIZE_SPECIAL_CHARS);
 $pasta2 = $_GET['pasta'];
-$pasta = '../../'.$pasta2;
+$url = $_GET['url'];
+$url = str_replace('rffeditor/', '', $url);
+// echo $url;
+// $pasta = '../../'.$pasta2;
+$pasta = $pasta2;
 
 $pp1 = explode('/', $pasta2);
-//print_r($pp);
+// print_r($pp1);
 $pp = array_filter($pp1, function($value){
-    return ($value !==null && $value !== false && $value !== '' && $value !== ' ');
+    return ($value !==null && $value !== false && $value !== '' && $value !== ' ' && $value !== '.' && $value !== '..');
 }); 
-//print_r($pp);
+// print_r($pp1);
+$charFolderInitial='';
+$charFolder = [];
+$controller = false;
+for($r=1; $r<=count($pp); $r++){
+    if($pp[$r]=="imagens"){
+        $controller = true;
+    }
+    if($controller==false){
+        $charFolderInitial.='/'.$pp[$r];
+    }
+    if($controller==true){
+        $charFolder[]=$pp[$r];
+    }
+}
+// print_r($charFolder);
+// print_r($charFolderInitial);
 $acumula = '';
-for($i=0; $i<count($pp); $i++){
-    if($i==0){
-        $acumula.=$pp[$i];
+$inicial = 0;
+for($i=$inicial; $i<=count($charFolder); $i++){
+    if($i==$inicial){
+        $acumula.=$charFolder[$i];
     }else{
-        $acumula.='/'.$pp[$i];
+        $acumula.='/'.$charFolder[$i];
     }
     //echo '<span style="padding: 0 10px;"><a onclick="clickFile(\'pasta\', \''.$acumula.'\')">'.$pp[$i].'</a></span>';
-    echo ' <a onclick="clickFile(\'pasta\', \''.$acumula.'\')">'.$pp[$i].'</a> ';
-    if(count($pp)>1 && $i<(count($pp)-1)){
+    echo ' <a onclick="clickFile(\'pasta\', \''.$charFolderInitial.'/'.$acumula.'\')">'.$charFolder[$i].'</a> ';
+    if(count($charFolder)>1 && $i<(count($charFolder)-1)){
         echo ' <img src="./imgs/seta-para-a-direita.svg" height="20"> ';
     }
 }
@@ -47,7 +68,8 @@ while($arquivo=$dir->read()){
         if(!strpos($arquivo, '.txt') && !strpos($arquivo, '.php')){
             echo '<div id="containerObj" class="pasta" style="width:200px; padding:0px; word-break: break-all; margin: 0 15px; margin-bottom: 20px; box-shadow: 0px 0px 4px rgba(0,0,0,0.5); position:relative;">';
             echo '<div id="tituloTarja" style="position:absolute; padding:5px; background-color:#000; color:#fff;">'.getTypeFile($arquivo).'</div>';
-            echo '<a onclick="clickFile(\'imagem\', \''.$pasta.'/'.$arquivo.'\'), fecharFoldersJan()"><div style="padding:5px; --rffeditor-bk-image: url(\''.$pasta.'/'.$arquivo.'\'); width:calc(100% - 10px); height: 150px;" class="imgFundo"></div></a>';
+            // echo '<a onclick="clickFile(\'imagem\', \''.$pasta.'/'.$arquivo.'\'), fecharFoldersJan()"><div style="padding:5px; --rffeditor-bk-image: url(\''.$pasta.'/'.$arquivo.'\'); width:calc(100% - 10px); height: 150px;" class="imgFundo"></div></a>';
+            echo '<a onclick="clickFile(\'imagem\', \''.$url.$acumula.'/'.$arquivo.'\'), fecharFoldersJan()"><div style="padding:5px; --rffeditor-bk-image: url(\''.$url.$acumula.'/'.$arquivo.'\'); width:calc(100% - 10px); height: 150px;" class="imgFundo"></div></a>';
             echo '<div style="width:calc(100% - 20px); background-color: #fff; padding:5px; word-break: break-all;">'.substr($arquivo, 0, 23).'</div>';
             echo '</div>';
         }

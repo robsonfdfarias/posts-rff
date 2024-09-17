@@ -34,7 +34,7 @@ formUpload.addEventListener('submit', async function(event){
 console.log(i)
   xhr.addEventListener('readystatechange', function() {
     if (xhr.readyState === 4 && xhr.status == 200) {
-      console.log(xhr.responseText+'------------************');
+      // console.log(xhr.responseText+'------------************');
       preview.innerHTML = xhr.status;
       json = JSON.parse(xhr.responseText);
 
@@ -105,15 +105,90 @@ function insertImg() {
   divPai.setAttribute('ondragover', 'allowDrop2(event)');
   divPai.setAttribute('contenteditable', 'false');
   divPai.setAttribute('style', 'width:'+width+'px; height:'+height+'px;');
-  var media = '<div id="tools" draggable="false" droppable="false">'
-  media += '<button onclick="editVideo(this, event, \'img\')" draggable="false" droppable="false">Editar</button>'
-    // media += '<div id="arrastar" dragstart="dragStart(event)" drag="drag(event)" dragend="dragend(event)" draggable="true" droppable="false" contenteditable="false"></div>'
-    media += '<button onclick="fecharJanVid(this)" draggable="false" droppable="false">X</button>'
+  // divPai.setAttribute('onmouseover', "imgOver(this)")
+  divPai.setAttribute('onmouseout', "imgOut(this)")
+  divPai.addEventListener('mouseover', function(){
+    imgOver(this);
+  }, true);
+  // var media;
+  var media = '<div id="tools" draggable="false" droppable="false" style="display:flex; position:relative">'
+  // media += '<button onclick="editVideo(this, event, \'img\')" draggable="false" droppable="false">Editar</button>'
+  //   // media += '<div id="arrastar" dragstart="dragStart(event)" drag="drag(event)" dragend="dragend(event)" draggable="true" droppable="false" contenteditable="false"></div>'
+  //   media += '<button onclick="fecharJanVid(this)" draggable="false" droppable="false">X</button>'
     media += '</div>'
     // media += '<img src="'+srcImg+'" width="98%" height="98%" onclick="openWindowEditImage(this)" class="imagem">';
     media += '<div id="mediaAndCaption"><img src="'+srcImg+'" width="100%" height="auto" class="imagem"></div>';
   divPai.innerHTML = media;
   range.insertNode(divPai);
+}
+var controller =false;
+function imgOver(div){
+  // controller==false;
+  let first = div.firstElementChild;
+  // let child = document.createElement('div');
+  // child.setAttribute('id', 'tools')
+  // child.setAttribute('draggable', 'false')
+  // child.setAttribute('droppable', 'false')
+  var media = '<button onclick="editVideo(this, event, \'img\')" draggable="false" droppable="false">Editar</button>'
+  // media += '<div id="arrastar" dragstart="dragStart(event)" drag="drag(event)" dragend="dragend(event)" draggable="true" droppable="false" contenteditable="false"></div>'
+  media += '<button onclick="fecharJanVid(this)" draggable="false" droppable="false">X</button>'
+  let bt1 = document.createElement('button');
+  bt1.innerHTML='Editar';
+  bt1.setAttribute('onclick', 'editVideo(this, event, \'img\')');
+  bt1.setAttribute('draggable', 'false');
+  bt1.setAttribute('droppable', 'false');
+  // bt1.addEventListener('mouseover', function(){
+  //   controller=true;
+  // })
+  // bt1.addEventListener('mouseout', function(){
+  //   controller=false;
+  // })
+  let bt2 = document.createElement('button');
+  bt2.innerHTML='X';
+  bt2.setAttribute('onclick', 'fecharJanVid(this)');
+  bt2.setAttribute('draggable', 'false');
+  bt2.setAttribute('droppable', 'false');
+  // bt2.addEventListener('mouseover', function(){
+  //   controller=true;
+  // })
+  // bt2.addEventListener('mouseout', function(e){
+  //   controller=false;
+  //   e.target.parentNode.innerHTML='';
+  //   console.log(e.target.parentNode)
+  // })
+  // first.innerHTML = media;
+  if(first.childNodes.length<=0){
+    first.appendChild(bt1)
+    first.appendChild(bt2)
+    first.addEventListener('mouseout', function(e){
+      e.target.innerHTML=''
+      controller=false
+    })
+  }
+  // child.innerHTML = media;
+  // if(first.getAttribute('id')!=='tools'){
+  //   div.insertBefore(child, first)
+  //   controller=true
+  // }
+  // child.addEventListener('mouseover', function(){
+  //   return;
+  // })
+}
+
+function imgOut(div){
+  let first = div.firstElementChild;
+  // console.log(first)
+  if(first.getAttribute('id')==='tools'){
+    // div.removeChild(first)
+    // first.remove();
+    if(controller==false){
+      // first.innerHTML='';
+      console.log('***************')
+      console.log(controller)
+      first.replaceChildren();
+      controller=true;
+    }
+  }
 }
 
 
@@ -248,15 +323,18 @@ function onDragStart(event, elem) {
 }
 
 function openWindowInsertImage(){
-  window.open("rffeditor/windowInsertImage.php");
+  updateDirEditor();
+  // window.open("rffeditor/windowInsertImage.php");
+  window.open(POSTS_RFF_DIR_EDITOR+"windowInsertImage.php", 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
 }
 
 function openWindowEditImage(img){
+  updateDirEditor();
   objImg = img;
   localStorage.setItem('endImg', img.src);
   localStorage.setItem('widImg', width);
   localStorage.setItem('heigImg', height);
-  window.open("rffeditor/windowEditImage.php");
+  window.open(POSTS_RFF_DIR_EDITOR+"windowEditImage.php", 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
 }
 
 function editImgNovo(width, height) {

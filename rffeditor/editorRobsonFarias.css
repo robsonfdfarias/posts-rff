@@ -769,7 +769,7 @@ rffEfeitoBGText {
     min-height: 25px;
 }
 
-#captionMedia{
+/* #captionMedia{
     cursor: default;
     z-index: 1001;
     border-radius: 0 0 10px 10px;
@@ -783,11 +783,10 @@ rffEfeitoBGText {
     color: #333;
     font-style: italic;
     font-size: .75em;
-    /* font-weight: bold; */
     position: absolute;
-    /* min-width: 100% - 20px; */
     width: -webkit-fill-available;
-}
+    margin-top: 0px !important;
+} */
 
 
 /******************************** FIM da configuração da janela de vídeo ***************************************/

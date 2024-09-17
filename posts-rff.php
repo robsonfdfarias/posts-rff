@@ -24,12 +24,21 @@ if(!defined('WPINC')){
 
  // Adiciona o CSS e JS
 function posts_rff_adicionar_scripts() {
+    wp_enqueue_style('posts-rff-editor-p1-css', plugin_dir_url(__FILE__) . 'rffeditor/editorRobsonFarias.css');
+    wp_enqueue_style('posts-rff-editor-p2-css', plugin_dir_url(__FILE__) . 'rffeditor/janMovEdiExc.css');
+    wp_enqueue_style('posts-rff-editor-p3-css', plugin_dir_url(__FILE__) . 'rffeditor/print.css');
     wp_enqueue_style('posts-rff-modal-css', plugin_dir_url(__FILE__) . 'css/posts_rff_style.css');
     wp_enqueue_script('posts-rff-modal-js', plugin_dir_url(__FILE__) . 'js/posts_rff_functions.js', array('jquery'), null, true);
   }
   
   add_action('admin_enqueue_scripts', 'posts_rff_adicionar_scripts');
 
+ // Adiciona o CSS e JS
+ function posts_rff_adicionar_scripts_wp() {
+    wp_enqueue_style('posts-rff-editor-p1-css', plugin_dir_url(__FILE__) . 'rffeditor/editorRobsonFarias.css');
+  }
+  
+  add_action('wp_enqueue_scripts', 'posts_rff_adicionar_scripts_wp');
 
    /**
    * Includes PHP

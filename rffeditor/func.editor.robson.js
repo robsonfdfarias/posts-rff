@@ -22,7 +22,10 @@
     });
 })();
 
-
+var POSTS_RFF_DIR_EDITOR;
+function updateDirEditor(){
+    POSTS_RFF_DIR_EDITOR = localStorage.getItem("POSTS_RFF_URL_EDITOR");
+}
 
 let colorPicker;
 const defaultColor = "#0000ff";
@@ -65,7 +68,7 @@ function delElement(){
             return;
         }
     }
-    let tt = document.createTextNode(tag.innerHTML);
+    let tt = document.createTextNode(tag.innerText);
     pai.replaceChild(tt, tag);
 
     // let p = pai.outerHTML;
@@ -206,7 +209,7 @@ function selectElem(){
         selFont = document.getElementById('tamFont');
         selFont.children['padrao'].selected = true;
     for(let j=1;j<(tags.length-1);j++){
-    // console.log(tags[j].nodeName)
+    console.log(tags[j].nodeName)
         if(tags[j].nodeName!='FONT' && tags[j].nodeName!='TD' && tags[j].nodeName!='TR' && tags[j].nodeName!='TBODY' && tags[j].nodeName!='TABLE'){
             // console.log(tags[j].nodeName)
             // console.log(returnBtName(tags[j].nodeName))
@@ -232,6 +235,7 @@ function selectElem(){
         }
         elementInsert(tags[i].parentNode.nodeName, tags[i].parentNode)
     }
+    console.log(tags)
     // let testafont = selecao.parentNode;
     // console.log('++++++++++++++++++'+testafont.nodeName)
     // if(testafont.nodeName=='FONT'){
@@ -280,6 +284,8 @@ function returnBtName(ele, node){
         obj='p';
     }else if(ele=='FONT'){
         obj='font';
+    }else if(ele=='RFF'){
+        obj='rff';
     }
     return obj;
 }
@@ -359,6 +365,7 @@ function insertVi(){
 
 
 function openWindowLink(){
+    updateDirEditor();
     var selecao = window.getSelection().getRangeAt(0).startContainer;
     // console.log(selecao)
     var tag = selecao.parentNode;
@@ -368,9 +375,9 @@ function openWindowLink(){
         // console.log(tag.getAttribute('target'))
         localStorage.setItem('link', tag.getAttribute('href'))
         localStorage.setItem('target', tag.getAttribute('target'))
-        window.open('rffeditor/windowEditLink.php', 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
+        window.open(POSTS_RFF_DIR_EDITOR+'windowEditLink.php', 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
     }else{
-        window.open("rffeditor/windowInsertLink.php", 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
+        window.open(POSTS_RFF_DIR_EDITOR+"windowInsertLink.php", 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
     }
 }
 
@@ -466,7 +473,8 @@ function refazer(){
 }
 
 function removeFormatT(){
-    document.execCommand("removeFormat", false, null);
+    delElement();
+    // document.execCommand("removeFormat", false, null);
 }
 
 function addStrikeThrough(){
@@ -558,7 +566,9 @@ function insertH(valor) {
 /////////////////////////////////////////////////////////
 
 function insertTable() {
-    window.open("rffeditor/windowInsertTable.php", 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
+    updateDirEditor();
+    console.log(POSTS_RFF_DIR_EDITOR+"windowInsertTable.php")
+    window.open(POSTS_RFF_DIR_EDITOR+"windowInsertTable.php", 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
 }
 
 var styleFirstColumn = 'width: 10px !important; background-color: #cdcdcd; resize: vertical !important; overflow: auto; box-sizing: border-box;';
@@ -652,6 +662,7 @@ var styleFirstColumn = 'width: 10px !important; background-color: #cdcdcd; resiz
 
 
 function insertTableNovo(numRow, numCol) {
+    updateDirEditor();
     let range = window.getSelection().getRangeAt(0);
     selection = window.getSelection().toString();
     let divPai = document.createElement('div');
@@ -661,48 +672,48 @@ function insertTableNovo(numRow, numCol) {
     var table ='<div class="configTable" contenteditable="false" spellcheck="false">'
     // table+='<button id="testeSel" onclick="merge(\'row\', \'add\')"><img src="rffeditor/imgEditor/mesclar-celula.svg" width="50" title="Opções de mesclagem"></button>';
     table+='<ul id="menuTable">';
-    table+='<li><img src="rffeditor/imgEditor/mesclar-celula.svg" height="40" title="Opções de mesclagem">';
+    table+='<li><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/mesclar-celula.svg" height="40" title="Opções de mesclagem">';
     table+='<ul>';
-    table+='<li><button id="testeSel" onclick="merge(\'row\', \'add\')"><img src="rffeditor/imgEditor/mesclar-lado.svg" height="40" title="Mesclar célula a direita"></button></li>';
-    table+='<li><button id="testeSel" onclick="merge(\'column\', \'add\')"><img src="rffeditor/imgEditor/mesclar-abaixo.svg" height="40" title="Mesclar célula abaixo"></button></li>';
-    table+='<li><button id="testeSel" onclick="merge(\'row\', \'remove\')"><img src="rffeditor/imgEditor/mesclar-remover-lado.svg" height="40" title="Remove mesclagem a direita"></button></li>';
-    table+='<li><button id="testeSel" onclick="merge(\'column\', \'remove\')"><img src="rffeditor/imgEditor/mesclar-remover-abaixo.svg" height="40" title="Remover mesclagem abaixo"></button></li>';
+    table+='<li><button id="testeSel" onclick="merge(\'row\', \'add\')"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/mesclar-lado.svg" height="40" title="Mesclar célula a direita"></button></li>';
+    table+='<li><button id="testeSel" onclick="merge(\'column\', \'add\')"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/mesclar-abaixo.svg" height="40" title="Mesclar célula abaixo"></button></li>';
+    table+='<li><button id="testeSel" onclick="merge(\'row\', \'remove\')"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/mesclar-remover-lado.svg" height="40" title="Remove mesclagem a direita"></button></li>';
+    table+='<li><button id="testeSel" onclick="merge(\'column\', \'remove\')"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/mesclar-remover-abaixo.svg" height="40" title="Remover mesclagem abaixo"></button></li>';
     table+='</ul>';
     table+='</li>';
 
-    table+='<li><img src="rffeditor/imgEditor/configRow.svg" height="40" title="Configuração de linha">';
+    table+='<li><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/configRow.svg" height="40" title="Configuração de linha">';
     table+='<ul>';
-    table+='<li><button id="testeSel" onclick="insertTrAfter()"><img src="rffeditor/imgEditor/inserttableRowAfter.svg" height="40" title="Inserir linha depois"></li>';
-    table+='<li><button id="testeSel" onclick="insertTrBefore()"><img src="rffeditor/imgEditor/inserttableRowBefore.svg" height="40" title="Inserir linha antes"></li>';
-    table+='<li><button id="testeSel" onclick="delTr()"><img src="rffeditor/imgEditor/deleteTableRowAfter.svg" height="40" title="Apagar linha"></li>';
+    table+='<li><button id="testeSel" onclick="insertTrAfter()"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/inserttableRowAfter.svg" height="40" title="Inserir linha depois"></li>';
+    table+='<li><button id="testeSel" onclick="insertTrBefore()"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/inserttableRowBefore.svg" height="40" title="Inserir linha antes"></li>';
+    table+='<li><button id="testeSel" onclick="delTr()"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/deleteTableRowAfter.svg" height="40" title="Apagar linha"></li>';
     // table+='<li><button id="testeSel" onclick="insertTrAfter()">Inserir linha depois</button></li>';
     // table+='<li><button id="testeSel" onclick="insertTrBefore()">Inserir linha antes</button></li>';
     // table+='<li><button id="testeSel" onclick="delTr()">Apagar linha</button></li>';
     table+='</ul>';
     table+='</li>';
 
-    table+='<li><img src="rffeditor/imgEditor/configColumn.svg" height="40" title="Configuração de coluna">';
+    table+='<li><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/configColumn.svg" height="40" title="Configuração de coluna">';
     table+='<ul>';
-    table+='<li><button id="testeSel" onclick="insertTdAfter()"><img src="rffeditor/imgEditor/inserttableColumnAfter.svg" height="40" title="Inserir coluna depois"></button></li>';
-    table+='<li><button id="testeSel" onclick="insertTdBefore()"><img src="rffeditor/imgEditor/inserttableColumnBefore.svg" height="40" title="Inserir coluna antes"></button></li>';
-    table+='<li><button id="testeSel" onclick="delTd()"><img src="rffeditor/imgEditor/deleteTableColumn.svg" height="40" title="Apagar coluna"></button></li>';
+    table+='<li><button id="testeSel" onclick="insertTdAfter()"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/inserttableColumnAfter.svg" height="40" title="Inserir coluna depois"></button></li>';
+    table+='<li><button id="testeSel" onclick="insertTdBefore()"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/inserttableColumnBefore.svg" height="40" title="Inserir coluna antes"></button></li>';
+    table+='<li><button id="testeSel" onclick="delTd()"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/deleteTableColumn.svg" height="40" title="Apagar coluna"></button></li>';
     table+='</ul>';
     table+='</li>';
 
-    table+='<li><img src="rffeditor/imgEditor/configCell.svg" height="40" title="Configurar célula">';
+    table+='<li><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/configCell.svg" height="40" title="Configurar célula">';
     table+='<ul>';
     // table+='<li><button id="testeSel" onclick="rotateTdSel(\'sc\')"><img src="rffeditor/imgEditor/configCell-rotate-text.svg" height="40" title="Rotacionar o texto na célula"></button></li>';
     // table+='<li><button id="testeSel" onclick="getWindowBckgroundColorTDsel()"><img src="rffeditor/imgEditor/configCell-background.svg" height="40" title="Mudar a cor da célula"></button></li>';
     // table+='<li><button id="testeSel" onclick="openConfigBorderTdSel()"><img src="rffeditor/imgEditor/configCell-border.svg" height="40" title="Configurar borda da célula"></button></li>';
-    table+='<li><button id="testeSel" onclick="openConfigTdSel()"><img src="rffeditor/imgEditor/configCell-prop.svg" height="40" title="Configurar propriedade da célula"></button></li>';
+    table+='<li><button id="testeSel" onclick="openConfigTdSel()"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/configCell-prop.svg" height="40" title="Configurar propriedade da célula"></button></li>';
 
-    table+='<li><button id="testeSel" onclick="insertCellRight()"><img src="rffeditor/imgEditor/configCell-insert-after.svg" height="40" title="Inserir célula depois"></button></li>';
-    table+='<li><button id="testeSel" onclick="insertCellLeft()"><img src="rffeditor/imgEditor/configCell-insert-before.svg" height="40" title="Inserir célula antes"></button></li>';
-    table+='<li><button id="testeSel" onclick="removeCell()"><img src="rffeditor/imgEditor/configCell-delete.svg" height="40" title="Apagar célula"></button></li>';
+    table+='<li><button id="testeSel" onclick="insertCellRight()"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/configCell-insert-after.svg" height="40" title="Inserir célula depois"></button></li>';
+    table+='<li><button id="testeSel" onclick="insertCellLeft()"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/configCell-insert-before.svg" height="40" title="Inserir célula antes"></button></li>';
+    table+='<li><button id="testeSel" onclick="removeCell()"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/configCell-delete.svg" height="40" title="Apagar célula"></button></li>';
     table+='</ul>';
     table+='</li>';
 
-    table+='<li><button id="testeSel" onclick="openWindowConfigBackgroundTable()"><img src="rffeditor/imgEditor/configTable.svg" height="40" title="Configurar tabela"></button></li>';
+    table+='<li><button id="testeSel" onclick="openWindowConfigBackgroundTable()"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/configTable.svg" height="40" title="Configurar tabela"></button></li>';
     table+='</ul>';
     table+='<button onclick="fecharJanTab(this)" draggable="false" droppable="false">X</button>';
     table+='</div>';
@@ -1405,7 +1416,8 @@ function verifyElementFocus(){
 
 
 function getWindowBckgroundColorTDsel(){
-    window.open("rffeditor/windowColorBackGroundTD.php", 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
+    updateDirEditor();
+    window.open(POSTS_RFF_DIR_EDITOR+"windowColorBackGroundTD.php", 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
 }
 
 function backGroundColorTdSel(cor){
@@ -1423,10 +1435,11 @@ function backGroundColorTdSel(cor){
 }
 
 function openConfigTdSel(){
+    updateDirEditor();
     if(tdSel.length>0){
         let style = tdSel[0].getAttribute('style');
         localStorage.setItem('style', style);
-        window.open('rffeditor/windowConfigBorderCell.php', 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
+        window.open(POSTS_RFF_DIR_EDITOR+'windowConfigBorderCell.php', 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
     }else{
         alert('Nenhuma célula selecionada! Para selecionar uma célula, segure a tecla CTRL e clique em cima da célula, com isso aparecerá uma cor de seleção nela!')
     }
@@ -1507,6 +1520,7 @@ function configBackgroundTable(obj){
 
 
 function openWindowConfigBackgroundTable(){
+    updateDirEditor();
     let table=verifyGetNode('TABLE');
     if(table!=null){
         // let style = table.getAttribute('style');
@@ -1518,7 +1532,7 @@ function openWindowConfigBackgroundTable(){
         //     }
         // }
         localStorage.setItem('style', table.getAttribute('style'));
-        window.open('rffeditor/windowConfigTable.php', 'janela', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,height=350,width=500,top=50,left=100,fullscreen=no');
+        window.open(POSTS_RFF_DIR_EDITOR+'windowConfigTable.php', 'janela', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,height=350,width=500,top=50,left=100,fullscreen=no');
     }else{
         alert('Nenhuma Tabela selecionada! Clique em uma tabela para editar sua propriedade de background!')
     }
@@ -1538,7 +1552,8 @@ function insertVideoOld() {
 }
 
 function openWindowInsertVideo(){
-    window.open("rffeditor/windowInsertVideo.php");
+    updateDirEditor();
+    window.open(POSTS_RFF_DIR_EDITOR+"windowInsertVideo.php", 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
 }
 
 // function insertVideo(codVideo, si, width, height) {
@@ -1576,7 +1591,7 @@ function insertVideo(codVideo, si, width, height) {
     video += '<button onclick="editVideo(this, event, \'img\')" draggable="false" droppable="false">Editar</button>'
     video += '<button onclick="fecharJanVid(this)" draggable="false" droppable="false">X</button>'
     video += '</div>'
-    video += '<div id="mediaAndCaption">'
+    video += '<div id="mediaAndCaption" style="width:100%; height:90%;">'
     video += '<iframe width="100%" height="90%" src="https://www.youtube.com/embed/'+codVideo+'?si='+si+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
     video += '</div>'
     divPai.innerHTML = video;
@@ -1699,6 +1714,28 @@ function getSetCaption(){
         dvCaption.setAttribute('autocomplete', 'true');
         dvCaption.setAttribute('draggable', 'false');
         dvCaption.setAttribute('droppable', 'false');
+        dvCaption.setAttribute('style', `
+            cursor: default;
+            z-index: 1001;
+            border-radius: 0 0 10px 10px;
+            border: 1px solid #cdcdcd;
+            word-wrap: break-word;
+            -ms-word-wrap: break-word;
+            word-break: break-all;
+            -ms-word-break: break-all;
+            padding: 8px 10px;
+            background-color: #f7f7f7;
+            color: #333;
+            font-style: italic;
+            font-size: .75em;
+            /* font-weight: bold; */
+            position: absolute;
+            /* min-width: 100% - 20px; */
+            width: -webkit-fill-available;
+            margin-top: 0px !important;
+            text-align: center;
+            min-height: 25px;
+        `);
         // dvCaption.setAttribute('onclick', 'checkContentCaption(this)');
         dvCaption.classList.add('captionText');
         // dvCaption.style.padding = '3px 10px';
@@ -1946,6 +1983,10 @@ function insertBreakPage(){
     breakPage.setAttribute('ondragover', 'allowDrop2(event)');
     breakPage.setAttribute('contenteditable', 'false');
     breakPage.setAttribute('title', 'Clique e arrasta para mover');
+    breakPage.setAttribute('style', `
+        page-break-inside: auto;
+        page-break-before: always;
+    `);
     breakPage.classList.add('classBreakPage');
     // breakPage.innerHTML = '<div id="viewRefBreakPage" draggable="false" droppable="false">';
     // breakPage.innerHTML+='<div id="textoBreakPageUp" draggable="false" droppable="false">Quebra de página</div><hr class="viewLineBreak" draggable="false" droppable="false">';
@@ -2090,7 +2131,8 @@ function alterLineHeight(content){
 }
 
 function openPasteContentOfWeb(){
-    window.open('rffeditor/windowPasteContentOfWeb.php', 'janela', 'height=550, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
+    updateDirEditor();
+    window.open(POSTS_RFF_DIR_EDITOR+'windowPasteContentOfWeb.php', 'janela', 'height=550, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
 }
 
 function convertPToDiv(tag){

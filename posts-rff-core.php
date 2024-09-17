@@ -1,10 +1,4 @@
 <?php
-/*
-Plugin Name: POSTS Rff
-Description: Cria posts com recurso css em inline para facilitar no uso do GraphQl.
-Version: 1.0
-Author: Robson Ferreira de Farias
-*/
 
 if(!defined('WPINC')){
     die();
@@ -24,6 +18,8 @@ function add_menu_admin_page(){
 }
 
 add_action('admin_menu', 'add_menu_admin_page');
+
+$url_rff_dir_editor = POSTS_RFF_DIR_EDITOR;
 
 function posts_rff(){
     ?>
@@ -60,11 +56,17 @@ function posts_rff(){
                     <textarea name="conteudo" id="conteudo" cols="30" rows="10" style="display:none;" required></textarea>
                     <input type="submit" id="enviar">
                 </form>
+                <span id="urlRff"><?php echo POSTS_RFF_URL_EDITOR; ?></span>
+                <span id="dirRff"><?php echo POSTS_RFF_DIR_EDITOR; ?></span>
             </div>
             <div id="divUpdate">
                 <h1>Você está na update</h1>
             </div>
             <script>
+                localStorage.setItem("POSTS_RFF_URL_EDITOR", document.getElementById('urlRff').innerHTML);
+                localStorage.setItem("POSTS_RFF_DIR_EDITOR", document.getElementById('dirRff').innerHTML);
+                // alert(localStorage.getItem("POSTS_RFF_DIR_EDITOR"))
+
                 var enviar = document.getElementById("enviar");
                 enviar.addEventListener("click", function(){
                     insertTextoEmTextarea();

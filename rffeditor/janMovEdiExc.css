@@ -9,10 +9,11 @@
     border: dashed 3px red;
 }
 
-#tools{
+/* #tools{
     display: none;
     position:absolute;
-}
+    top: 0px;
+} */
 
 .item {
     /* height: 425px;
@@ -59,9 +60,9 @@
     cursor: default;
 }
 
-.item:hover #tools{
+/* .item:hover #tools{
     display: flex;
-}
+} */
 
 .hide {
     display: none;
