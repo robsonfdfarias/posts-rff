@@ -695,18 +695,15 @@
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/capitalize.svg" title="Deixar iniciais das palavras em caixa alta" onClick='insertTag("span", "style=\"text-transform:capitalize;\"")' />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/capitular.svg" title="Inserir capitular" onClick='insertTag("p", "class=\"p\""), this.setAttribute("style", "background-color:#cdcdcd;"), selectElem()' id="p" />
 
-    <!-- <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertShadowText.svg" title="Inserir sombra no texto" onClick="insertTagsNew('rffTextShadow'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffTextShadow" /> -->
-    <!-- <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonText.svg" title="Inserir um neon no texto" onClick="insertTagsNew('rffNeonText'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffNeonText" /> -->
-    <!-- <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonTextEColorWhite.svg" title="Inserir um neon no texto e deixar o texto transparente" onClick="insertTagsNew('rffNeonTextEColorWhite'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffNeonTextEColorWhite" /> -->
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertShadowText.svg" title="Inserir sombra no texto" onClick="insertTag('rffTextShadow', 'style=\'text-shadow: 2px 2px 2px #00000055, 2px 2px 2px rgba(0,0,0,0.4);\''), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffTextShadow" />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonText.svg" title="Inserir um neon no texto" onClick="insertTag('rffNeonText', 'style=\'text-shadow: 0px 0px 4px #4056ff;font-weigth:bold;\''), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffNeonText" />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonTextEColorWhite.svg" title="Inserir um neon no texto e deixar o texto transparente" onClick="insertTag('rffNeonTextEColorWhite', 'style=\'text-shadow: 0px 0px 1px #4056ff, 0px 0px 2px #4056ff, 0px 0px 4px #4056ff, 0px 0px 6px #4056ff;font-weigth:bold;\''), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffNeonTextEColorWhite" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertShadowText.svg" title="Inserir sombra no texto" onClick="insertTag('rffTextShadow')" id="rffTextShadow" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonText.svg" title="Inserir um neon no texto" onClick="insertTag('rffNeonText')" id="rffNeonText" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonTextEColorWhite.svg" title="Inserir um neon no texto e deixar o texto transparente" onClick="insertTag('rffNeonTextEColorWhite')" id="rffNeonTextEColorWhite" />
     
     
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/rffText3D.svg" title="rffText3D" onClick="insertTagsNew('rffText3D'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffText3D" />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/rffTextSimples.svg" title="rffText3DSimples" onClick="insertTagsNew('rffText3DSimples'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffText3DSimples" />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/rffTextExtreme.svg" title="rffText3DExtreme" onClick="insertTagsNew('rffText3DExtreme'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffText3DExtreme" />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/rffTextDegrade.svg" title="rffTextDegrade" onClick="insertTagsNew('rffTextDegrade'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffTextDegrade" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/rffText3D.svg" title="rffText3D" onClick="insertTag('rffText3D')" id="rffText3D" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/rffTextSimples.svg" title="rffText3DSimples" onClick="insertTag('rffText3DSimples')" id="rffText3DSimples" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/rffTextExtreme.svg" title="rffText3DExtreme" onClick="insertTag('rffText3DExtreme')" id="rffText3DExtreme" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/rffTextDegrade.svg" title="rffTextDegrade" onClick="insertTag('rffTextDegrade')" id="rffTextDegrade" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/coroa2.svg" title="rffEfeitoBGText" onClick="abreJanEfeitosTexto()" />
     
     <select name="formatH" id="formatH">

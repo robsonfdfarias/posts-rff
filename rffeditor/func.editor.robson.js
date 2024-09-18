@@ -69,8 +69,6 @@ function delElement(){
             return;
         }
     }
-    // let tt = document.createTextNode(tag.innerText);
-    // pai.replaceChild(tt, tag);
     //Cria um fragmento do documento
     const tagContent = document.createDocumentFragment();
     //Inseri todo o conteúdo do dentro do fragmento
@@ -78,35 +76,27 @@ function delElement(){
     //Inseri o fragmento do dentro do node pai
     pai.replaceChild(tagContent, tag);
 
+    // let tt = document.createTextNode(tag.innerText);
+    // pai.replaceChild(tt, tag);
     // let p = pai.outerHTML;
-    // // pai.removeChild(tag)
     // var t = tag.outerHTML;
-    // // console.log(t)
-
     // let abre = '';
     // let fecha = '';
     // if(getTagName(tag.nodeName)=='p'){
     //     abre = '<'+getTagName(tag.nodeName)+' class="p">';
     //     fecha = '</'+getTagName(tag.nodeName)+'>';
-    //     // console.log('era para ter pego o class '+tag.nodeName)
     // }else{
     //     abre = '<'+getTagName(tag.nodeName)+'>';
     //     fecha = '</'+getTagName(tag.nodeName)+'>';
     // }
-    // // console.log('--->>'+getTagName(tag.nodeName))
-    // // t = t.replace(abre, '');
-    // // t = t.replace(fecha, '');
     // p = p.replace(abre, '');
     // p = p.replace(fecha, '');
 
     // abre = '<'+getTagName(pai.nodeName)+'>';
     // fecha = '</'+getTagName(pai.nodeName)+'>';
-    // // t = t.replace(abre, '');
-    // // t = t.replace(fecha, '');
     // p = p.replace(abre, '');
     // p = p.replace(fecha, '');
     // pai.innerHTML = p
-    // // document.execCommand('insertHTML', true, pai)
     // range.insertNode(pai);
 }
 
@@ -196,10 +186,7 @@ function getTagName(tag){
 
 function getTags(){
     var selecao = window.getSelection().getRangeAt(0).startContainer;
-    // console.log(selecao)
     var tag = selecao.parentNode;
-    // console.log('111111111111111111111111-------------'+tag.nodeName)
-    // console.log(getTagName(tag.nodeName))
     return getTagName(tag.nodeName)
 }
 
@@ -532,28 +519,141 @@ function insertTagsNew(valor) {
     document.execCommand('insertHTML', false, wrappedselection);
 }
 
-function insertTag(valor, style) {
+function insertTag(valor) {
+    document.getElementById(valor).setAttribute('style', 'background-color:none;');
     if(valor.toLowerCase() == getTags()){
-        // alert(valor)
-        document.getElementById(valor).setAttribute('style', 'background-color:none;');
-        // selectElem();
         delElement();
         exit;
     }
-    // console.log(valor, style)
-    // if(valor=='p' && style=='class="p"'){
-    //     //co
-    //     selection = window.getSelection().getRangeAt(0).startContainer;
-    // }else{
-    //     selection = window.getSelection().toString();
-    // }
-
-    selection = window.getSelection().toString();
-    // console.log(selection)
-    wrappedselection = '<'+valor+' '+style+'>' + selection + '</'+valor+'>';
-    //var img = new Image();
-    document.execCommand('insertHTML', false, wrappedselection);
+    selection = window.getSelection();
+    if(selection.toString()!=''){
+        let range = selection.getRangeAt(0);
+        // let sel = document.createTextNode(valor);
+        let sel = document.createElement(valor);
+        sel.setAttribute('style', strategyTags(valor));
+        sel.innerHTML=selection.toString();
+        range.deleteContents();
+        range.insertNode(sel);
+        range.setStartAfter(sel);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        selectElem();
+    }
 }
+
+function strategyTags(value){
+    let rffTextShadow = `text-shadow: 2px 2px 2px #00000055, 2px 2px 2px rgba(0,0,0,0.4);`;
+    let rffNeonText = `text-shadow: 0px 0px 4px #4056ff;
+        font-weigth:bold;`;
+    let rffNeonTextEColorWhite = `text-shadow: 0px 0px 1px #4056ff, 0px 0px 2px #4056ff, 0px 0px 4px #4056ff, 0px 0px 6px #4056ff;
+        font-weigth:bold;`;
+    let rffText3D = `color: #dfdfdf;
+        font-size: 150px;
+        font-family: monospace;
+        font-weight: bold;
+        text-align: center;
+        text-shadow: 1px -1px 0 #2f5d87, 
+                    2px -2px 0 #2e5a83, 
+                    3px -3px 0 #2d5880, 
+                    4px -4px 0 #2b557c, 
+                    5px -5px 0 #2a5378, 
+                    6px -6px 0 #295074, 
+                    7px -7px 0 #274d71, 
+                    8px -8px 0 #264b6d, 
+                    9px -9px 0 #254869, 
+                    10px -10px 0 #234665, 
+                    11px -11px 0 #224361, 
+                    12px -12px 0 #21405e, 
+                    13px -13px 12px rgba(0, 0, 0, 0.55), 
+                    13px -13px 1px rgba(0, 0, 0, 0.5);`;
+    let rffText3DSimples = `color: #dfdfdf;
+        font-size: 100px;
+        font-family: monospace;
+        font-weight: bold;
+        text-align: center;
+        text-shadow: 1px -1px 0 #2f5d87,
+                    2px -2px 0 #2e5a83, 
+                    3px -3px 0 #2d5880;`;
+    let rffText3DExtreme = `font-size: 100px;
+        font-weight: 900;
+        background-image: linear-gradient(rgb(130,130,130), rgb(255,255,255), rgb(255,255,255));
+        background-clip: border-box;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 2px 1px #dfdfdf, 
+                    2px 1px rgb(0, 57, 85),
+                    4px 2px rgb(5, 70, 90), 
+                    6px 4px rgb(15, 72, 100), 
+                    8px 5px rgb(20, 85, 105), 
+                    10px 6px rgb(25, 98, 110), 
+                    12px 7px rgb(30, 99, 115), 
+                    14px 8px rgb(30, 112, 120), 
+                    16px 9px black, 
+                    18px 10px black, 
+                    20px 11px black, 
+                    22px 12px black, 
+                    24px 13px black, 
+                    28px 14px rgba(0, 0, 0, 0.9), 
+                    30px 15px rgba(0, 0, 0, 0.7), 
+                    32px 16px rgba(0, 0, 0, 0.5), 
+                    34px 17px rgba(0, 0, 0, 0.3), 
+                    36px 18px rgba(0, 0, 0, 0.1), 
+                    40px 20px rgba(0, 0, 0, 0.1);`;
+    let rffTextDegrade = 'font-size: 70px; font-weight: 900; letter-spacing: 4px; background-image: linear-gradient(to bottom, rebeccapurple, steelblue, turquoise); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: black; -webkit-text-stroke-width: 2px; -webkit-text-stroke-color: #adadad;';
+    let rffefeitobgtext = `background-image: url(${POSTS_RFF_DIR_EDITOR}'imgs/bk2.png');
+        background-size: cover;
+        -webkit-text-fill-color: transparent;
+        -webkit-animation: aitf 5s linear infinite;
+        -webkit-transform: translate3d(0,0,0);
+        -webkit-backface-visibility: hidden;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;
+        border-image: 1px solid #ddd;`;
+    let rffefeitobgtext2 = `background-image: url(${POSTS_RFF_DIR_EDITOR}'imgs/giphy2.webp');
+        background-size: cover;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let obj={};
+    obj['rffTextShadow'] = rffTextShadow;
+    obj['rffNeonText'] = rffNeonText;
+    obj['rffNeonTextEColorWhite'] = rffNeonTextEColorWhite;
+    obj['rffText3D'] = rffText3D;
+    obj['rffText3DSimples'] = rffText3DSimples;
+    obj['rffText3DExtreme'] = rffText3DExtreme;
+    obj['rffTextDegrade'] = rffTextDegrade;
+    obj['rffefeitobgtext'] = rffefeitobgtext;
+    obj['rffefeitobgtext2'] = rffefeitobgtext2;
+    return obj[value];
+}
+
+// function insertTag(valor, style) {
+//     if(valor.toLowerCase() == getTags()){
+//         // alert(valor)
+//         document.getElementById(valor).setAttribute('style', 'background-color:none;');
+//         // selectElem();
+//         delElement();
+//         exit;
+//     }
+
+//     selection = window.getSelection().toString();
+//     // console.log(selection)
+//     wrappedselection = '<'+valor+' '+style+'>' + selection + '</'+valor+'>';
+//     //var img = new Image();
+//     document.execCommand('insertHTML', false, wrappedselection);
+// }
 
 function CssFnctn() {
     document.execCommand('formatblock', false, 'h1')
