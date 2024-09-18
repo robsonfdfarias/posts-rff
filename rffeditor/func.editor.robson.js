@@ -57,19 +57,26 @@ function startup() {
 
 
 function delElement(){
-    var range = window.getSelection().getRangeAt(0);
+    // var range = window.getSelection().getRangeAt(0);
     var selecao = window.getSelection().getRangeAt(0).startContainer;
-    console.log(selecao)
     var tag = selecao.parentNode;
-    console.log(tag);
     let pai = tag.parentNode;
-    if(pai.nodeName=='DIV'){
+    if(tag.nodeName=='DIV'){
         if(pai.getAttribute('id')=='texto' && pai.getAttribute('id')!=null){
             return;
         }
+        if(tag.getAttribute('id')=='texto'){
+            return;
+        }
     }
-    let tt = document.createTextNode(tag.innerText);
-    pai.replaceChild(tt, tag);
+    // let tt = document.createTextNode(tag.innerText);
+    // pai.replaceChild(tt, tag);
+    //Cria um fragmento do documento
+    const tagContent = document.createDocumentFragment();
+    //Inseri todo o conteúdo do dentro do fragmento
+    tagContent.append(...Array.from(tag.childNodes));
+    //Inseri o fragmento do dentro do node pai
+    pai.replaceChild(tagContent, tag);
 
     // let p = pai.outerHTML;
     // // pai.removeChild(tag)
@@ -100,7 +107,7 @@ function delElement(){
     // p = p.replace(fecha, '');
     // pai.innerHTML = p
     // // document.execCommand('insertHTML', true, pai)
-    range.insertNode(pai);
+    // range.insertNode(pai);
 }
 
 function getTagName(tag){
@@ -182,6 +189,8 @@ function getTagName(tag){
         return 'h4';
     }else if(tag=='H5'){
         return 'h5';
+    }else if(tag=='RFF'){
+        return 'rff';
     }
 }
 
@@ -531,6 +540,14 @@ function insertTag(valor, style) {
         delElement();
         exit;
     }
+    // console.log(valor, style)
+    // if(valor=='p' && style=='class="p"'){
+    //     //co
+    //     selection = window.getSelection().getRangeAt(0).startContainer;
+    // }else{
+    //     selection = window.getSelection().toString();
+    // }
+
     selection = window.getSelection().toString();
     // console.log(selection)
     wrappedselection = '<'+valor+' '+style+'>' + selection + '</'+valor+'>';

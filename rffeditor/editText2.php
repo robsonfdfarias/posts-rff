@@ -694,11 +694,13 @@
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/changecasetolower.svg" title="Deixar texto em caixa baixa" onClick='insertTag("span", "style=\"text-transform:lowercase;\"")' />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/capitalize.svg" title="Deixar iniciais das palavras em caixa alta" onClick='insertTag("span", "style=\"text-transform:capitalize;\"")' />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/capitular.svg" title="Inserir capitular" onClick='insertTag("p", "class=\"p\""), this.setAttribute("style", "background-color:#cdcdcd;"), selectElem()' id="p" />
+
     <!-- <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertShadowText.svg" title="Inserir sombra no texto" onClick="insertTagsNew('rffTextShadow'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffTextShadow" /> -->
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertShadowText.svg" title="Inserir sombra no texto" onClick="insertTag('rff', 'style=\'text-shadow: 2px 2px 2px rgba(0,0,0,0.4), 2px 2px 2px rgba(0,0,0,0.4);\''), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rff" />
-    
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonText.svg" title="Inserir um neon no texto" onClick="insertTagsNew('rffNeonText'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffNeonText" />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonTextEColorWhite.svg" title="Inserir um neon no texto e deixar o texto transparente" onClick="insertTagsNew('rffNeonTextEColorWhite'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffNeonTextEColorWhite" />
+    <!-- <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonText.svg" title="Inserir um neon no texto" onClick="insertTagsNew('rffNeonText'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffNeonText" /> -->
+    <!-- <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonTextEColorWhite.svg" title="Inserir um neon no texto e deixar o texto transparente" onClick="insertTagsNew('rffNeonTextEColorWhite'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffNeonTextEColorWhite" /> -->
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertShadowText.svg" title="Inserir sombra no texto" onClick="insertTag('rffTextShadow', 'style=\'text-shadow: 2px 2px 2px #00000055, 2px 2px 2px rgba(0,0,0,0.4);\''), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffTextShadow" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonText.svg" title="Inserir um neon no texto" onClick="insertTag('rffNeonText', 'style=\'text-shadow: 0px 0px 4px #4056ff;font-weigth:bold;\''), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffNeonText" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonTextEColorWhite.svg" title="Inserir um neon no texto e deixar o texto transparente" onClick="insertTag('rffNeonTextEColorWhite', 'style=\'text-shadow: 0px 0px 1px #4056ff, 0px 0px 2px #4056ff, 0px 0px 4px #4056ff, 0px 0px 6px #4056ff;font-weigth:bold;\''), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffNeonTextEColorWhite" />
     
     
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/rffText3D.svg" title="rffText3D" onClick="insertTagsNew('rffText3D'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="rffText3D" />
@@ -745,7 +747,7 @@
     
 </div>
 <div id="conteiner">
-    <div id="texto" contenteditable="true" autofocus required autocomplete="off" spellcheck="true" class="box"><div>Digite o seu artigo aqui...</div></div>
+    <div id="texto" contenteditable="true" autofocus required autocomplete="off" spellcheck="true" class="box" style="font-size: 1.3em;"><div>Digite o seu artigo aqui...</div></div>
     
 </div>
 
