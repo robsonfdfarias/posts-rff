@@ -30,7 +30,7 @@ function updateDirEditor(){
 let colorPicker;
 const defaultColor = "#0000ff";
 
-window.addEventListener("load", startup1, false);
+// window.addEventListener("load", startup1, false);
 
 function startup1() {
     colorPicker = document.querySelector("#cores");
@@ -40,7 +40,7 @@ function startup1() {
     colorPicker.select();
 }
 
-window.addEventListener("load", startup, false);
+// window.addEventListener("load", startup, false);
 
 function startup() {
     colorPicker = document.querySelector("#coresDestaque");
@@ -205,7 +205,7 @@ function selectElem(){
         selFont = document.getElementById('tamFont');
         selFont.children['padrao'].selected = true;
     for(let j=1;j<(tags.length-1);j++){
-    console.log(tags[j].nodeName)
+    // console.log(tags[j].nodeName)
         if(tags[j].nodeName!='FONT' && tags[j].nodeName!='TD' && tags[j].nodeName!='TR' && tags[j].nodeName!='TBODY' && tags[j].nodeName!='TABLE'){
             // console.log(tags[j].nodeName)
             // console.log(returnBtName(tags[j].nodeName))
@@ -231,7 +231,7 @@ function selectElem(){
         }
         elementInsert(tags[i].parentNode.nodeName, tags[i].parentNode)
     }
-    console.log(tags)
+    // console.log(tags)
     // let testafont = selecao.parentNode;
     // console.log('++++++++++++++++++'+testafont.nodeName)
     // if(testafont.nodeName=='FONT'){
@@ -520,7 +520,7 @@ function insertTagsNew(valor) {
 }
 
 function insertTag(valor) {
-    document.getElementById(valor).setAttribute('style', 'background-color:none;');
+    // document.getElementById(valor).setAttribute('style', 'background-color:none;');
     if(valor.toLowerCase() == getTags()){
         delElement();
         exit;
@@ -529,6 +529,7 @@ function insertTag(valor) {
     if(selection.toString()!=''){
         let range = selection.getRangeAt(0);
         // let sel = document.createTextNode(valor);
+        console.log(strategyTags(valor))
         let sel = document.createElement(valor);
         sel.setAttribute('style', strategyTags(valor));
         sel.innerHTML=selection.toString();
@@ -542,6 +543,7 @@ function insertTag(valor) {
 }
 
 function strategyTags(value){
+    updateDirEditor();
     let rffTextShadow = `text-shadow: 2px 2px 2px #00000055, 2px 2px 2px rgba(0,0,0,0.4);`;
     let rffNeonText = `text-shadow: 0px 0px 4px #4056ff;
         font-weigth:bold;`;
@@ -601,7 +603,8 @@ function strategyTags(value){
                     36px 18px rgba(0, 0, 0, 0.1), 
                     40px 20px rgba(0, 0, 0, 0.1);`;
     let rffTextDegrade = 'font-size: 70px; font-weight: 900; letter-spacing: 4px; background-image: linear-gradient(to bottom, rebeccapurple, steelblue, turquoise); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: black; -webkit-text-stroke-width: 2px; -webkit-text-stroke-color: #adadad;';
-    let rffefeitobgtext = `background-image: url(${POSTS_RFF_DIR_EDITOR}'imgs/bk2.png');
+    let rffEfeitoBGText = `
+        background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/bk2.png');
         background-size: cover;
         -webkit-text-fill-color: transparent;
         -webkit-animation: aitf 5s linear infinite;
@@ -616,7 +619,7 @@ function strategyTags(value){
         margin: 10px 0;
         font-weight: 900;
         border-image: 1px solid #ddd;`;
-    let rffefeitobgtext2 = `background-image: url(${POSTS_RFF_DIR_EDITOR}'imgs/giphy2.webp');
+    let rffEfeitoBGText2 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/giphy2.webp');
         background-size: cover;
         background-position: center;
         color: transparent;
@@ -626,6 +629,186 @@ function strategyTags(value){
         font-size: 50px;
         margin: 10px 0;
         font-weight: 900;`;
+    let rffEfeitoBGText3 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/giphy3.webp');
+        background-size: cover;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let rffEfeitoBGText4 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/giphy4.webp');
+        background-size: cover;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let rffEfeitoBGText5 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/giphy5.webp');
+        background-size: cover;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let rffEfeitoBGText6 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/giphy6.webp');
+        background-size: cover;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let rffEfeitoBGText7 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/giphy7.webp');
+        background-size: cover;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let rffEfeitoBGText8 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/giphy8.webp');
+        background-size: cover;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let rffEfeitoBGText9 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/giphy9.webp');
+        background-size: cover;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let rffEfeitoBGText10 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/giphy10.webp');
+        background-size: cover;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let rffEfeitoBGText11 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/giphy11.webp');
+        background-size: cover;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let rffEfeitoBGText12 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/giphy12.webp');
+        background-size: cover;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let rffEfeitoBGText13 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/giphy13.webp');
+        background-size: cover;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let rffEfeitoBGText14 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/giphy14.webp');
+        background-size: cover;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let rffEfeitoBGText15 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/giphy15.webp');
+        background-size: cover;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let rffEfeitoBGText16 = `
+        background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/bkVertical.png');
+        background-size: cover;
+        -webkit-text-fill-color: transparent;
+        -webkit-animation: aitf16 20s linear infinite;
+        -webkit-transform: translate3d(0,0,0);
+        -webkit-backface-visibility: hidden;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;`;
+    let rffEfeitoBGText17 = `background-image: url('${POSTS_RFF_DIR_EDITOR}imgs/bk.png');
+        background-size: cover;
+        -webkit-text-fill-color: transparent;
+        -webkit-animation: aitf 35s linear infinite;
+        -webkit-transform: translate3d(0,0,0);
+        -webkit-backface-visibility: hidden;
+        background-position: center;
+        color: transparent;
+        -moz-background-clip: text;
+        -webkit-background-clip: text;
+        text-transform: uppercase;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;
+        border-image: 1px solid #ddd;`;
+
+    let rffEfeitoBGText18 = `-webkit-animation: aitf18 2s linear infinite;
+        animation: aitf18 2s linear infinite;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;
+        border-image: 1px solid #ddd;
+        color: rgb(21, 206, 77);
+        font-family: 'JosefinSans-VariableFont_wght';`;
+
+    let rffEfeitoBGText19 = `-webkit-animation: aitf19 2s linear infinite;
+        animation: aitf19 2s linear infinite;
+        font-size: 50px;
+        margin: 10px 0;
+        font-weight: 900;
+        border-image: 1px solid #ddd;
+        color: white;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: blue;
+        font-family: 'VarelaRound-Regular';`;
     let obj={};
     obj['rffTextShadow'] = rffTextShadow;
     obj['rffNeonText'] = rffNeonText;
@@ -634,8 +817,25 @@ function strategyTags(value){
     obj['rffText3DSimples'] = rffText3DSimples;
     obj['rffText3DExtreme'] = rffText3DExtreme;
     obj['rffTextDegrade'] = rffTextDegrade;
-    obj['rffefeitobgtext'] = rffefeitobgtext;
-    obj['rffefeitobgtext2'] = rffefeitobgtext2;
+    obj['rffEfeitoBGText'] = rffEfeitoBGText;
+    obj['rffEfeitoBGText2'] = rffEfeitoBGText2;
+    obj['rffEfeitoBGText3'] = rffEfeitoBGText3;
+    obj['rffEfeitoBGText4'] = rffEfeitoBGText4;
+    obj['rffEfeitoBGText5'] = rffEfeitoBGText5;
+    obj['rffEfeitoBGText6'] = rffEfeitoBGText6;
+    obj['rffEfeitoBGText7'] = rffEfeitoBGText7;
+    obj['rffEfeitoBGText8'] = rffEfeitoBGText8;
+    obj['rffEfeitoBGText9'] = rffEfeitoBGText9;
+    obj['rffEfeitoBGText10'] = rffEfeitoBGText10;
+    obj['rffEfeitoBGText11'] = rffEfeitoBGText11;
+    obj['rffEfeitoBGText12'] = rffEfeitoBGText12;
+    obj['rffEfeitoBGText13'] = rffEfeitoBGText13;
+    obj['rffEfeitoBGText14'] = rffEfeitoBGText14;
+    obj['rffEfeitoBGText15'] = rffEfeitoBGText15;
+    obj['rffEfeitoBGText16'] = rffEfeitoBGText16;
+    obj['rffEfeitoBGText17'] = rffEfeitoBGText17;
+    obj['rffEfeitoBGText18'] = rffEfeitoBGText18;
+    obj['rffEfeitoBGText19'] = rffEfeitoBGText19;
     return obj[value];
 }
 
@@ -1813,17 +2013,17 @@ function fecharJanTab(elem){
 
 
 
-function getSetCaption(){
-    // console.log(nodePai.children.length)
-    // console.log(parseInt(nodePai.style.height)+' de altura')
-    let dvMedia = nodePai.children[1];
+function getSetCaption(nodePai){
+    let dvMedia = nodePai.children[0];
+    if(dvMedia.getAttribute('id')!='mediaAndCaption'){
+        dvMedia = nodePai.children[1];
+    }
     if(dvMedia.children.length>1){
         let caption = dvMedia.children[1];
-        // console.log(caption);
         dvMedia.removeChild(caption);
         document.getElementById('addCaption').innerHTML = 'Adicionar caption';
     }else{
-        let altura = parseInt(nodePai.style.height);
+        // let altura = parseInt(nodePai.style.height);
         let dvCaption = document.createElement('div');
         dvCaption.setAttribute('id', 'captionMedia');
         dvCaption.setAttribute('contenteditable', 'true');
@@ -2262,10 +2462,11 @@ function convertPToDiv(tag){
     }
     return tag;
 }
-let p = document.createElement('p');
-p.setAttribute('style', 'color:red;')
-p.innerHTML = 'Exemplo'
-console.log(convertPToDiv(p));
+//Testando a função convertPToDiv()
+// let p = document.createElement('p');
+// p.setAttribute('style', 'color:red;')
+// p.innerHTML = 'Exemplo'
+// console.log(convertPToDiv(p));
 
 function convertTable(table){
     if(table.nodeName=='TABLE'){
