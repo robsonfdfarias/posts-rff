@@ -209,7 +209,7 @@ function selectElem(){
         if(tags[j].nodeName!='FONT' && tags[j].nodeName!='TD' && tags[j].nodeName!='TR' && tags[j].nodeName!='TBODY' && tags[j].nodeName!='TABLE'){
             // console.log(tags[j].nodeName)
             // console.log(returnBtName(tags[j].nodeName))
-            document.getElementById(returnBtName(tags[j].nodeName)).setAttribute('style', 'background-color:none;')
+            document.getElementById(returnBtName(tags[j].nodeName, tags[j])).setAttribute('style', 'background-color:none;')
         }
     }
 
@@ -282,6 +282,10 @@ function returnBtName(ele, node){
         obj='font';
     }else if(ele=='RFF'){
         obj='rff';
+    }else if(ele=='SPAN'){
+        if(node.getAttribute('id')=='capitular'){
+            obj='p';
+        }
     }
     return obj;
 }
@@ -289,7 +293,7 @@ function returnBtName(ele, node){
 function elementInsert(ele, nodeEl){
     var obj;
     // console.log(ele)
-    obj = returnBtName(ele);
+    obj = returnBtName(ele, nodeEl);
     negritaBt(obj, nodeEl)
 
 }
@@ -348,6 +352,64 @@ quadro.addEventListener('mouseup', function(){
 
 
 
+
+function InsertCapitular(tagPai){
+    // let selecao = window.getSelection().getRangeAt(0).startContainer;
+    let tagFirstCharacter = returnFirstCharacter(tagPai, []);
+    //funcção que capitura a tag
+    function returnFirstCharacter(tagPai, tagChild){
+        let firstCharacter = tagPai.innerHTML.charAt(0);
+        if(firstCharacter=='<'){
+            let firstTag = tagPai.firstElementChild;
+            tagChild.push(firstTag);
+            returnFirstCharacter(firstTag, tagChild);
+        }
+        let val = tagChild[(tagChild.length-1)];
+        return val!=undefined?val:tagPai;
+    }
+    let first = tagFirstCharacter.innerText.charAt(0);
+    let content = tagFirstCharacter.innerHTML.slice(1)
+    tagFirstCharacter.innerHTML = '<span id="capitular" style="float:left; font-size:3em; color: green; padding: 11px 5px 10px 0px; font-weight: bold;">'+first+'</span>'+content;
+}
+
+function capitular(){
+    let selecao = window.getSelection().getRangeAt(0).startContainer;
+    let pai = returnTagFather(selecao, []);
+    function returnTagFather(selecao, tags){
+        if(selecao.parentNode.nodeName!='DIV' && selecao.parentNode!=undefined){
+            tags.push(selecao.parentNode);
+            returnTagFather(selecao.parentNode, tags);
+        }
+        let val = tags[(tags.length-1)];
+        return val!=undefined?val:selecao.parentNode;
+    }
+    let tagSpan = verifyTagSpanCapitular(pai, []);
+    function verifyTagSpanCapitular(selecao, tags){
+        let firstCharacter = selecao.innerHTML.charAt(0);
+        if(firstCharacter=='<'){
+            tags.push(selecao.firstElementChild);
+            if(selecao.firstElementChild.nodeName=='SPAN' && selecao.firstElementChild.getAttribute('id')=='capitular'){
+                //encontrou a tag span com id capitular
+            }else{
+                verifyTagSpanCapitular(selecao.firstElementChild, tags);
+            }
+        }
+        let val = tags[(tags.length-1)];
+        return val!=undefined?val:pai;
+    }
+    if(tagSpan.nodeName=='SPAN' && tagSpan.getAttribute('id')=='capitular'){
+        let parent = selecao.parentNode;
+        if(parent.nodeName=='SPAN'){
+            parent = parent.parentNode;
+        }
+        let first = tagSpan.innerHTML;
+        tagSpan.remove();
+        // selecao.innerHTML = first+selecao.innerHTML.slice(1);
+        parent.innerHTML = first+parent.innerHTML;
+    }else{
+        InsertCapitular(pai);
+    }
+}
 
 
 
@@ -495,6 +557,38 @@ function addOutIdent(){
 
 function teste(){
     window.getSelection().getRangeAt(0).insertNode(id_('bold').firstChild);
+}
+
+function upperAndLowerCase(val){
+    let selection = window.getSelection();
+    let range = selection.getRangeAt(0);
+    let texto = selection.toString();
+    if(texto!='' && texto.length>0){
+        if(val=='upper'){
+            texto = texto.toUpperCase();
+        }else if(val=='upperAndLower'){
+            texto = texto.toLocaleLowerCase();
+            let char = texto.split(' ');
+            let union=[];
+            let test = texto.charAt(0);
+            if(test!=' '){
+                test='';
+            }
+            for(let i =0; i<char.length; i++){
+                let first = char[i].charAt(0).toUpperCase();
+                union.push(first+char[i].slice(1));
+            }
+            // let first = texto.charAt(0).toUpperCase();
+            // texto = first+texto.slice(1);
+            texto=test+union.join(' ');
+        }else if(val=='lower'){
+            texto = texto.toLocaleLowerCase();
+        }
+        range.deleteContents();
+        range.insertNode(document.createTextNode(texto));
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
 }
 
 function tagRffTextShadow() {
@@ -1903,16 +1997,94 @@ function insertVideo(codVideo, si, width, height) {
     divPai.setAttribute('ondragover', 'allowDrop2(event)');
     divPai.setAttribute('contenteditable', 'false');
     divPai.setAttribute('style', 'width:'+width+'; height:'+height+';');
-    var video = ''
-    video += '<div id="tools" draggable="false" droppable="false">'
-    video += '<button onclick="editVideo(this, event, \'img\')" draggable="false" droppable="false">Editar</button>'
-    video += '<button onclick="fecharJanVid(this)" draggable="false" droppable="false">X</button>'
-    video += '</div>'
-    video += '<div id="mediaAndCaption" style="width:100%; height:90%;">'
-    video += '<iframe width="100%" height="90%" src="https://www.youtube.com/embed/'+codVideo+'?si='+si+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
-    video += '</div>'
-    divPai.innerHTML = video;
+    divPai.setAttribute('onmouseout', "videoOut(this)")
+    divPai.addEventListener('mouseover', function(){
+        videoOver(this);
+    }, true);
+    let mediaAndCaption = document.createElement('div');
+    mediaAndCaption.setAttribute('id', 'mediaAndCaption');
+    mediaAndCaption.setAttribute('draggable', 'false');
+    mediaAndCaption.setAttribute('droppable', 'false');
+    mediaAndCaption.setAttribute('contenteditable', 'false');
+    let iframe = document.createElement('iframe');
+    iframe.setAttribute('width', '100%');
+    iframe.setAttribute('height', 'auto');
+    iframe.setAttribute('src', 'https://www.youtube.com/embed/'+codVideo+'?si='+si+'');
+    iframe.setAttribute('title', 'YouTube video player');
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+    iframe.setAttribute('allowfullscreen', true);
+    mediaAndCaption.appendChild(iframe);
+    divPai.appendChild(mediaAndCaption);
+    // var video = ''
+    // video += '<div id="tools" draggable="false" droppable="false">'
+    // video += '<button onclick="editVideo(this, event, \'img\')" draggable="false" droppable="false">Editar</button>'
+    // video += '<button onclick="fecharJanVid(this)" draggable="false" droppable="false">X</button>'
+    // video += '</div>'
+    // video += '<div id="mediaAndCaption" style="width:100%; height:90%;">'
+    // video += '<iframe width="100%" height="90%" src="https://www.youtube.com/embed/'+codVideo+'?si='+si+'" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
+    // video += '</div>'
+    // divPai.innerHTML = video;
     range.insertNode(divPai)
+}
+
+var controller =false;
+function videoOver(div){
+  controller=true;
+  let tools = document.createElement('div');
+  tools.setAttribute('id', 'tools');
+  tools.setAttribute('draggable', 'false');
+  tools.setAttribute('droppable', 'false');
+  tools.setAttribute('contenteditable', 'false');
+  tools.setAttribute('style', 'display:flex; position:absolute; left: 0; top:-20px; background-color: rgba(0,0,0,0.0); width:104%; cursor: default;')
+  tools.addEventListener('dragstart', function (event) {
+    event.preventDefault();
+  })
+  tools.addEventListener('mouseover', function(){
+    controller=true;
+  })
+  tools.addEventListener('mouseout', function(){
+    controller=false;
+  })
+  let bt1 = document.createElement('button');
+  bt1.innerHTML='Editar';
+  bt1.setAttribute('onclick', 'editVideo(this, event, \'img\')');
+  bt1.setAttribute('draggable', 'false');
+  bt1.setAttribute('droppable', 'false');
+  bt1.addEventListener('dragstart', function (event) {
+    event.preventDefault();
+  })
+  let bt2 = document.createElement('button');
+  bt2.innerHTML='X';
+  bt2.setAttribute('onclick', 'fecharJanVid(this)');
+  bt2.setAttribute('draggable', 'false');
+  bt2.setAttribute('droppable', 'false');
+  bt2.addEventListener('dragstart', function (event) {
+    event.preventDefault();
+  })
+  tools.appendChild(bt1);
+  tools.appendChild(bt2);
+  if(div.childNodes.length<=1){
+    div.appendChild(tools)
+    div.addEventListener('mouseout', function(e){
+      controller=false;
+      setTimeout(()=>{
+        if(controller==false){
+          tools.remove();
+        }
+      }, 1);
+    })
+  }
+}
+
+function videoOut(div){
+  let first = div.firstElementChild;
+  if(first.getAttribute('id')==='tools'){
+    if(controller==false){
+      first.replaceChildren();
+      controller=true;
+    }
+  }
 }
 
 
@@ -2149,7 +2321,7 @@ function headingCab(local) {
         toc = document.createElement("div"); 
         toc.id = "TOC"; 
         // toc.innerHTML='<h1 id="sumario">Sumario</h1>';
-        toc.innerHTML='Sumário';
+        toc.innerHTML='<h2>Sumário</h2>';
         local.insertBefore(toc, local.firstChild); 
     } 
     // Localiza todos os elementos de cabeçalho de seção 

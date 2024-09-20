@@ -690,10 +690,10 @@
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/resetattributes.svg" title="Remover formatação" onClick="removeFormatT()" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/subscript.svg" title="Colocar em subescrito" onClick="addSubScript(), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="subescrito" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/superscript.svg" title="Colocar em superescrito" onClick="addSuperScript(), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="superescrito" />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/changecasetoupper.svg" title="Deixar texto em caixa alta" onClick='insertTag("span", "style=\"text-transform:uppercase;\"")' />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/changecasetolower.svg" title="Deixar texto em caixa baixa" onClick='insertTag("span", "style=\"text-transform:lowercase;\"")' />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/capitalize.svg" title="Deixar iniciais das palavras em caixa alta" onClick='insertTag("span", "style=\"text-transform:capitalize;\"")' />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/capitular.svg" title="Inserir capitular" onClick='insertTag("p", "class=\"p\""), this.setAttribute("style", "background-color:#cdcdcd;"), selectElem()' id="p" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/changecasetoupper.svg" title="Deixar texto em caixa alta" onClick="upperAndLowerCase('upper')" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/changecasetolower.svg" title="Deixar texto em caixa baixa" onClick="upperAndLowerCase('lower')" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/capitalize.svg" title="Deixar iniciais das palavras em caixa alta" onClick="upperAndLowerCase('upperAndLower')" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/capitular.svg" title="Inserir capitular" onClick='capitular()' id="p" />
 
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertShadowText.svg" title="Inserir sombra no texto" onClick="insertTag('rffTextShadow')" id="rffTextShadow" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertNeonText.svg" title="Inserir um neon no texto" onClick="insertTag('rffNeonText')" id="rffNeonText" />
@@ -705,6 +705,10 @@
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/rffTextExtreme.svg" title="rffText3DExtreme" onClick="insertTag('rffText3DExtreme')" id="rffText3DExtreme" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/rffTextDegrade.svg" title="rffTextDegrade" onClick="insertTag('rffTextDegrade')" id="rffTextDegrade" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/coroa2.svg" title="rffEfeitoBGText" onClick="abreJanEfeitosTexto()" />
+
+    <!-- <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/coroa2.svg" title="rffEfeitoBGText" onClick="upperAndLowerCase('upper')" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/coroa2.svg" title="rffEfeitoBGText" onClick="upperAndLowerCase('upperAndLower')" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/coroa2.svg" title="rffEfeitoBGText" onClick="upperAndLowerCase('lower')" /> -->
     
     <select name="formatH" id="formatH">
         <option value="h1">H1</option>
@@ -726,7 +730,7 @@
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/undo.svg" title="Desfazer" onClick="desfazer()" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertvideo.svg" title="Inserir Vídeo" onClick="openWindowInsertVideo()" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/graphic.svg" title="Inserir Imagem" onClick="openWindowInsertImage()" />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/editImage.svg" title="Acrescentar a função de editar as imagens" onClick="funcBtImg()" />
+    <!-- <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/editImage.svg" title="Acrescentar a função de editar as imagens" onClick="funcBtImg()" /> -->
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/inserttable.svg" title="Inserir tabela" onClick="insertTable()" />
     
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/inserthyperlinkcontrol.svg" title="Inserir hiperlink" onClick="openWindowLink()" id="insertHyperLink" />
@@ -740,6 +744,9 @@
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/summary.svg" title="Inserir/remover Sumário" onClick="setOrRemoveHeading()" unselectable="on" spaw_state="true" id="sumario" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/print.svg" title="Imprimir" onClick="pdf()" id="print" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/pastTextWordWeb.svg" title="Colar um conteúdo tirado da WEB ou do Word" onClick="openPasteContentOfWeb()" unselectable="on" spaw_state="true" id="pasteContentOfWeb" />
+    
+    <!-- <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/pastTextWordWeb.svg" title="Capitular" onClick="capitular()" unselectable="on" spaw_state="true" id="pasteContentOfWeb" /> -->
+    
     <a href="https://www.youtube.com/@RobsonFarias-os2di" target="_blank"><img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/tutorial.svg" alt="Saiba como usar o editor" title="Saiba como usar o editor"></a>
     
 </div>
