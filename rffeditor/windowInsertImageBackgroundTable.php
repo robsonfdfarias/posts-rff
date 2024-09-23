@@ -229,7 +229,7 @@
             url = url.replace('../', '');
             
             // alert(top.opener.document.getElementById("viewImage").innerHTML)
-            top.opener.document.getElementById("viewImage").innerHTML = '<img src="../'+url+'" id="previewImage" width="50" height="50">';
+            top.opener.document.getElementById("viewImage").innerHTML = '<img src="'+url+'" id="previewImage" width="50" height="50">';
             // top.opener.insertImg();
             window.close();
         }else{

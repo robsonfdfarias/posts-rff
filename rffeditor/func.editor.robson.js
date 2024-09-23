@@ -27,6 +27,27 @@ function updateDirEditor(){
     POSTS_RFF_DIR_EDITOR = localStorage.getItem("POSTS_RFF_URL_EDITOR");
 }
 
+
+definedEditor(document.getElementById('texto'))
+saveState();
+saveState();
+var characters = 0;
+document.getElementById('texto').addEventListener('input', function(){
+    characters++;
+    if(characters>15){
+        saveState()
+        characters=0;
+    }
+});
+document.getElementById('desfaz').addEventListener('click', function(){
+    undo();
+});
+document.getElementById('refaz').addEventListener('click', function(){
+    redo();
+});
+
+
+
 let colorPicker;
 const defaultColor = "#0000ff";
 
@@ -411,6 +432,34 @@ function capitular(){
     }
 }
 
+function getTagFather(tag){
+    let pai = returnTagFather(tag, []);
+    function returnTagFather(selecao, tags){
+        if(selecao.parentNode.nodeName!='DIV' && selecao.parentNode!=undefined){
+            tags.push(selecao.parentNode);
+            returnTagFather(selecao.parentNode, tags);
+        }
+        let val = tags[(tags.length-1)];
+        return val!=undefined?val:selecao.parentNode;
+    }
+    return pai;
+}
+
+function getTagChild(tagFather){
+    let tagChild = verifyTagSpanCapitular(tagFather, []);
+    function verifyTagSpanCapitular(selecao, tags){
+        let firstCharacter = selecao.innerHTML.charAt(0);
+        if(firstCharacter=='<'){
+            tags.push(selecao.firstElementChild);
+            verifyTagSpanCapitular(selecao.firstElementChild, tags);
+        }
+        tags.push(selecao);
+        let val = tags[(tags.length-1)];
+        return val!=undefined?val:pai;
+    }
+    return tagChild;
+}
+
 
 
 
@@ -443,7 +492,7 @@ function link(link, target) {
     //document.execCommand("createLink", true, "https://www.google.com");
     //document.execCommand("createLink", true, link);
     // console.log(target)
-    document.getElementById('insertHyperLink').setAttribute('style', 'background-color:#cdcdcd;');
+    // document.getElementById('insertHyperLink').setAttribute('style', 'background-color:#cdcdcd;');
     selection = window.getSelection().toString();
     var link = '<a href="'+link+'"'+target+'>'+selection+'</a>';
     document.execCommand("insertHTML", true, link);
@@ -557,6 +606,75 @@ function addOutIdent(){
 
 function teste(){
     window.getSelection().getRangeAt(0).insertNode(id_('bold').firstChild);
+}
+
+function setOrderType(type, style_type, texto){
+    // let tag = document.createElement(type);
+    // tag.setAttribute('style', 'list-style-type: '+style_type+'; margin-left: 2em;');
+    let li = document.createElement('li');
+    li.innerHTML = texto;
+    // tag.appendChild(li);
+    return li;
+}
+function addTagOrder(type, style_type){
+    saveState();
+    let selection = window.getSelection();
+    let range = selection.getRangeAt(0);
+    let start = range.startContainer.parentNode;
+    let texto = selection.toString();
+    let tags = [start]
+    console.log(start.nodeName)
+    // if(start.nodeName=='LI'){
+    //     console.log(start);
+    //     return;
+    // }
+    if(texto.includes('\n')){
+        let end = range.endContainer.parentNode;
+        let currentTag = start.nextElementSibling;
+        while(currentTag && currentTag!==end){
+            tags.push(currentTag);
+            currentTag=currentTag.nextElementSibling;
+        }
+        tags.push(end)
+        // console.log(tags)
+        // tags=[];
+    }
+    if(tags[0].nodeName=='LI'){
+        console.log(tags)
+        let ant = false;
+        let pos = false;
+        if(tags[0].previousElementSibling && tags[0].previousElementSibling.nodeName=='LI'){
+            ant=true;
+        }
+        if(tags[(tags.length-1)].nextElementSibling && tags[(tags.length-1)].nextElementSibling.nodeName=='LI'){
+            pos=true;
+        }
+        let fatherLi = tags[0].parentNode;
+        let fatherUlOl = fatherLi.parentNode;
+        let fatherFatherUlOl = fatherLi.parentNode.parentNode;
+        if(ant==false && pos==false){
+            for(let i=0;i<tags.length;i++){
+                let div = document.createElement('div');
+                div.innerHTML = tags[i].innerHTML;
+                // fatherLi.replaceChild(span, tags[i]);
+                fatherFatherUlOl.insertBefore(div, fatherUlOl)
+            }
+            fatherLi.remove();
+        }
+    }else{
+        let ulOl = document.createElement(type)
+        ulOl.setAttribute('style', 'list-style-type: '+style_type+'; margin-left: 2em;');
+        for(let i=0;i<tags.length;i++){
+            let li = setOrderType(type, style_type, tags[i].innerHTML);
+            ulOl.appendChild(li);
+            if(i>0){
+                tags[i].remove();
+            }
+        }
+        tags[0].innerHTML='';
+        tags[0].appendChild(ulOl);
+    }
+    saveState();
 }
 
 function upperAndLowerCase(val){
