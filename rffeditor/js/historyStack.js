@@ -1,6 +1,7 @@
 const historyStack = [];
 var currentIndex = -1;
 var editor=null;
+var maxReg = 20;
 function definedEditor(edit){
     editor=edit;
 }
@@ -30,6 +31,17 @@ function saveState(){
     if(historyStack.includes(editor.innerHTML)){
         return;
     }
+    verifyMaxReg();
     historyStack.push(editor.innerHTML);
     currentIndex++;
+}
+
+function verifyMaxReg(){
+    if(historyStack.length>=maxReg){
+        historyStack.shift();
+        currentIndex--;
+    }
+}
+function showHistoryStackAtConsole(){
+    console.log(historyStack);
 }

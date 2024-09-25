@@ -682,10 +682,11 @@
     
     <!-- <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/defaultbullet.svg" title="Marcador" onClick="unOrdenarLista()" /> -->
     <!-- <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/defaultnumbering.svg" title="Numeração" onClick="ordenarLista()" /> -->
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/defaultbullet.svg" title="Marcador" onClick="addTagOrder('ul', 'disc')" />
-    <a title="desfaz" id="desfaz">desfaz</a> - 
-    <a title="desfaz" id="refaz">resfaz</a>
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/defaultnumbering.svg" title="Numeração" onClick="addTagOrder('ol', 'decimal')" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/defaultbullet.svg" title="Marcador" onClick="addTagOrder('ul', 'disc')" id="unOrdenarLista" />
+    <a title="desfaz" id="desfaz"> desfaz </a> - 
+    <a title="desfaz" id="refaz"> resfaz </a> - 
+    <a title="desfaz" id="impHist"> imprimiHistory </a>
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/defaultnumbering.svg" title="Numeração" onClick="addTagOrder('ol', 'decimal')" id="ordenarLista" />
     
 
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/color.svg" title="Mudar a cor do texto" onclick="window.open('<?php echo POSTS_RFF_URL_EDITOR; ?>windowColorText.php', 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no')" />

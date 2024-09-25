@@ -45,6 +45,9 @@ document.getElementById('desfaz').addEventListener('click', function(){
 document.getElementById('refaz').addEventListener('click', function(){
     redo();
 });
+document.getElementById('impHist').addEventListener('click', function(){
+    showHistoryStackAtConsole();
+})
 
 
 
@@ -216,6 +219,13 @@ function getTags(){
 
 
 /*********************************** MARCAR OS BOTÕES QUE FORAM ATIVADOS INICIO **************************************/
+function removeBackgroundColorButtons(){
+    let tools = document.getElementById('ferramentas');
+    let imgs = tools.getElementsByTagName('img');
+    for(let i=0; i<imgs.length; i++){
+        imgs[i].setAttribute('style', 'background-color: none;');
+    }
+}
     var tags = [];
 function selectElem(){
     // console.log('........................................................')
@@ -227,15 +237,15 @@ function selectElem(){
         selFont.children['padrao'].selected = true;
     for(let j=1;j<(tags.length-1);j++){
     // console.log(tags[j].nodeName)
-        if(tags[j].nodeName!='FONT' && tags[j].nodeName!='TD' && tags[j].nodeName!='TR' && tags[j].nodeName!='TBODY' && tags[j].nodeName!='TABLE'){
+        if(tags[j].nodeName!='FONT' && tags[j].nodeName!='TD' && tags[j].nodeName!='TR' && tags[j].nodeName!='TBODY' && tags[j].nodeName!='TABLE' && tags[j].nodeName!='DIV' && tags[j].nodeName!='LI'){
             // console.log(tags[j].nodeName)
             // console.log(returnBtName(tags[j].nodeName))
             document.getElementById(returnBtName(tags[j].nodeName, tags[j])).setAttribute('style', 'background-color:none;')
         }
     }
+    removeBackgroundColorButtons();
 
     tags = [];
-    // console.log('******************************************************************')
     var selecao = window.getSelection().getRangeAt(0).startContainer;
     // console.log(selecao.parentNode.parentNode)
     tags.push(selecao)
@@ -250,7 +260,12 @@ function selectElem(){
         }else{
             tags.push(tags[i].parentNode)
         }
-        elementInsert(tags[i].parentNode.nodeName, tags[i].parentNode)
+        
+        if(tags[i].parentNode.nodeName=='TD' && tags[i].parentNode.nodeName=='TR' && tags[i].parentNode.nodeName=='TBODY' && tags[i].parentNode.nodeName=='TABLE' && tags[i].parentNode.nodeName=='LI'){
+            continue;
+        }else{
+            elementInsert(tags[i].parentNode.nodeName, tags[i].parentNode)
+        }
     }
     // console.log(tags)
     // let testafont = selecao.parentNode;
@@ -307,6 +322,10 @@ function returnBtName(ele, node){
         if(node.getAttribute('id')=='capitular'){
             obj='p';
         }
+    }else if(ele=='OL'){
+        obj='ordenarLista';
+    }else if(ele=='UL'){
+        obj='unOrdenarLista';
     }
     return obj;
 }
@@ -319,7 +338,6 @@ function elementInsert(ele, nodeEl){
 
 }
 function negritaBt(obj, nodeEl){
-    // console.log(obj)
     if(obj=='font'){
         if(nodeEl.getAttribute('face')!=null){
             // console.log('O tipo da fonte é: '+nodeEl.getAttribute('face'))
@@ -335,6 +353,7 @@ function negritaBt(obj, nodeEl){
         }
     }else{
         var o = document.getElementById(obj);
+        // console.log(nodeEl.parentNode.nodeName)
         // alert(o.src)
         if(o!=null){
             o.setAttribute('style', 'background-color: #cdcdcd;')
@@ -623,7 +642,7 @@ function addTagOrder(type, style_type){
     let start = range.startContainer.parentNode;
     let texto = selection.toString();
     let tags = [start]
-    console.log(start.nodeName)
+    // console.log(start.nodeName)
     // if(start.nodeName=='LI'){
     //     console.log(start);
     //     return;
@@ -640,7 +659,7 @@ function addTagOrder(type, style_type){
         // tags=[];
     }
     if(tags[0].nodeName=='LI'){
-        console.log(tags)
+        // console.log(tags)
         let ant = false;
         let pos = false;
         if(tags[0].previousElementSibling && tags[0].previousElementSibling.nodeName=='LI'){
@@ -659,7 +678,29 @@ function addTagOrder(type, style_type){
                 // fatherLi.replaceChild(span, tags[i]);
                 fatherFatherUlOl.insertBefore(div, fatherUlOl)
             }
-            fatherLi.remove();
+            fatherLi.parentNode.remove();
+        }else if(ant==false && pos==true){
+            for(let i=0;i<tags.length;i++){
+                let div = document.createElement('div');
+                div.innerHTML = tags[i].innerHTML;
+                // fatherLi.replaceChild(span, tags[i]);
+                fatherFatherUlOl.insertBefore(div, fatherUlOl);
+                tags[i].remove();
+            }
+        }else if(ant==true && pos==false){
+            for(let i=0;i<tags.length;i++){
+                let div = document.createElement('div');
+                div.innerHTML = tags[i].innerHTML;
+                // fatherLi.replaceChild(span, tags[i]);
+                insertAfter(div, fatherUlOl);
+                tags[i].remove();
+            }
+        }else if(ant==true && pos==true){
+            //cria uma lista e insere os LIs antes da seleção e 
+            //cria as DIVs com o conteúdo das LIs que fazem parte da seleção e 
+            //os insere na div texto mantendo a ordem dos elementos
+            //depois cria outra lista e inserir os LIs que estão depois da seleção
+            splitTheUlOrOl(fatherLi, tags, style_type);
         }
     }else{
         let ulOl = document.createElement(type)
@@ -673,11 +714,72 @@ function addTagOrder(type, style_type){
         }
         tags[0].innerHTML='';
         tags[0].appendChild(ulOl);
+        range.collapse(false);
     }
     saveState();
 }
 
+//recebe a div mais externa depois da div com id Texto para inserir o elemento após
+function insertAfter(newElement, referenceElement){
+    const parent = referenceElement.parentNode;
+    if(parent.lastChild===referenceElement){
+        parent.appendChild(newElement);
+    }else{
+        parent.insertBefore(newElement, referenceElement.nextElementSibling);
+    }
+}
+
+//Recebe o UL ou o OL
+function splitTheUlOrOl(ulOl, tags, style_type){
+    let definedUlOrOl = [];
+    definedUlOrOl['UL'] = 'ul';
+    definedUlOrOl['OL'] = 'ol';
+    let lista1 = document.createElement(definedUlOrOl[ulOl.tagName])
+    let lista2 = document.createElement(definedUlOrOl[ulOl.tagName])
+    lista1.setAttribute('style', 'list-style-type: '+style_type+'; margin-left: 2em;');
+    lista2.setAttribute('style', 'list-style-type: '+style_type+'; margin-left: 2em;');
+    let control = 0;
+    for(let i=0; i<ulOl.children.length; i++){
+        if(testLi(ulOl.children[i], tags)==true){
+            if(control==0){
+                let div = document.createElement('div');
+                div.appendChild(lista1);
+                ulOl.parentNode.parentNode.insertBefore(div, ulOl.parentNode);
+            }
+            let divL = document.createElement('div');
+            divL.innerHTML = ulOl.children[i].innerHTML;
+            ulOl.parentNode.parentNode.insertBefore(divL, ulOl.parentNode);
+            control=1;
+        }
+        if(testLi(ulOl.children[i], tags)==false && control==0){
+            // lista1.appendChild(ulOl.children[i].cloneNode(true));
+            let li = document.createElement('li');
+            li.innerHTML = ulOl.children[i].innerHTML;
+            lista1.appendChild(li);
+        }else if(testLi(ulOl.children[i], tags)==false && control==1){
+            // lista2.appendChild(ulOl.children[i].cloneNode(true));
+            let li = document.createElement('li');
+            li.innerHTML = ulOl.children[i].innerHTML;
+            lista2.appendChild(li);
+        }
+    }
+    let div2 = document.createElement('div');
+    div2.appendChild(lista2);
+    insertAfter(div2, ulOl.parentNode);
+    ulOl.parentNode.remove();
+}
+function testLi(li, tags){
+    let verify=false;
+    for(let j=0;j<tags.length;j++){
+        if(li===tags[j]){
+            verify=true;
+        }
+    }
+    return verify;
+}
+
 function upperAndLowerCase(val){
+    saveState();
     let selection = window.getSelection();
     let range = selection.getRangeAt(0);
     let texto = selection.toString();
@@ -707,6 +809,7 @@ function upperAndLowerCase(val){
         selection.removeAllRanges();
         selection.addRange(range);
     }
+    saveState();
 }
 
 function tagRffTextShadow() {
@@ -732,6 +835,7 @@ function insertTagsNew(valor) {
 }
 
 function insertTag(valor) {
+    saveState();
     // document.getElementById(valor).setAttribute('style', 'background-color:none;');
     if(valor.toLowerCase() == getTags()){
         delElement();
@@ -752,6 +856,7 @@ function insertTag(valor) {
         selection.addRange(range);
         selectElem();
     }
+    saveState();
 }
 
 function strategyTags(value){
@@ -1191,6 +1296,7 @@ var styleFirstColumn = 'width: 10px !important; background-color: #cdcdcd; resiz
 
 
 function insertTableNovo(numRow, numCol) {
+    saveState();
     updateDirEditor();
     let range = window.getSelection().getRangeAt(0);
     selection = window.getSelection().toString();
@@ -1274,6 +1380,7 @@ function insertTableNovo(numRow, numCol) {
     table+='</table>';
     divPai.innerHTML=table;
     range.insertNode(divPai);
+    saveState();
 }
 
 
@@ -1284,6 +1391,7 @@ function insertTableNovo(numRow, numCol) {
 ///////////////////////////////
 
 function insertTrAfter() {
+    saveState();
     var selecao = verifyGetTD();
     // console.log(selecao.nodeName+"------------")
     if(selecao.nodeName=='TD'){
@@ -1319,9 +1427,11 @@ function insertTrAfter() {
         tbody.insertBefore(obj, tr.nextElementSibling);
         // console.log('Deu certo')
     }
+    saveState();
 }
 
 function insertTrBefore() {
+    saveState();
     var selecao = verifyGetTD();
     // console.log(selecao.nodeName+"------------")
     if(selecao.nodeName=='TD'){
@@ -1345,6 +1455,7 @@ function insertTrBefore() {
         // console.log('Deu certo')
     
     }
+    saveState();
 }
 
 
@@ -1355,6 +1466,7 @@ function insertTrBefore() {
 ////////////////////////////////
 
 function insertTdBefore() {
+    saveState();
     var selecao = verifyGetTD();
     if(selecao.nodeName=='TD'){
         var tbody = selecao.parentNode.parentNode;
@@ -1391,9 +1503,11 @@ function insertTdBefore() {
         }
         // console.log('Deu certo')
     }
+    saveState();
 }
 
 function insertTdAfter() {
+    saveState();
     var selecao = verifyGetTD();
     if(selecao.nodeName=='TD'){
         var tbody = selecao.parentNode.parentNode;
@@ -1430,6 +1544,7 @@ function insertTdAfter() {
         }
         // console.log('Deu certo')
     }
+    saveState();
 }
 
 
@@ -1438,6 +1553,7 @@ function insertTdAfter() {
 /////////////////////////////////////
 
 function insertCellLeft(){
+    saveState();
     let td = verifyGetTD();
     if(td!=null){
         let tr = td.parentNode;
@@ -1448,9 +1564,11 @@ function insertCellLeft(){
         tdnew.innerHTML='&nbsp;'
         tr.insertBefore(tdnew, tr.children[(getPositionTD(td)-1)]);
     }
+    saveState();
 }
 
 function insertCellRight(){
+    saveState();
     let td = verifyGetTD();
     if(td!=null){
         let tr = td.parentNode;
@@ -1461,9 +1579,11 @@ function insertCellRight(){
         tdnew.innerHTML='&nbsp;'
         tr.insertBefore(tdnew, tr.children[getPositionTD(td)]);
     }
+    saveState();
 }
 
 function removeCell(){
+    saveState();
     let td = verifyGetTD();
     if(td!=null){
         let tr = td.parentNode;
@@ -1482,6 +1602,7 @@ function removeCell(){
             // console.log('Número de celulas na tr: '+tr.children.length)
         }
     }
+    saveState();
 }
 
 
@@ -1505,6 +1626,7 @@ function verifyGetTD(){
 /////////////////////////////////////
 
 function merge(tipo, type){
+    saveState();
     var selecao = verifyGetTD();
     // console.log(selecao.nodeName);
     // selecao = selecao.parentNode;
@@ -1516,6 +1638,7 @@ function merge(tipo, type){
             unMergeType(tipo, selecao)
         }
     }
+    saveState();
 }
 
 function mergeType(tipo, td){
@@ -1769,6 +1892,7 @@ function getPositionTr(tr){
 
 
 function delTr() {
+    saveState();
     var selecao = verifyGetTD();
     // console.log(selecao.nodeName+"------------")
     if(selecao.nodeName=='TD'){
@@ -1776,9 +1900,11 @@ function delTr() {
         let tr = selecao.parentNode;
         tbody.removeChild(tr)
     }
+    saveState();
 }
 
 function delTd() {
+    saveState();
     var selecao = verifyGetTD();
     if(selecao.nodeName=='TD'){
         var tbody = selecao.parentNode.parentNode;
@@ -1802,6 +1928,7 @@ function delTd() {
         }
         // console.log('Deu certo')
     }
+    saveState();
 }
 
 
@@ -1951,6 +2078,7 @@ function getWindowBckgroundColorTDsel(){
 
 function backGroundColorTdSel(cor){
     if(tdSel.length>0){
+        saveState();
         for(let i=0; i<tdSel.length; i++){
             // console.log(cor)
             if(cor=='limpar'){
@@ -1960,6 +2088,7 @@ function backGroundColorTdSel(cor){
                 tdSel[i].style.backgroundColor=cor;
             }
         }
+        saveState();
     }
 }
 
@@ -1976,6 +2105,7 @@ function openConfigTdSel(){
 
 function configBorderTdSel(config){
     if(tdSel.length>0){
+        saveState();
         for(let i=0; i<tdSel.length; i++){
             // console.log(config)
             if(config=='limpar'){
@@ -1985,11 +2115,13 @@ function configBorderTdSel(config){
                 tdSel[i].style.border=config;
             }
         }
+        saveState();
     }
 }
 
 function configPaddingTdSel(config){
     if(tdSel.length>0){
+        saveState();
         for(let i=0; i<tdSel.length; i++){
             if(config=='limpar'){
                 tdSel[i].style.padding = null;
@@ -1997,11 +2129,13 @@ function configPaddingTdSel(config){
                 tdSel[i].style.padding = config+'px';
             }
         }
+        saveState();
     }
 }
 
 function rotateTdSel(config){
     if(tdSel.length>0){
+        saveState();
         for(let i=0; i<tdSel.length; i++){
             // console.log(tdSel[i].children[0])
             if(config=='limpar'){
@@ -2013,17 +2147,21 @@ function rotateTdSel(config){
                 // tdSel[i].style.transform='rotate(90deg)';
             }
         }
+        saveState();
     }
 }
 
 function configBorderTable(border){
     let table = verifyGetNode('TABLE');
     if(table!=null){
+        saveState();
         if(border=='limpar'){
             table.style.border=null;
+            saveState();
         }else{
             border='2px solid red';
             table.style.border=border;
+            saveState();
         }
     }
 }
@@ -2031,8 +2169,10 @@ function configBorderTable(border){
 function configBackgroundTable(obj){
     let table = verifyGetNode('TABLE');
     if(table!=null){
+        saveState();
         if(obj=='limpar'){
             table.style.background = null;
+            saveState();
         }else{
             table.style.background = obj;
             let styleBack = table.getAttribute('style').replace('(\"', '(\'');
@@ -2042,6 +2182,7 @@ function configBackgroundTable(obj){
             // console.log(table.getAttribute('style'));
             // console.log(styleBack);
             table.setAttribute('style', styleBack);
+            saveState();
         }
     }
 }
@@ -2103,6 +2244,7 @@ function openWindowInsertVideo(){
 // }
 
 function insertVideo(codVideo, si, width, height) {
+    saveState();
     let range = window.getSelection().getRangeAt(0);
     let divPai = document.createElement('div');
     divPai.setAttribute('class', 'item');
@@ -2144,6 +2286,7 @@ function insertVideo(codVideo, si, width, height) {
     // video += '</div>'
     // divPai.innerHTML = video;
     range.insertNode(divPai)
+    saveState();
 }
 
 var controller =false;
