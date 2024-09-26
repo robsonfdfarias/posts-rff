@@ -536,6 +536,11 @@
         display: none;
     }
 }
+
+
+#ferramentas #tamFont{
+    padding-right: 20px;
+}
 </style>
 
 </head>
@@ -683,8 +688,8 @@
     <!-- <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/defaultbullet.svg" title="Marcador" onClick="unOrdenarLista()" /> -->
     <!-- <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/defaultnumbering.svg" title="Numeração" onClick="ordenarLista()" /> -->
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/defaultbullet.svg" title="Marcador" onClick="addTagOrder('ul', 'disc')" id="unOrdenarLista" />
-    <a title="desfaz" id="desfaz"> desfaz </a> - 
-    <a title="desfaz" id="refaz"> resfaz </a> - 
+    <!-- <a title="desfaz" id="desfaz"> desfaz </a> - 
+    <a title="desfaz" id="refaz"> resfaz </a> -  -->
     <a title="desfaz" id="impHist"> imprimiHistory </a>
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/defaultnumbering.svg" title="Numeração" onClick="addTagOrder('ol', 'decimal')" id="ordenarLista" />
     
@@ -732,8 +737,10 @@
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/paste.svg" title="Colar" onClick="colar()" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/cut.svg" title="Recortar" onClick="recortar()" />
 
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/redo.svg" title="Refazer" onClick="refazer()" />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/undo.svg" title="Desfazer" onClick="desfazer()" />
+    <!-- <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/redo.svg" title="Refazer" onClick="refazer()" id="refaz" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/undo.svg" title="Desfazer" onClick="desfazer()" id="desfaz" /> -->
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/redo.svg" title="Refazer" id="refaz" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/undo.svg" title="Desfazer" id="desfaz" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/insertvideo.svg" title="Inserir Vídeo" onClick="openWindowInsertVideo()" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/graphic.svg" title="Inserir Imagem" onClick="openWindowInsertImage()" />
     <!-- <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/editImage.svg" title="Acrescentar a função de editar as imagens" onClick="funcBtImg()" /> -->
@@ -869,6 +876,7 @@
     }
 
     function salveUpdateIframe(){
+        saveState();
         // console.log('....................................................................')
         let larg = document.getElementById('larg').value;
         let alt = document.getElementById('alt').value;
@@ -933,6 +941,7 @@
         nodePai.setAttribute('title', resourceTitle.value);
         document.getElementById('editVideo').setAttribute('style', 'display:none;')
         cancelEditMedia()
+        saveState();
     }
     window.addEventListener('load', function(){
         selectBtSumario();

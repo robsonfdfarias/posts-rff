@@ -95,7 +95,7 @@ function delElement(){
     }
     //Cria um fragmento do documento
     const tagContent = document.createDocumentFragment();
-    //Inseri todo o conteúdo do dentro do fragmento
+    //Inseri todo o conteúdo dentro do fragmento
     tagContent.append(...Array.from(tag.childNodes));
     //Inseri o fragmento do dentro do node pai
     pai.replaceChild(tagContent, tag);
@@ -216,7 +216,10 @@ function getTags(){
 
 /*********************************** EXCLUIR TAG (EFEITO) INICIO **************************************/
 
-
+// window.addEventListener('click', function(e){
+//     e.preventDefault()
+//     console.log(e.target)
+// })
 
 /*********************************** MARCAR OS BOTÕES QUE FORAM ATIVADOS INICIO **************************************/
 function removeBackgroundColorButtons(){
@@ -226,60 +229,31 @@ function removeBackgroundColorButtons(){
         imgs[i].setAttribute('style', 'background-color: none;');
     }
 }
-    var tags = [];
+
 function selectElem(){
-    // console.log('........................................................')
-    // console.log(tags)
         let selFont = document.getElementById('typefontface');
         selFont.children['padrao'].selected = true;
 
         selFont = document.getElementById('tamFont');
         selFont.children['padrao'].selected = true;
-    for(let j=1;j<(tags.length-1);j++){
-    // console.log(tags[j].nodeName)
-        if(tags[j].nodeName!='FONT' && tags[j].nodeName!='TD' && tags[j].nodeName!='TR' && tags[j].nodeName!='TBODY' && tags[j].nodeName!='TABLE' && tags[j].nodeName!='DIV' && tags[j].nodeName!='LI'){
-            // console.log(tags[j].nodeName)
-            // console.log(returnBtName(tags[j].nodeName))
-            document.getElementById(returnBtName(tags[j].nodeName, tags[j])).setAttribute('style', 'background-color:none;')
-        }
-    }
     removeBackgroundColorButtons();
-
-    tags = [];
+    let tags = [];
     var selecao = window.getSelection().getRangeAt(0).startContainer;
-    // console.log(selecao.parentNode.parentNode)
     tags.push(selecao)
-    // console.log('apos o primeiro push')
     for(let i=0; i<10; i++){
-            // console.log(tags[i].parentNode.nodeName)
         if(tags[i].parentNode.nodeName=='DIV'){
             tags.push(tags[i].parentNode)
-            // console.log('está na div')
             break;
-            // console.log('aqui não é para aparecer')
         }else{
             tags.push(tags[i].parentNode)
         }
-        
-        if(tags[i].parentNode.nodeName=='TD' && tags[i].parentNode.nodeName=='TR' && tags[i].parentNode.nodeName=='TBODY' && tags[i].parentNode.nodeName=='TABLE' && tags[i].parentNode.nodeName=='LI'){
-            continue;
-        }else{
+        if(returnBtName(tags[i].parentNode.nodeName)!=null){
             elementInsert(tags[i].parentNode.nodeName, tags[i].parentNode)
         }
     }
-    // console.log(tags)
-    // let testafont = selecao.parentNode;
-    // console.log('++++++++++++++++++'+testafont.nodeName)
-    // if(testafont.nodeName=='FONT'){
-    // }
-    // console.log(tags)
-    // var tag = selecao.parentNode;
-    // console.log(getTagName(tag.nodeName))
-    // console.log(tag.nodeName)
-    // elementInsert(tag.nodeName);
 }
 function returnBtName(ele, node){
-    // console.log('-----............-----'+ele)
+    let obj=null;
     if(ele=='B'){
         obj='negrito';
     }else if(ele=='I'){
@@ -378,7 +352,62 @@ quadro.addEventListener('keydown', function(e){
     //         break;
     // }
     // alert(str)
+    // console.log(e.keyCode)
+    if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
+        saveState();
+        console.log('Ctrl + V foi pressionado!');
+        // Aqui você pode adicionar a lógica que deseja executar
+    }
     selectElem();
+})
+quadro.addEventListener('paste', function(event){
+    event.preventDefault();
+    saveState()
+    console.log('Ação de colar...')
+    const pastedData = event.clipboardData.getData('text/html');
+    let div = document.createElement('div');
+    div.innerHTML = pastedData;
+    let selection = window.getSelection();
+    let rangeOrigin = selection.getRangeAt(0);
+    let pai = rangeOrigin.startContainer;
+    console.log(pai)
+    if(pai.nodeType===Node.TEXT_NODE){
+        console.log('tem conteudo')
+        // range.insertNode(...Array.from(div.childNodes));
+        console.log(div)
+        rangeOrigin.deleteContents();
+        rangeOrigin.insertNode(...Array.from(div.childNodes));
+        selection.removeAllRanges();
+        selection.addRange(range);
+        console.log(pastedData)
+    }else{
+        console.log('vazio')
+        let paiOri = getTagFather(pai);
+        console.log(paiOri)
+        if(paiOri.getAttribute('id')=='texto'){
+            console.log(div.firstChild.nodeName)
+            if(div.children[0].nodeName!='DIV'){
+                paiOri.insertBefore(div, pai);
+            }else{
+                for(let i=0;i<div.childNodes.length;i++){
+                    if(div.children[i].nodeName=='DIV'){
+                        paiOri.insertBefore(div.children[i].cloneNode(true), pai);
+                    }else{
+                        let dd = document.createElement('div');
+                        dd.append(div.children[i].cloneNode(true));
+                        paiOri.insertBefore(dd, pai);
+                    }
+                }
+            }
+        }
+        pai.remove();
+    }
+    // let range = document.createRange();
+    // range.insertNode(...Array.from(div.childNodes));
+    // selection.removeAllRanges();
+    // selection.addRange(range);
+    // console.log(pastedData)
+    saveState()
 })
 quadro.addEventListener('mouseup', function(){
     // console.log(tags)
@@ -493,12 +522,8 @@ function insertVi(){
 function openWindowLink(){
     updateDirEditor();
     var selecao = window.getSelection().getRangeAt(0).startContainer;
-    // console.log(selecao)
     var tag = selecao.parentNode;
-    // console.log('555555555555555555555555-------------'+tag.nodeName)
     if(tag.nodeName=='A'){
-        // console.log(tag.getAttribute('href'))
-        // console.log(tag.getAttribute('target'))
         localStorage.setItem('link', tag.getAttribute('href'))
         localStorage.setItem('target', tag.getAttribute('target'))
         window.open(POSTS_RFF_DIR_EDITOR+'windowEditLink.php', 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
@@ -508,86 +533,123 @@ function openWindowLink(){
 }
 
 function link(link, target) {
-    //document.execCommand("createLink", true, "https://www.google.com");
-    //document.execCommand("createLink", true, link);
-    // console.log(target)
-    // document.getElementById('insertHyperLink').setAttribute('style', 'background-color:#cdcdcd;');
-    selection = window.getSelection().toString();
-    var link = '<a href="'+link+'"'+target+'>'+selection+'</a>';
-    document.execCommand("insertHTML", true, link);
-    selectElem()
+    saveState();
+    let a = document.createElement('a');
+    a.href=link;
+    a.target=target;
+    if(insertTagSelection(a)){
+        saveState();
+    }
 }
 function unlink() {
+    saveState();
     document.execCommand("unlink", false, null);
     selectElem();
+    saveState();
 }
 function justificar() {
+    saveState();
     document.execCommand("justifyFull");
+    saveState();
 }
 function alinharEsquerda() {
+    saveState();
     document.execCommand("justifyLeft");
+    saveState();
 }
 function alinharDireita() {
+    saveState();
     document.execCommand("justifyRight");
+    saveState();
 }
 function alinharCentro() {
+    saveState();
     document.execCommand("justifyCenter");
+    saveState();
 }
 
 function italico() {
+    saveState();
     document.execCommand("italic", window.getSelection(), null);
+    saveState();
 }
 function negrito() {
+    saveState();
     document.execCommand("bold");
+    saveState();
 }
 function sublinhado() {
+    saveState();
     document.execCommand("underline", window.getSelection(), null);
+    saveState();
 }
 function cor() {
+    saveState();
     var cores = document.getElementById('cores');
     document.execCommand('styleWithCSS', false, true);
     document.execCommand("foreColor", window.getSelection(), cores.value);
+    saveState();
 }
 
 function backColorText() {
+    saveState();
     var cores = document.getElementById('coresDestaque');
     document.execCommand("backColor", window.getSelection(), cores.value);
+    saveState();
 }
 
 function corText(cor) {
+    saveState();
     document.execCommand("foreColor", window.getSelection(), '#'+cor);
+    saveState();
 }
 
 function backColorTextNew(color) {
+    saveState();
     document.execCommand("backColor", window.getSelection(), '#'+color);
+    saveState();
 }
 
 function tamanhoFont(size) {
+    saveState();
     document.execCommand("fontsize", true, size);
+    saveState();
 }
 
 function fontFaceSel(font) {
+    saveState();
     document.execCommand("fontname", true, font);
+    saveState();
 }
 
 function copiar() {
+    saveState();
     document.execCommand("copy", false, null);
+    saveState();
 }
 
 function recortar() {
+    saveState();
     document.execCommand("cut", false, null);
+    saveState();
 }
  
 function colar() {
+    saveState();
     document.execCommand("paste", false, null);
+    saveState();
 }
 
 function ordenarLista(){
+    saveState();
     document.execCommand("insertOrderedList", false, null);
+    saveState();
 }
 
 function unOrdenarLista(){
+    saveState();
     document.execCommand("insertUnorderedList", false, null);
+    saveState();
 }
 
 function desfazer(){
@@ -599,28 +661,39 @@ function refazer(){
 }
 
 function removeFormatT(){
+    saveState();
     delElement();
-    // document.execCommand("removeFormat", false, null);
+    saveState();
 }
 
 function addStrikeThrough(){
+    saveState();
     document.execCommand("strikeThrough", false, null);
+    saveState();
 }
 
 function addSubScript(){
+    saveState();
     document.execCommand("subscript", false, null);
+    saveState();
 }
 
 function addSuperScript(){
+    saveState();
     document.execCommand("superscript", false, null);
+    saveState();
 }
 
 function addIdent(){
+    saveState();
     document.execCommand("indent", false, null);
+    saveState();
 }
 
 function addOutIdent(){
+    saveState();
     document.execCommand("outdent", false, null);
+    saveState();
 }
 
 function teste(){
@@ -784,8 +857,13 @@ function upperAndLowerCase(val){
     let range = selection.getRangeAt(0);
     let texto = selection.toString();
     if(texto!='' && texto.length>0){
+        let nodeText = document.createElement('div');
+        nodeText.append(range.cloneContents());
         if(val=='upper'){
-            texto = texto.toUpperCase();
+            // texto = texto.toUpperCase();
+            console.log(nodeText)
+            nodeText.innerHTML=nodeText.innerHTML.toUpperCase();
+            texto=nodeText;
         }else if(val=='upperAndLower'){
             texto = texto.toLocaleLowerCase();
             let char = texto.split(' ');
@@ -800,12 +878,22 @@ function upperAndLowerCase(val){
             }
             // let first = texto.charAt(0).toUpperCase();
             // texto = first+texto.slice(1);
-            texto=test+union.join(' ');
+            // texto=test+union.join(' ');
+            // nodeText.innerHTML=texto;
+            nodeText.innerHTML=test+union.join(' ');
+            texto=nodeText;
         }else if(val=='lower'){
-            texto = texto.toLocaleLowerCase();
+            // texto = texto.toLocaleLowerCase();
+            console.log(nodeText)
+            nodeText.innerHTML=nodeText.innerHTML.toLocaleLowerCase();
+            texto=nodeText;
         }
         range.deleteContents();
-        range.insertNode(document.createTextNode(texto));
+        // range.insertNode(document.createTextNode(texto));
+        console.log(texto)
+        let container = document.createDocumentFragment();
+        container.append(...Array.from(texto.childNodes));
+        range.insertNode(container);
         selection.removeAllRanges();
         selection.addRange(range);
     }
@@ -813,14 +901,17 @@ function upperAndLowerCase(val){
 }
 
 function tagRffTextShadow() {
+    saveState();
     selection = window.getSelection().toString();
     // console.log(selection)
     wrappedselection = '<rffTextShadow>' + selection + '</rffTextShadow>';
     //var img = new Image();
     document.execCommand('insertHTML', false, wrappedselection);
+    saveState();
 }
 
 function insertTagsNew(valor) {
+    saveState();
     if(valor.toLowerCase() == getTags()){
         // alert(valor)
         document.getElementById(valor).setAttribute('style', 'background-color:none;');
@@ -832,31 +923,36 @@ function insertTagsNew(valor) {
     wrappedselection = '<'+valor+'>' + selection + '</'+valor+'>';
     //var img = new Image();
     document.execCommand('insertHTML', false, wrappedselection);
+    saveState();
 }
 
 function insertTag(valor) {
     saveState();
-    // document.getElementById(valor).setAttribute('style', 'background-color:none;');
     if(valor.toLowerCase() == getTags()){
         delElement();
         exit;
     }
-    selection = window.getSelection();
+    let sel = document.createElement(valor);
+    sel.setAttribute('style', strategyTags(valor));
+    if(insertTagSelection(sel)){
+        saveState();
+    }
+}
+
+function insertTagSelection(tag){
+    let selection = window.getSelection();
+    let range = selection.getRangeAt(0);
     if(selection.toString()!=''){
-        let range = selection.getRangeAt(0);
-        // let sel = document.createTextNode(valor);
-        console.log(strategyTags(valor))
-        let sel = document.createElement(valor);
-        sel.setAttribute('style', strategyTags(valor));
-        sel.innerHTML=selection.toString();
+        tag.append(range.cloneContents());
         range.deleteContents();
-        range.insertNode(sel);
-        range.setStartAfter(sel);
+        range.insertNode(tag);
+        range.setStartAfter(tag);
         selection.removeAllRanges();
         selection.addRange(range);
-        selectElem();
+        return true;
+    }else{
+        return false;
     }
-    saveState();
 }
 
 function strategyTags(value){
@@ -1173,18 +1269,22 @@ function strategyTags(value){
 // }
 
 function CssFnctn() {
+    saveState();
     document.execCommand('formatblock', false, 'h1')
     var listId = window.getSelection().anchorNode.parentNode;
     listId.classList = 'oder2';
+    saveState();
 }
 
 
 function insertH(valor) {
+    saveState();
     selection = window.getSelection().toString();
     // console.log(selection)
     wrappedselection = '<'+valor+'>' + selection + '</'+valor+'>';
     //var img = new Image();
     document.execCommand('insertHTML', false, wrappedselection);
+    saveState();
 }
 
 
@@ -2193,6 +2293,7 @@ function openWindowConfigBackgroundTable(){
     updateDirEditor();
     let table=verifyGetNode('TABLE');
     if(table!=null){
+        saveState();
         // let style = table.getAttribute('style');
         // let charStyle = style.split(';');
         // for(let i=0;i<charStyle.length;i++){
@@ -2203,6 +2304,8 @@ function openWindowConfigBackgroundTable(){
         // }
         localStorage.setItem('style', table.getAttribute('style'));
         window.open(POSTS_RFF_DIR_EDITOR+'windowConfigTable.php', 'janela', 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=yes,height=350,width=500,top=50,left=100,fullscreen=no');
+
+        saveState();
     }else{
         alert('Nenhuma Tabela selecionada! Clique em uma tabela para editar sua propriedade de background!')
     }
@@ -2366,6 +2469,7 @@ function videoOut(div){
 
 function insertEmotions(img){
     if(img != null){
+        saveState();
         let range = window.getSelection().getRangeAt(0);
         var url = img.getAttribute("src");
         var width = 'auto';
@@ -2378,6 +2482,7 @@ function insertEmotions(img){
         image.setAttribute('onclick', 'openWindowEditImage(this)');
         image.setAttribute('style', 'margin-bottom: -5px;');
         range.insertNode(image);
+        saveState();
     }else{
         // console.log("selecione uma imagem e Clique no botão Carregar e visualizar antes de inserir")
     }
@@ -2447,6 +2552,7 @@ function fecharJanTab(elem){
 
 
 function getSetCaption(nodePai){
+    saveState();
     let dvMedia = nodePai.children[0];
     if(dvMedia.getAttribute('id')!='mediaAndCaption'){
         dvMedia = nodePai.children[1];
@@ -2503,6 +2609,7 @@ function getSetCaption(nodePai){
         dvMedia.insertBefore(dvCaption, dvMedia.children[1]);
         document.getElementById('addCaption').innerHTML = 'Remover caption'
     }
+    saveState();
 }
 
 function checkContentCaption(elem){
@@ -2650,6 +2757,7 @@ function headingCab(local) {
 
 
 function setOrRemoveHeading(){
+    saveState();
     let texto = document.getElementById("texto");
     if(document.getElementById('TOC')==null){
         headingCab(document.getElementById("texto"));
@@ -2659,7 +2767,7 @@ function setOrRemoveHeading(){
         document.getElementById('sumario').style.backgroundColor=null;
         deleteHeadingCab(texto);
     }
-    
+    saveState();
 }
 
 
@@ -2719,6 +2827,7 @@ function selectBtSumario(){
 
 
 function insertBreakPage(){
+    saveState();
     let node = verifyGetNode('DIV');
     console.log(node)
     let breakPage = document.createElement('div');
@@ -2743,6 +2852,7 @@ function insertBreakPage(){
     // breakPage.innerHTML+='Quebra de Linha';
     // breakPage.innerHTML+='</div>';
     node.insertBefore(breakPage, node.firstChild);
+    saveState();
 }
 
 
@@ -2835,6 +2945,7 @@ function insertBreakPage(){
 // })
 
 function pasteContentOfWeb(conteudo){
+    saveState();
     let range = verifyGetNode('DIV');
     let pai = range.parentNode;
     // console.log(pai)
@@ -2862,6 +2973,7 @@ function pasteContentOfWeb(conteudo){
         position = conteudo.children[c].cloneNode(true);
         // console.log(position)
     }
+    saveState();
 }
 
 function alterLineHeight(content){

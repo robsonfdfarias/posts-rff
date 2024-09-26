@@ -1,7 +1,7 @@
 const historyStack = [];
 var currentIndex = -1;
 var editor=null;
-var maxReg = 20;
+var maxReg = 50;
 function definedEditor(edit){
     editor=edit;
 }
