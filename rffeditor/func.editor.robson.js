@@ -354,8 +354,8 @@ quadro.addEventListener('keydown', function(e){
     // alert(str)
     // console.log(e.keyCode)
     if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
-        saveState();
-        console.log('Ctrl + V foi pressionado!');
+        // saveState();
+        // console.log('Ctrl + V foi pressionado!');
         // Aqui você pode adicionar a lógica que deseja executar
     }
     selectElem();
@@ -363,31 +363,67 @@ quadro.addEventListener('keydown', function(e){
 quadro.addEventListener('paste', function(event){
     event.preventDefault();
     saveState()
-    console.log('Ação de colar...')
-    const pastedData = event.clipboardData.getData('text/html');
+    updateDirEditor();
+    // console.log('Ação de colar...')
+    const pastedData = event.clipboardData.getData('text/html');//htmlContent.replace(/<script.*?>.*?<\/script>/g, '');
     let div = document.createElement('div');
+    let div2 = document.createElement('div');
     div.innerHTML = pastedData;
+    for(let i=0; i<div.children.length; i++){
+        if(div.children[i].nodeName==='SPAN'){
+            div2.append(document.createTextNode(div.children[i].innerText))
+        }else if(div.children[i].nodeName==='B' || div.children[i].nodeName==='I' || div.children[i].nodeName==='U'){
+            div.children[i].removeAttribute('style')
+            div2.append(div.children[i].cloneNode(true))
+        }else{
+            div2.append(div.children[i].cloneNode(true))//.replace('url("imgs', 'url("'+POSTS_RFF_DIR_EDITOR+'/imgs')
+        }
+    }
+    div = div2
     let selection = window.getSelection();
     let rangeOrigin = selection.getRangeAt(0);
     let pai = rangeOrigin.startContainer;
-    console.log(pai)
+    // console.log(pai)
     if(pai.nodeType===Node.TEXT_NODE){
-        console.log('tem conteudo')
-        // range.insertNode(...Array.from(div.childNodes));
-        console.log(div)
+        // console.log('tem conteudo')
         rangeOrigin.deleteContents();
-        rangeOrigin.insertNode(...Array.from(div.childNodes));
+        // rangeOrigin.insertNode(...Array.from(div.childNodes));
+        console.log('Quantidade de filhos da div: '+div.lastChild)
+        console.log(div.firstChild)
+        for(let r=div.lastChild; r!=null; r=r.previousSibling){
+            console.log(r)
+            if(r.nodeType===Node.TEXT_NODE){
+                rangeOrigin.insertNode(r.cloneNode(true));
+            }else{
+                let tag = document.createElement(r.nodeName.toLocaleLowerCase());
+                tag.innerHTML = r.innerHTML.replace('url("imgs', 'url("'+POSTS_RFF_DIR_EDITOR+'/imgs');
+                rangeOrigin.insertNode(tag);
+            }
+        }
+        // rangeOrigin.insertNode(div);
         selection.removeAllRanges();
-        selection.addRange(range);
+        selection.addRange(rangeOrigin);
         console.log(pastedData)
     }else{
-        console.log('vazio')
+        // console.log('vazio')
         let paiOri = getTagFather(pai);
-        console.log(paiOri)
+        // console.log(paiOri)
         if(paiOri.getAttribute('id')=='texto'){
-            console.log(div.firstChild.nodeName)
             if(div.children[0].nodeName!='DIV'){
-                paiOri.insertBefore(div, pai);
+                let divNew = document.createElement('div');
+                // divNew.innerHTML = div.innerHTML.replace('url("imgs', 'url("'+POSTS_RFF_DIR_EDITOR+'/imgs');
+                for(let r=div.firstChild; r!=null; r=r.nextSibling){
+                    if(r.nodeType===Node.TEXT_NODE){
+                        divNew.append(document.createTextNode(r.textContent.replace('&nbsp;', ' ')));
+                        // divNew.append(r.innerText);
+                    }else{
+                        let tag = document.createElement(r.nodeName.toLocaleLowerCase());
+                        tag.innerHTML = r.innerHTML.replace('url("imgs', 'url("'+POSTS_RFF_DIR_EDITOR+'/imgs');
+                        divNew.append(tag)
+                    }
+                }
+                paiOri.insertBefore(divNew, pai);
+                // console.log(divNew)
             }else{
                 for(let i=0;i<div.childNodes.length;i++){
                     if(div.children[i].nodeName=='DIV'){
@@ -399,14 +435,9 @@ quadro.addEventListener('paste', function(event){
                     }
                 }
             }
+            pai.remove();
         }
-        pai.remove();
     }
-    // let range = document.createRange();
-    // range.insertNode(...Array.from(div.childNodes));
-    // selection.removeAllRanges();
-    // selection.addRange(range);
-    // console.log(pastedData)
     saveState()
 })
 quadro.addEventListener('mouseup', function(){
