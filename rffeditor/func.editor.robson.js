@@ -45,9 +45,9 @@ document.getElementById('desfaz').addEventListener('click', function(){
 document.getElementById('refaz').addEventListener('click', function(){
     redo();
 });
-document.getElementById('impHist').addEventListener('click', function(){
-    showHistoryStackAtConsole();
-})
+// document.getElementById('impHist').addEventListener('click', function(){
+//     showHistoryStackAtConsole();
+// })
 
 
 
@@ -93,12 +93,22 @@ function delElement(){
             return;
         }
     }
-    //Cria um fragmento do documento
-    const tagContent = document.createDocumentFragment();
-    //Inseri todo o conteúdo dentro do fragmento
-    tagContent.append(...Array.from(tag.childNodes));
-    //Inseri o fragmento do dentro do node pai
-    pai.replaceChild(tagContent, tag);
+    if(tag.nodeName!='LI'){
+        //Cria um fragmento do documento
+        const tagContent = document.createDocumentFragment();
+        //Inseri todo o conteúdo dentro do fragmento
+        tagContent.append(...Array.from(tag.childNodes));
+        //Inseri o fragmento dentro do node pai
+        pai.replaceChild(tagContent, tag);
+    }else{
+        // let sel = window.getSelection();
+        // let range = sel.getRangeAt(0);
+        // range.deleteContents();
+        // range.selectNodeContents(tag);
+        // sel.removeAllRanges();
+        // sel.addRange(range);
+        addTagOrder('ul', 'disc');
+    }
 
     // let tt = document.createTextNode(tag.innerText);
     // pai.replaceChild(tt, tag);
@@ -337,27 +347,11 @@ function negritaBt(obj, nodeEl){
 
 var quadro = document.getElementById('texto')
 quadro.addEventListener('keydown', function(e){
-    // switch (e.keyCode) {
-    //     case 37:
-    //         str = 'Left Key pressed!';
-    //         break;
-    //     case 38:
-    //         str = 'Up Key pressed!';
-    //         break;
-    //     case 39:
-    //         str = 'Right Key pressed!';
-    //         break;
-    //     case 40:
-    //         str = 'Down Key pressed!';
-    //         break;
+    //se apertar o crtl+v
+    // if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
+    //     saveState();
+    //     console.log('Ctrl + V foi pressionado!');
     // }
-    // alert(str)
-    // console.log(e.keyCode)
-    if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
-        // saveState();
-        // console.log('Ctrl + V foi pressionado!');
-        // Aqui você pode adicionar a lógica que deseja executar
-    }
     selectElem();
 })
 quadro.addEventListener('paste', function(event){
@@ -578,38 +572,38 @@ function unlink() {
     selectElem();
     saveState();
 }
-function justificar() {
+function justificar() { //Está sendo usado
     saveState();
     document.execCommand("justifyFull");
     saveState();
 }
-function alinharEsquerda() {
+function alinharEsquerda() { //Está sendo usado
     saveState();
     document.execCommand("justifyLeft");
     saveState();
 }
-function alinharDireita() {
+function alinharDireita() { //Está sendo usado
     saveState();
     document.execCommand("justifyRight");
     saveState();
 }
-function alinharCentro() {
+function alinharCentro() { //Está sendo usado
     saveState();
     document.execCommand("justifyCenter");
     saveState();
 }
 
-function italico() {
+function italico() { //Está sendo usado
     saveState();
     document.execCommand("italic", window.getSelection(), null);
     saveState();
 }
-function negrito() {
+function negrito() { //Está sendo usado
     saveState();
     document.execCommand("bold");
     saveState();
 }
-function sublinhado() {
+function sublinhado() { //Está sendo usado
     saveState();
     document.execCommand("underline", window.getSelection(), null);
     saveState();
@@ -697,7 +691,7 @@ function removeFormatT(){
     saveState();
 }
 
-function addStrikeThrough(){
+function addStrikeThrough(){ //Está sendo usado
     saveState();
     document.execCommand("strikeThrough", false, null);
     saveState();
@@ -928,32 +922,6 @@ function upperAndLowerCase(val){
         selection.removeAllRanges();
         selection.addRange(range);
     }
-    saveState();
-}
-
-function tagRffTextShadow() {
-    saveState();
-    selection = window.getSelection().toString();
-    // console.log(selection)
-    wrappedselection = '<rffTextShadow>' + selection + '</rffTextShadow>';
-    //var img = new Image();
-    document.execCommand('insertHTML', false, wrappedselection);
-    saveState();
-}
-
-function insertTagsNew(valor) {
-    saveState();
-    if(valor.toLowerCase() == getTags()){
-        // alert(valor)
-        document.getElementById(valor).setAttribute('style', 'background-color:none;');
-        // selectElem();
-        delElement();
-        exit;
-    }
-    selection = window.getSelection().toString();
-    wrappedselection = '<'+valor+'>' + selection + '</'+valor+'>';
-    //var img = new Image();
-    document.execCommand('insertHTML', false, wrappedselection);
     saveState();
 }
 
@@ -1253,6 +1221,15 @@ function strategyTags(value){
         -webkit-text-stroke-width: 1px;
         -webkit-text-stroke-color: blue;
         font-family: 'VarelaRound-Regular';`;
+    let cite = `margin: 1em 1px 1em 25px;
+        background-color: #dfdfdf;
+        border-left: 3px solid green;
+        padding: 25px 20px;
+        margin: 1em 1px 1em 25px;
+        overflow: hidden;
+        position: relative;
+        display: inline-block;
+    `
     let obj={};
     obj['rffTextShadow'] = rffTextShadow;
     obj['rffNeonText'] = rffNeonText;
@@ -1280,24 +1257,9 @@ function strategyTags(value){
     obj['rffEfeitoBGText17'] = rffEfeitoBGText17;
     obj['rffEfeitoBGText18'] = rffEfeitoBGText18;
     obj['rffEfeitoBGText19'] = rffEfeitoBGText19;
+    obj['cite'] = cite;
     return obj[value];
 }
-
-// function insertTag(valor, style) {
-//     if(valor.toLowerCase() == getTags()){
-//         // alert(valor)
-//         document.getElementById(valor).setAttribute('style', 'background-color:none;');
-//         // selectElem();
-//         delElement();
-//         exit;
-//     }
-
-//     selection = window.getSelection().toString();
-//     // console.log(selection)
-//     wrappedselection = '<'+valor+' '+style+'>' + selection + '</'+valor+'>';
-//     //var img = new Image();
-//     document.execCommand('insertHTML', false, wrappedselection);
-// }
 
 function CssFnctn() {
     saveState();
@@ -1337,93 +1299,6 @@ function insertTable() {
 }
 
 var styleFirstColumn = 'width: 10px !important; background-color: #cdcdcd; resize: vertical !important; overflow: auto; box-sizing: border-box;';
-
-
-// function insertTableNovo(numRow, numCol) {
-//     selection = window.getSelection().toString();
-//     var table ='<div class="tabelaObj" contenteditable="false" spellcheck="false"><div class="configTable" contenteditable="false" spellcheck="false">'
-//     // table+='<button id="testeSel" onclick="merge(\'row\', \'add\')"><img src="rffeditor/imgEditor/mesclar-celula.svg" width="50" title="Opções de mesclagem"></button>';
-//     table+='<ul id="menuTable">';
-//     table+='<li><img src="rffeditor/imgEditor/mesclar-celula.svg" height="40" title="Opções de mesclagem">';
-//     table+='<ul>';
-//     table+='<li><button id="testeSel" onclick="merge(\'row\', \'add\')"><img src="rffeditor/imgEditor/mesclar-lado.svg" height="40" title="Mesclar célula a direita"></button></li>';
-//     table+='<li><button id="testeSel" onclick="merge(\'column\', \'add\')"><img src="rffeditor/imgEditor/mesclar-abaixo.svg" height="40" title="Mesclar célula abaixo"></button></li>';
-//     table+='<li><button id="testeSel" onclick="merge(\'row\', \'remove\')"><img src="rffeditor/imgEditor/mesclar-remover-lado.svg" height="40" title="Remove mesclagem a direita"></button></li>';
-//     table+='<li><button id="testeSel" onclick="merge(\'column\', \'remove\')"><img src="rffeditor/imgEditor/mesclar-remover-abaixo.svg" height="40" title="Remover mesclagem abaixo"></button></li>';
-//     table+='</ul>';
-//     table+='</li>';
-
-//     table+='<li><img src="rffeditor/imgEditor/configRow.svg" height="40" title="Configuração de linha">';
-//     table+='<ul>';
-//     table+='<li><button id="testeSel" onclick="insertTrAfter()"><img src="rffeditor/imgEditor/inserttableRowAfter.svg" height="40" title="Inserir linha depois"></li>';
-//     table+='<li><button id="testeSel" onclick="insertTrBefore()"><img src="rffeditor/imgEditor/inserttableRowBefore.svg" height="40" title="Inserir linha antes"></li>';
-//     table+='<li><button id="testeSel" onclick="delTr()"><img src="rffeditor/imgEditor/deleteTableRowAfter.svg" height="40" title="Apagar linha"></li>';
-//     // table+='<li><button id="testeSel" onclick="insertTrAfter()">Inserir linha depois</button></li>';
-//     // table+='<li><button id="testeSel" onclick="insertTrBefore()">Inserir linha antes</button></li>';
-//     // table+='<li><button id="testeSel" onclick="delTr()">Apagar linha</button></li>';
-//     table+='</ul>';
-//     table+='</li>';
-
-//     table+='<li><img src="rffeditor/imgEditor/configColumn.svg" height="40" title="Configuração de coluna">';
-//     table+='<ul>';
-//     table+='<li><button id="testeSel" onclick="insertTdAfter()"><img src="rffeditor/imgEditor/inserttableColumnAfter.svg" height="40" title="Inserir coluna depois"></button></li>';
-//     table+='<li><button id="testeSel" onclick="insertTdBefore()"><img src="rffeditor/imgEditor/inserttableColumnBefore.svg" height="40" title="Inserir coluna antes"></button></li>';
-//     table+='<li><button id="testeSel" onclick="delTd()"><img src="rffeditor/imgEditor/deleteTableColumn.svg" height="40" title="Apagar coluna"></button></li>';
-//     table+='</ul>';
-//     table+='</li>';
-
-//     table+='<li><img src="rffeditor/imgEditor/configCell.svg" height="40" title="Configurar célula">';
-//     table+='<ul>';
-//     // table+='<li><button id="testeSel" onclick="rotateTdSel(\'sc\')"><img src="rffeditor/imgEditor/configCell-rotate-text.svg" height="40" title="Rotacionar o texto na célula"></button></li>';
-//     // table+='<li><button id="testeSel" onclick="getWindowBckgroundColorTDsel()"><img src="rffeditor/imgEditor/configCell-background.svg" height="40" title="Mudar a cor da célula"></button></li>';
-//     // table+='<li><button id="testeSel" onclick="openConfigBorderTdSel()"><img src="rffeditor/imgEditor/configCell-border.svg" height="40" title="Configurar borda da célula"></button></li>';
-//     table+='<li><button id="testeSel" onclick="openConfigTdSel()"><img src="rffeditor/imgEditor/configCell-prop.svg" height="40" title="Configurar propriedade da célula"></button></li>';
-
-//     table+='<li><button id="testeSel" onclick="insertCellRight()"><img src="rffeditor/imgEditor/configCell-insert-after.svg" height="40" title="Inserir célula depois"></button></li>';
-//     table+='<li><button id="testeSel" onclick="insertCellLeft()"><img src="rffeditor/imgEditor/configCell-insert-before.svg" height="40" title="Inserir célula antes"></button></li>';
-//     table+='<li><button id="testeSel" onclick="removeCell()"><img src="rffeditor/imgEditor/configCell-delete.svg" height="40" title="Apagar célula"></button></li>';
-//     table+='</ul>';
-//     table+='</li>';
-
-//     table+='<li><img src="rffeditor/imgEditor/configTable.svg" height="40" title="Configurar tabela">';
-//     table+='<ul>';
-//     table+='<li><button id="testeSel" onclick="insertTdAfter()"><img src="rffeditor/imgEditor/inserttableColumnAfter.svg" height="40" title="Inserir coluna depois"></button></li>';
-//     table+='<li><button id="testeSel" onclick="insertTdBefore()"><img src="rffeditor/imgEditor/inserttableColumnBefore.svg" height="40" title="Inserir coluna antes"></button></li>';
-//     table+='<li><button id="testeSel" onclick="delTd()"><img src="rffeditor/imgEditor/deleteTableColumn.svg" height="40" title="Apagar coluna"></button></li>';
-//     table+='</ul>';
-//     table+='</li>';
-//     table+='</ul>';
-//     table+='</div>';
-//     table += '<table cellspacing="0" class="tabela" id="tabelaInserida" onkeydown="keydownTable(event, this)" onkeyup="keyupTable(event, this)">';
-//     for(i=0; i<=numRow; i++){
-//         table+='<tr contenteditable="false" spellcheck="false">';
-//         // table+='<tr contenteditable="false" spellcheck="false">';
-//         if(i==0){
-//             for(j=0;j<=numCol;j++){
-//                 if(j==0){
-//                     table+='<td style="" contenteditable="false" spellcheck="false" id="tableTdInicialPoint"></td>';
-//                 }else{
-//                     table+='<td contenteditable="false" spellcheck="false" id="tableTdInicialLarg" style=""></td>';
-//                 }
-//             }
-//         }else{
-//             for(j=0;j<=numCol;j++){
-//                 if(j==0){
-//                     // table+='<td style="'+styleFirstColumn+'" contenteditable="false" spellcheck="false" id="tableTdInicialSmall"></td>';
-//                     table+='<td contenteditable="false" spellcheck="false" id="tableTdInicialSmall"></td>';
-//                 }else{
-//                     table+='<td style="" contenteditable="true" spellcheck="true" onclick="actionClickTd(this)" class="">&nbsp;</td>';
-//                     // table+='<td contenteditable="true" spellcheck="true">&nbsp;</td>';
-//                 }
-//             }
-//         }
-//         table+='</tr>';
-//     }
-//     table+='</table></div>';
-//     document.execCommand('insertHTML', false, table);
-// }
-
-
 
 
 function insertTableNovo(numRow, numCol) {
@@ -2348,12 +2223,12 @@ function openWindowConfigBackgroundTable(){
 
 
 
-function insertVideoOld() {
-    selection = window.getSelection().toString();
-    var table = '<iframe width="560" height="315" src="https://www.youtube.com/embed/dtLXZEuZbeQ?si=HdSO5bFrWUow5eNl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
-    var video = window.prompt("Insira no campo abaixo o iframe de incorporação do vídeo do youtube", "");
-    document.execCommand('insertHTML', false, video);
-}
+// function insertVideoOld() {
+//     selection = window.getSelection().toString();
+//     var table = '<iframe width="560" height="315" src="https://www.youtube.com/embed/dtLXZEuZbeQ?si=HdSO5bFrWUow5eNl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
+//     var video = window.prompt("Insira no campo abaixo o iframe de incorporação do vídeo do youtube", "");
+//     document.execCommand('insertHTML', false, video);
+// }
 
 function openWindowInsertVideo(){
     updateDirEditor();
@@ -2481,21 +2356,6 @@ function videoOut(div){
     }
   }
 }
-
-
-
-
-// function insertEmotions(img){
-//     if(img != null){
-//         var url = img.getAttribute("src");
-//         var width = 50;
-//         var height = 'auto';
-//         document.getElementById("porcento").innerHTML = '<img src="'+url+'" id="previewImage" width="'+width+'" height="'+height+'">';
-//         insertImg();
-//     }else{
-//         console.log("selecione uma imagem e Clique no botão Carregar e visualizar antes de inserir")
-//     }
-// }
 
 
 function insertEmotions(img){
@@ -2885,58 +2745,6 @@ function insertBreakPage(){
     node.insertBefore(breakPage, node.firstChild);
     saveState();
 }
-
-
-
-// function runImgReturnCanvas(local) {
-//     // Localiza todos os elementos de cabeçalho de seção 
-//     var headings; 
-//     console.log('ldkhbvljdabvhdbalhv')
-//     if (local.querySelectorAll) // Podemos fazer isso do modo fácil? 
-//         headings = local.querySelectorAll("img"); 
-//     else // Caso contrário, localiza os cabeçalhos da maneira difícil 
-//         headings = findHeadings(local, []); 
-//     // Percorre o corpo do documento recursivamente, procurando cabeçalhos 
-//     function findHeadings(root, sects) { 
-//         for(var c = root.firstChild; c != null; c = c.nextSibling) { 
-//             if (c.nodeType !== 1) continue; 
-//             if (c.tagName.length == 3 && c.tagName == "IMG") 
-//                 sects.push(c); 
-//             else 
-//             findHeadings(c, sects); 
-//         }
-//         return sects;
-//     }
-//     console.log(headings)
-//     for(var h = 0; h < headings.length; h++) { 
-//         var heading = headings[h]; 
-        
-//         let img = document.createElement('img');
-//         img.href = getImgDownload(heading);
-//         heading.parentNode.insertBefore(img, heading); 
-//         heading.parentNode.removeChild(heading);
-
-//         // // Encerra o cabeçalho em uma âncora nomeada para que possamos nos vincular a ele. 
-//         // var anchor = document.createElement("a"); 
-//         // anchor.name = "TOC"+sectionNumber; 
-//         // heading.parentNode.insertBefore(anchor, heading); 
-//         // anchor.appendChild(heading); 
-//         // // Agora cria um link para essa seção. 
-//         // var link = document.createElement("a"); 
-//         // link.href = "#TOC" + sectionNumber; 
-//         // // Destino do link 
-//         // link.innerHTML = sectionNumber+' - '+heading.innerHTML; 
-//         // // O texto do link é o mesmo do cabeçalho 
-//         // // Coloca o link em um div que pode ser estilizado de acordo com o nível. 
-//         // var entry = document.createElement("div"); 
-//         // entry.className = "TOCEntry TOCLevel" + level; 
-//         // entry.appendChild(link); 
-//         // // E adiciona o div no contêiner de TOC. 
-//         // toc.appendChild(entry); 
-//     }
-//     console.log(local)
-// }
-
 
 
 // function getImgDownload(img){

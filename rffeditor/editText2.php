@@ -690,7 +690,7 @@
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/defaultbullet.svg" title="Marcador" onClick="addTagOrder('ul', 'disc')" id="unOrdenarLista" />
     <!-- <a title="desfaz" id="desfaz"> desfaz </a> - 
     <a title="desfaz" id="refaz"> resfaz </a> -  -->
-    <a title="desfaz" id="impHist"> imprimiHistory </a>
+    <!-- <a title="desfaz" id="impHist"> imprimiHistory </a> -->
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/defaultnumbering.svg" title="Numeração" onClick="addTagOrder('ol', 'decimal')" id="ordenarLista" />
     
 
@@ -733,9 +733,9 @@
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/hangingindent.svg" title="Identar linha" onClick="addIdent()" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/hangingindentremove.svg" title="Remove a identação" onClick="addOutIdent()" />
 
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/copy.svg" title="Copiar" onClick="copiar()" />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/paste.svg" title="Colar" onClick="colar()" />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/cut.svg" title="Recortar" onClick="recortar()" />
+    <!-- <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/copy.svg" title="Copiar" onClick="copiar()" />
+    <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/paste.svg" title="Colar" onClick="colar()" />
+    <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/cut.svg" title="Recortar" onClick="recortar()" /> -->
 
     <!-- <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/redo.svg" title="Refazer" onClick="refazer()" id="refaz" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/undo.svg" title="Desfazer" onClick="desfazer()" id="desfaz" /> -->
@@ -750,12 +750,12 @@
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/removehyperlink.svg" title="Remover hiperlink" onClick="unlink()" />
 
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/emotions.svg" title="Inserir emotions" style="width:40px; height:auto;" onClick="abreJanEmotions()" />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/citacao.png" title="Inserir uma citação" onClick="insertTagsNew('cite'), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="cite" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/citacao.png" title="Inserir uma citação" onClick="insertTag('cite'), this.setAttribute('style', 'background-color:#cdcdcd;')" id="cite" />
     
 
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/breakPage.svg" title="Inserir quebra de página" onClick="insertBreakPage()" unselectable="on" spaw_state="true" id="breakPage" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/summary.svg" title="Inserir/remover Sumário" onClick="setOrRemoveHeading()" unselectable="on" spaw_state="true" id="sumario" />
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/print.svg" title="Imprimir" onClick="pdf()" id="print" />
+    <!-- <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/print.svg" title="Imprimir" onClick="pdf()" id="print" /> -->
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/pastTextWordWeb.svg" title="Colar um conteúdo tirado da WEB ou do Word" onClick="openPasteContentOfWeb()" unselectable="on" spaw_state="true" id="pasteContentOfWeb" />
     
     <!-- <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/pastTextWordWeb.svg" title="Capitular" onClick="capitular()" unselectable="on" spaw_state="true" id="pasteContentOfWeb" /> -->
