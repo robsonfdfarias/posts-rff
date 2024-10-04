@@ -4,6 +4,13 @@ if(!defined('WPINC')){
     die();
 }
 
+   /**
+   * Includes PHP
+   */
+  if(file_exists(POSTS_RFF_CORE_INC.'posts-rff-class-table.php')){
+    require_once(POSTS_RFF_CORE_INC.'posts-rff-class-table.php');
+}
+
 
 function add_menu_admin_page(){
     add_menu_page(
@@ -22,9 +29,8 @@ add_action('admin_menu', 'add_menu_admin_page');
 $url_rff_dir_editor = POSTS_RFF_DIR_EDITOR;
 
 function posts_rff(){
-    if(isset($_POST['cadastrarPostRFF'])){
+    if(isset($_POST['cadastrarPostRff'])){
         if(isset($_POST['titulo']) && isset($_POST['conteudo'])){
-            echo $_POST['titulo'];
             $current_user_id = get_current_user_id();
             // echo '<br>'.$current_user_id.'++++++++++++';
             $post_data = array(
@@ -34,10 +40,10 @@ function posts_rff(){
                 'post_author'   => $current_user_id,
                 'post_type'     => $_POST['post_type'],
             );
-            
             $post_id = wp_insert_post($post_data);
         }
     }else if(isset($_POST['editarPostRff'])){
+        echo 'CLICOU EM editar....';
         if(isset($_POST['titulo']) && isset($_POST['conteudo'])){
             // Dados do post a serem atualizados
             $post_data = array(
@@ -80,7 +86,7 @@ function posts_rff(){
             <div id="divView">
                 
                 <?php
-                    $table = new Meu_Plugin_Posts_Table();
+                    $table = new Posts_RFF_Posts_Table();
                     $table->prepare_items(); // Prepara os itens
     
                     if (empty($table->items)) {
@@ -99,7 +105,7 @@ function posts_rff(){
                 ?>
                 <!-- <form action="" method="post" id="formulario"  enctype="multipart/form-data" autocomplete="on" onsubmit="return ValidateContactForm();"> -->
                 <form method="post" name="formulario" id="formulario">
-                    <input type="text" id="idPost" name="idPost" style="display:none" required spellcheck="true">
+                    <input type="text" id="idPost" name="idPost" style="display:none" spellcheck="true">
                     <input type="text" id="titulo" name="titulo" placeholder="Insira o título do artigo" required spellcheck="true">
                     <select name="post_status" id="post_status">
                         <option value="publish">O post é publicado e visível ao público.</option>
@@ -235,283 +241,4 @@ function posts_rff(){
     </div>
     <?php
     
-}
-
-
-function bk(){
-    ?>
-    <table class="wp-list-table widefat fixed striped table-view-list posts">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Título</th>
-                            <th>Data</th>
-                            <th>Author</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (!empty($posts)): ?>
-                            <?php foreach ($posts as $post): setup_postdata($post); ?>
-                                <tr>
-                                    <?php
-                                        $p = '{
-                                            "ID": "'.$post->ID.'",
-                                            "post_author": "'.$post->post_author.'",
-                                            "post_date": "'.$post->post_date.'",
-                                            "post_title": "'.$post->post_title.'",
-                                            "post_status": "'.$post->post_status.'",
-                                            "post_type": "'.$post->post_type.'"
-                                        }';
-                                        // print_r($p);
-                                    ?>
-                                    <td><?php echo esc_html($post->ID); ?></td>
-                                    <td>
-                                        <a onClick='openEditPost(<?php print_r($p); ?>, <?php echo $post->ID; ?>)'>
-                                            <?php echo esc_html(get_the_title($post)); ?>
-                                        </a>
-                                        <div id="contentPost<?php echo $post->ID; ?>" style="display:none;">
-                                            <?php echo $post->post_content; ?></td>
-                                        </div>
-                                    </td>
-                                    <td><?php echo esc_html(get_the_date('', $post)); ?></td>
-                                    <td>
-                                        <a href="<?php echo esc_url(get_edit_user_link($post->post_author)); ?>">
-                                            <?php echo esc_html(get_the_author_meta('display_name', $post->post_author)); ?>
-                                        </a>
-                                    </td>
-                                    <td><?php echo esc_html(ucfirst($post->post_status)); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                            <?php wp_reset_postdata(); ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="4">Nenhum post encontrado.</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-    <?php
-}
-
-
-// Inclui a classe WP_List_Table
-if (!class_exists('WP_List_Table')) {
-    require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
-}
-
-
-class Meu_Plugin_Posts_Table extends WP_List_Table {
-    private $posts;
-
-    function __construct() {
-        parent::__construct([
-            'singular' => 'post',
-            'plural'   => 'posts',
-            'ajax'     => false
-        ]);
-    }
-
-    function get_columns() {
-        return [
-            'cb' => '', // Checkbox para seleção
-            'title' => 'Título',
-            'author' => 'Autor',
-            'categories' => 'Categorias',
-            'tags' => 'Tags',
-            'comments' => 'Comentários',
-            'date' => 'Data'
-        ];
-    }
-
-    function prepare_items() {
-        // Captura os filtros
-        $filter_category = isset($_GET['cat']) ? sanitize_text_field($_GET['cat']) : '';
-        $filter_date = isset($_GET['m']) ? sanitize_text_field($_GET['m']) : '';
-
-        // Argumentos para a consulta
-        $args = [
-            'post_type' => 'post',
-            'posts_per_page' => -1,
-            'post_status' => 'publish'
-        ];
-
-        // Adiciona filtros
-        if ($filter_category && $filter_category != '0') {
-            $args['tax_query'] = [
-                [
-                    'taxonomy' => 'category',
-                    'field' => 'id',
-                    'terms' => $filter_category
-                ]
-            ];
-        }
-
-        // Filtro por data (exemplo simplificado)
-        if ($filter_date && $filter_date != '0') {
-            $year = substr($filter_date, 0, 4);
-            $month = substr($filter_date, 4, 2);
-            $args['year'] = $year;
-            $args['monthnum'] = $month;
-        }
-
-        $this->posts = get_posts($args);
-
-        // Verifica se há posts
-        $this->items = !empty($this->posts) ? $this->posts : [];
-    }
-
-    function display_filters() {
-        ?>
-        <form method="get">
-            <input type="hidden" name="page" value="lista-de-posts" />
-
-            <div class="alignleft actions bulkactions">
-                <label for="bulk-action-selector-top" class="screen-reader-text">Selecionar ação em massa</label>
-                <select name="action" id="bulk-action-selector-top">
-                    <option value="-1">Ações em massa</option>
-                    <option value="edit" class="hide-if-no-js">Editar</option>
-                    <option value="trash">Mover para lixeira</option>
-                </select>
-                <input type="submit" id="doaction" class="button action" value="Aplicar">
-            </div>
-
-            <div class="alignleft actions">
-                <label for="filter-by-date" class="screen-reader-text">Filtrar por data</label>
-                <select name="m" id="filter-by-date">
-                    <option selected="selected" value="0">Todas as datas</option>
-                    <?php
-                    // Gerando opções de data (exemplo de meses de 2024)
-                    for ($month = 1; $month <= 12; $month++) {
-                        $value = '2024' . str_pad($month, 2, '0', STR_PAD_LEFT);
-                        echo '<option value="' . esc_attr($value) . '">' . esc_html(date_i18n('F Y', mktime(0, 0, 0, $month, 1, 2024))) . '</option>';
-                    }
-                    ?>
-                </select>
-
-                <label class="screen-reader-text" for="cat">Filtrar por categoria</label>
-                <select name="cat" id="cat" class="postform">
-                    <option value="0">Todas as categorias</option>
-                    <?php
-                    $categories = get_categories(['hide_empty' => false]);
-                    foreach ($categories as $category) {
-                        echo '<option class="level-0" value="' . esc_attr($category->term_id) . '">' . esc_html($category->name) . '</option>';
-                    }
-                    ?>
-                </select>
-
-                <input type="submit" name="filter_action" id="post-query-submit" class="button" value="Filtrar">
-            </div>
-
-            <br class="clear">
-        </form>
-        <?php
-    }
-
-    function column_cb($post) {
-        return '<input type="checkbox" name="post_id[]" value="' . $post->ID . '" />';
-    }
-
-    function column_title($post) {
-        $p = '{
-            "ID": "'.$post->ID.'",
-            "post_author": "'.$post->post_author.'",
-            "post_date": "'.$post->post_date.'",
-            "post_title": "'.$post->post_title.'",
-            "post_status": "'.$post->post_status.'",
-            "post_type": "'.$post->post_type.'"
-        }';
-        return "<a onClick='openEditPost(".$p.", ".$post->ID.")'>".esc_html($post->post_title)."</a>";
-    }
-
-    function column_author($post) {
-        $author = get_the_author_meta('display_name', $post->post_author);
-        return esc_html($author);
-    }
-
-    function column_categories($post) {
-        $categories = get_the_category($post->ID);
-        $category_names = wp_list_pluck($categories, 'name');
-        return esc_html(implode(', ', $category_names));
-    }
-
-    function column_tags($post) {
-        $tags = get_the_tags($post->ID);
-        if ($tags) {
-            $tag_names = wp_list_pluck($tags, 'name');
-            return esc_html(implode(', ', $tag_names));
-        }
-        return '';
-    }
-
-    function column_comments($post) {
-        $comments_count = wp_count_comments($post->ID);
-        return esc_html($comments_count->approved);
-    }
-
-    function column_date($post) {
-        return esc_html(get_the_date('', $post));
-    }
-
-    // Renderiza a tabela
-    function display() {
-        if (empty($this->items)) {
-            echo '<p>Nenhum post encontrado.</p>'; // Mensagem quando não há posts
-            return;
-        }
-
-        // Exibe os filtros
-        $this->display_filters();
-
-        // Cabeçalho da tabela
-        echo '<table class="wp-list-table widefat fixed striped">';
-        echo '<thead><tr>';
-        foreach ($this->get_columns() as $column_key => $column_title) {
-            if($column_title==''){
-                echo '<th scope="col" class="' . esc_attr($column_key) . '"><input id="cb-select-all-1" type="checkbox" style="margin:auto;"></th>';
-            }else{
-                echo '<th scope="col" class="' . esc_attr($column_key) . '">' . esc_html($column_title) . '</th>';
-            }
-        }
-        echo '</tr></thead>';
-
-        // Corpo da tabela
-        echo '<tbody id="the-list" data-wp-lists="list:post">';
-        foreach ($this->items as $item) {
-            echo '<tr>';
-            foreach ($this->get_columns() as $column_key => $column_title) {
-                echo '<td class="' . esc_attr($column_key) . '">' . $this->{'column_' . $column_key}($item) .
-                    '<div id="contentPost'.$item->ID.'" style="display:none;">'.
-                        $item->post_content.
-                    '</div>'. '</td>';
-            }
-            echo '</tr>';
-        }
-        echo '</tbody>';
-        echo '</table>';
-    }
-}
-
-// Função para mostrar a lista de posts
-function posts_rff5() {
-    echo '<div class="wrap">';
-    echo '<h1>Lista de Posts</h1>';
-    
-    $table = new Meu_Plugin_Posts_Table();
-    $table->prepare_items(); // Prepara os itens
-
-    global $posts2;
-    // print_r($posts2);
-    // print_r($posts2[0]);
-    // print_r($table->items);
-
-    if (empty($table->items)) {
-        echo '<p>Nenhum post encontrado.</p>'; // Mensagem quando não há posts
-    } else {
-        echo '<form method="post">';
-        $table->display(); // Renderiza a tabela
-        echo '</form>';
-    }
-
-    echo '</div>';
 }
