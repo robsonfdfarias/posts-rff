@@ -2601,10 +2601,10 @@ function headingCab(local) {
     // A função anônima define um escopo local 
     // Localiza o elemento contêiner TOC. 
     // Se não existe, cria um no início do documento. 
-    var toc = document.getElementById("TOC"); 
+    var toc = document.getElementById("RFFTOC"); 
     if (!toc) { 
         toc = document.createElement("div"); 
-        toc.id = "TOC"; 
+        toc.id = "RFFTOC"; 
         // toc.innerHTML='<h1 id="sumario">Sumario</h1>';
         toc.innerHTML='<h2>Sumário</h2>';
         local.insertBefore(toc, local.firstChild); 
@@ -2653,7 +2653,7 @@ function headingCab(local) {
 
         // Encerra o cabeçalho em uma âncora nomeada para que possamos nos vincular a ele. 
         var anchor = document.createElement("a"); 
-        anchor.name = "TOC"+sectionNumber; 
+        anchor.name = "RFFTOC"+sectionNumber; 
         heading.parentNode.insertBefore(anchor, heading); 
         anchor.appendChild(heading); 
         // Agora cria um link para essa seção. 
@@ -2676,11 +2676,12 @@ function headingCab(local) {
 function setOrRemoveHeading(){
     saveState();
     let texto = document.getElementById("texto");
-    if(document.getElementById('TOC')==null){
+    console.log(document.getElementById('RFFTOC'))
+    if(document.getElementById("RFFTOC")==null){
         headingCab(document.getElementById("texto"));
         document.getElementById('sumario').style.backgroundColor='green';
     }else{
-        // texto.removeChild(document.getElementById('TOC'));
+        // texto.removeChild(document.getElementById("RFFTOC"));
         document.getElementById('sumario').style.backgroundColor=null;
         deleteHeadingCab(texto);
     }
@@ -2692,7 +2693,7 @@ function deleteHeadingCab(local) {
     // A função anônima define um escopo local 
     // Localiza o elemento contêiner TOC. 
     // Se não existe, cria um no início do documento. 
-    var toc = document.getElementById("TOC"); 
+    var toc = document.getElementById("RFFTOC"); 
     if (!toc) { 
         exit
     } 
@@ -2735,7 +2736,7 @@ function deleteHeadingCab(local) {
 
 // marca o botão do sumário se o conteúdo tiver um sumário
 function selectBtSumario(){
-    if(document.getElementById("TOC")!=null){
+    if(document.getElementById("RFFTOC")!=null){
         document.getElementById('sumario').style.backgroundColor='green';
     }
 }

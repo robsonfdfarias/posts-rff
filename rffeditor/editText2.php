@@ -528,45 +528,34 @@
 }
 
 
-#ferramentas img{
-    height: 40px; /* 2rem; */
+/* #ferramentas img{
+    height: 40px;
     transition: ease-in-out 0.2s;
     border: 0px solid #cfcfcf;
     cursor: pointer;
     margin:4px 2px;
-}
-
-#ferramentas img:hover{ 
-    /* height: 2.2rem; */
-    transform: scale(1.2);
-    /* filter: invert(25%) sepia(11%) saturate(4040%) hue-rotate(99deg) brightness(93%) contrast(91%); */
-    /* border: 1px solid #cfcfcf; */
-    transition: ease-in-out 0.2s;
-}
+} */
 
 
-#ferramentas .img {
-    font-size: 40px;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    margin: auto 0;
-    /* margin-inline-end: auto; */
-    /* border: 1px solid #ddd; */
+/* #ferramentas .img {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+    cursor: pointer;
     background-color: unset;
     color: black;
-    transition: ease-in-out 0.2s;
-}
+} */
 
 
 #ferramentas .img:hover {
-    transform: scale(1.2);
-    transition: ease-in-out 0.2s;
+    /* transform: scale(1.0); */
+    /* transition: ease-in-out 0.2s; */
 }
 
-#ferramentas .img::before{
+/* #ferramentas .img::before{
     margin-left: -2px;
-}
+} */
 </style>
 
 </head>
@@ -682,7 +671,7 @@
 
 <?php
     // include_once(POSTS_RFF_DIR_EDITOR."barra_ferramentas_original.php");
-    include_once(POSTS_RFF_DIR_EDITOR."barra_ferramentas_dashicon.php");
+    include_once(POSTS_RFF_DIR_EDITOR."barra_ferramentas_lucide.php");
 ?>
 
 

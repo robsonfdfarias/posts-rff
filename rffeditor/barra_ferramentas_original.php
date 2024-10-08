@@ -1,5 +1,5 @@
 
-<div id="ferramentas">
+<div id="ferramentas" class="original">
     <!-- <button id="testeSel" onclick="printPDF()">Imprimir</button> -->
     <select name="typefontface" id="typefontface">
         <option value="padrao" name="padrao" id="padrao"  disabled selected>Font</option>
@@ -13,14 +13,14 @@
     </select>
     
     
-    <img class="img" src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/bold.svg" title="Colocar em Negrito" onClick="negrito(), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" unselectable="on" spaw_state="true" id="negrito" />
-    <img class="img" src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/italic.svg" title="Colocar em Itálico" onClick="italico(), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="italico" />
-    <img class="img" src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/underline.svg" title="Colocar em Sublinhado" onClick="sublinhado(), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="sublinhado" />
-    <img class="img" src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/strikeout.svg" title="Adicionar linha riscada" onClick="addStrikeThrough(), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="strike" />
-    <img class="img" src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/alignright.svg" title="Alinhar a direita" onClick="alinharDireita()" />
-    <img class="img" src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/alignleft.svg" title="Alinhar a esquerda" onClick="alinharEsquerda()" />
-    <img class="img" src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/alignhorizontalcenter.svg" title="Centralizar" onClick="alinharCentro()" />
-    <img class="img" src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/alignblock.svg" title="Justificar" onClick="justificar()" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/bold.svg" title="Colocar em Negrito" onClick="negrito(), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" unselectable="on" spaw_state="true" id="negrito" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/italic.svg" title="Colocar em Itálico" onClick="italico(), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="italico" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/underline.svg" title="Colocar em Sublinhado" onClick="sublinhado(), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="sublinhado" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/strikeout.svg" title="Adicionar linha riscada" onClick="addStrikeThrough(), this.setAttribute('style', 'background-color:#cdcdcd;'), selectElem()" id="strike" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/alignright.svg" title="Alinhar a direita" onClick="alinharDireita()" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/alignleft.svg" title="Alinhar a esquerda" onClick="alinharEsquerda()" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/alignhorizontalcenter.svg" title="Centralizar" onClick="alinharCentro()" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/alignblock.svg" title="Justificar" onClick="justificar()" />
     <select name="tamFont" id="tamFont">
         <?php
             for($i=1; $i<8; $i++){
@@ -94,7 +94,7 @@
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/inserthyperlinkcontrol.svg" title="Inserir hiperlink" onClick="openWindowLink()" id="insertHyperLink" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/removehyperlink.svg" title="Remover hiperlink" onClick="unlink()" />
 
-    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/emotions.svg" title="Inserir emotions" style="width:40px; height:auto;" onClick="abreJanEmotions()" />
+    <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/emotions.svg" title="Inserir emotions" onClick="abreJanEmotions()" />
     <img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/citacao.png" title="Inserir uma citação" onClick="insertTag('cite'), this.setAttribute('style', 'background-color:#cdcdcd;')" id="cite" />
     
 
