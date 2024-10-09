@@ -200,15 +200,25 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
     }
 
     function column_title($post) {
+        $categories = get_the_category($post->ID);
+        foreach($categories as $cat){
+            $idsCat[] = esc_html($cat->term_id);
+        }
+        $categ = implode(',', $idsCat);
         $p = '{
             "ID": "'.$post->ID.'",
             "post_author": "'.$post->post_author.'",
             "post_date": "'.$post->post_date.'",
             "post_title": "'.$post->post_title.'",
             "post_status": "'.$post->post_status.'",
-            "post_type": "'.$post->post_type.'"
+            "post_type": "'.$post->post_type.'",
+            "post_categories": "'.$categ.'"
         }';
-        return "<a onClick='openEditPost(".$p.", ".$post->ID.")' style='cursor:pointer;'>".esc_html($post->post_title)."</a>";
+        return "<a onClick='openEditPost(".$p.", ".$post->ID.")' style='cursor:pointer;'>".esc_html($post->post_title)."</a>".
+                '<div id="rffmenuitem'.$post->ID.'" style="display:none; float:right;"> | '.
+                    '<a href="'.home_url().'?p='.$post->ID.'" target="_blank">Ver</a> | '.
+                    "<a onClick='openEditPost(".$p.", ".$post->ID.")' style='cursor:pointer;'>Editar</a>".
+                '</div>';
     }
 
     function column_author($post) {
@@ -270,7 +280,8 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
         foreach ($this->items as $item) {
             echo '<tr>';
             foreach ($this->get_columns() as $column_key => $column_title) {
-                echo '<td class="' . esc_attr($column_key) . '">' . $this->{'column_' . $column_key}($item) .
+                echo '<td class="' . esc_attr($column_key) . '" onmouseover="rffmenuover(\'rffmenuitem'.$item->ID.'\')" onmouseout="rffmenuout(\'rffmenuitem'.$item->ID.'\')">' . 
+                        $this->{'column_' . $column_key}($item) .
                     '<div id="contentPost'.$item->ID.'" style="display:none;">'.
                         $item->post_content.
                     '</div>'. '</td>';

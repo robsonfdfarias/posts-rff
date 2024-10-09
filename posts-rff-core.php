@@ -33,17 +33,25 @@ function posts_rff(){
         if(isset($_POST['titulo']) && isset($_POST['conteudo'])){
             $current_user_id = get_current_user_id();
             // echo '<br>'.$current_user_id.'++++++++++++';
+            // print_r($_POST['cats']);
             $post_data = array(
                 'post_title'    => $_POST['titulo'],
                 'post_content'  => $_POST['conteudo'],
                 'post_status'   => $_POST['post_status'],
                 'post_author'   => $current_user_id,
                 'post_type'     => $_POST['post_type'],
+                'post_category' => $_POST['cats'] //array(1, 2) IDs das categorias
             );
             $post_id = wp_insert_post($post_data);
+            echo $post_id;
+            if($post_id>0 && $post_id!=null){
+                echo '<div class="notice notice-success is-dismissible"><p>Post criado com sucesso. ID do post: <a href="'.home_url().'?p='. $post_id.'" target="_blank">'. $post_id.'</a></p></div>';
+            }else{
+                echo '<div class="notice notice-failure is-dismissible"><p>Erro ao criar o post, por favor, tente novamente.</p></div>';
+            }
         }
     }else if(isset($_POST['editarPostRff'])){
-        echo 'CLICOU EM editar....';
+        // echo 'CLICOU EM editar....';
         if(isset($_POST['titulo']) && isset($_POST['conteudo'])){
             // Dados do post a serem atualizados
             $post_data = array(
@@ -61,9 +69,9 @@ function posts_rff(){
             if ( is_wp_error( $updated_post_id ) ) {
                 // Trata o erro
                 $error_message = $updated_post_id->get_error_message();
-                echo 'Erro ao atualizar o post: ' . $error_message;
+                echo '<div class="notice notice-failure is-dismissible"><p>Erro ao atualizar o post: '. $error_message.'</p></div>';
             } else {
-                echo 'Post atualizado com sucesso. ID do post: ' . $updated_post_id;
+                echo '<div class="notice notice-success is-dismissible"><p>Post atualizado com sucesso. ID do post: <a href="'.home_url().'?p='. $updated_post_id.'" target="_blank">'. $updated_post_id.'</a></p></div>';
             }
         }
     }
@@ -83,22 +91,8 @@ function posts_rff(){
             <span id="dirRff" style="display:none;"><?php echo POSTS_RFF_DIR_EDITOR; ?></span>
         </div>
         <div id="content">
-            <div id="divView">
-                
-                <?php
-                    $table = new Posts_RFF_Posts_Table();
-                    $table->prepare_items(); // Prepara os itens
-    
-                    if (empty($table->items)) {
-                        echo '<p>Nenhum post encontrado.</p>'; // Mensagem quando não há posts
-                    } else {
-                        // echo '<form method="post">';
-                        $table->display(); // Renderiza a tabela
-                        // echo '</form>';
-                    }
-                ?>
-            </div>
-            <div id="divForm" style="position:absolute; width:90%; height:100%; display:none; flex-direction:column; padding: 20px; top:0;left:0; background-color: #fff;">
+            
+            <div id="divForm" style="position:absolute; width:98%; height:100%; display:none; flex-direction:column; padding: 20px; top:0;left:0; background-color: #fff; margin-left:-20px;">
                 <h1 id="formTituloPostsRff">Você está na new</h1>
                 <?php
                     include_once(POSTS_RFF_DIR_EDITOR."editText2.php");
@@ -106,20 +100,35 @@ function posts_rff(){
                 <!-- <form action="" method="post" id="formulario"  enctype="multipart/form-data" autocomplete="on" onsubmit="return ValidateContactForm();"> -->
                 <form method="post" name="formulario" id="formulario">
                     <input type="text" id="idPost" name="idPost" style="display:none" spellcheck="true">
-                    <input type="text" id="titulo" name="titulo" placeholder="Insira o título do artigo" required spellcheck="true">
-                    <select name="post_status" id="post_status">
+                    <input type="text" id="titulo" name="titulo" placeholder="Insira o título do artigo" required spellcheck="true" style="width:100%; margin-top: 10px;">
+                    <select name="post_status" id="post_status" style="margin-top: 10px;">
                         <option value="publish">O post é publicado e visível ao público.</option>
                         <option value="draft">O post está salvo como um rascunho e não está visível ao público.</option>
                         <option value="pending">O post está aguardando revisão.</option>
                         <option value="private">O post está visível apenas para usuários com permissões adequadas.</option>
                     </select>
-                    <select name="post_type" id="post_type">
+                    <select name="post_type" id="post_type" style="margin-top: 10px;">
                         <option value="post">Um post de blog padrão.</option>
                         <option value="page">Uma página estática.</option>
                         <option value="attachment">Um arquivo anexado (como uma imagem).</option>
                         <option value="revision">Uma revisão do post.</option>
                         <option value="custom_post_type">Tipos de post personalizados definidos por plugins ou temas.</option>
-                    </select>
+                    </select><br>
+                    <!-- <select name="categories" id="categories" required> -->
+                        <?php
+                            $categories = get_categories();
+                            if(!empty($categories)){
+                                echo '<div style="margin-top: 10px;">';
+                                foreach($categories as $catogorie){
+                                    echo '<label>';
+                                    // echo '<option value="'.$catogorie->term_id.'">'.esc_html($catogorie->name).'</option>';
+                                    echo '<input class="rffChecked" type="checkbox" name="cats[]" value="'.$catogorie->term_id.'" style="margin: 0 5px 0 20px;"> '.esc_html($catogorie->name);
+                                    echo '</label>';
+                                }
+                                echo '</div>';
+                            }
+                        ?>
+                    <!-- </select> -->
                     <textarea name="conteudo" id="conteudo" cols="30" rows="10" style="display:none;" required></textarea>
                     <button type="submit" id="cadastrarPostRff" name="cadastrarPostRff" style="display:none;">Cadastrar</button>
                     <button type="submit" id="editarPostRff" name="editarPostRff" style="display:none;">Editar</button>
@@ -160,7 +169,7 @@ function posts_rff(){
                 }
 
                 document.getElementById('formulario').addEventListener('submit', async function(event){
-                    alert('robson')
+                    // alert('robson')
                     await ValidateContactForm(event);
                 })
 
@@ -198,6 +207,18 @@ function posts_rff(){
                     document.getElementById('post_type').innerHTML+=type[json.post_type];
                     document.getElementById('formTituloPostsRff').innerHTML='Editar Poste';
                     document.getElementById('divForm').style.display='flex';
+                    let arrayCat = json.post_categories.split(',');
+                    console.log(arrayCat);
+                    let cbCateg = document.getElementsByClassName('rffChecked');
+                    console.log(cbCateg.length);
+                    for(let i=0; i<cbCateg.length; i++){
+                        cbCateg[i].checked=false;
+                    }
+                    for(let i=0; i<cbCateg.length; i++){
+                        if(arrayCat.includes(cbCateg[i].value)){
+                            cbCateg[i].checked=true;
+                        }
+                    }
                 }
                 function breakOperation(){
                     let post_type=document.getElementById('post_type');
@@ -236,7 +257,30 @@ function posts_rff(){
                     document.getElementById('divForm').style.display='flex';
                     document.getElementById('formTituloPostsRff').innerHTML='Inserir Poste';
                 }
+
+                function rffmenuover(obj){
+                    document.getElementById(obj).style.display='flex';
+                }
+
+                function rffmenuout(obj){
+                    document.getElementById(obj).style.display='none';
+                }
             </script>
+            <div id="divView">
+                
+                <?php
+                    $table = new Posts_RFF_Posts_Table();
+                    $table->prepare_items(); // Prepara os itens
+    
+                    if (empty($table->items)) {
+                        echo '<p>Nenhum post encontrado.</p>'; // Mensagem quando não há posts
+                    } else {
+                        // echo '<form method="post">';
+                        $table->display(); // Renderiza a tabela
+                        // echo '</form>';
+                    }
+                ?>
+            </div>
         </div>
     </div>
     <?php
