@@ -39,12 +39,6 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
             WHERE post_type = 'post' AND post_status = 'publish'
             ORDER BY post_date DESC
         ");
-        // $results = $wpdb->get_results("
-        //     SELECT DISTINCT YEAR(post_date) AS year, MONTH(post_date) AS month
-        //     FROM $wpdb->posts
-        //     WHERE post_type = 'post' 
-        //     ORDER BY post_date DESC
-        // ");
     
         // Criar um array para armazenar os meses e anos
         $meses_e_anos = array();
@@ -69,7 +63,7 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
         $args = [
             'post_type' => 'post',
             'posts_per_page' => -1,
-            'post_status' => 'publish'
+            'post_status' => 'any'
         ];
 
         // Adiciona filtros
@@ -106,7 +100,6 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
                 <label for="bulk-action-selector-top" class="screen-reader-text">Selecionar ação em massa</label>
                 <select name="action" id="bulk-action-selector-top">
                     <option value="-1">Ações em massa</option>
-                    <!-- <option value="edit" class="hide-if-no-js">Editar</option> -->
                     <option value="trash">Mover para lixeira</option>
                 </select>
                 <input type="submit" id="doaction" class="button action" value="Aplicar">
@@ -180,10 +173,8 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
 
         // Realizar a consulta
         $query = new WP_Query($args);
-        // print_r(count($query->posts));
 
         // Se existir conteúdo, então ele é atribuído a $this->items.
-        // if ($query->have_posts()) {
         if (count($query->posts)>0) {
             $this->items = $query->posts;
         } else {
@@ -214,7 +205,14 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
             "post_type": "'.$post->post_type.'",
             "post_categories": "'.$categ.'"
         }';
+        $status = ["draft"=>"Rascunho", "pending"=>"Pendente", "private"=>"Privado"];
+        if($post->post_status=='publish'){
+            $notify = '';
+        }else{
+            $notify = ' <strong> - '.$status[$post->post_status].'</strong>';
+        }
         return "<a onClick='openEditPost(".$p.", ".$post->ID.")' style='cursor:pointer;'>".esc_html($post->post_title)."</a>".
+                $notify.
                 '<div id="rffmenuitem'.$post->ID.'" style="display:none; float:right;"> | '.
                     '<a href="'.home_url().'?p='.$post->ID.'" target="_blank">Ver</a> | '.
                     "<a onClick='openEditPost(".$p.", ".$post->ID.")' style='cursor:pointer;'>Editar</a>".

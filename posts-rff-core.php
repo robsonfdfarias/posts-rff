@@ -32,8 +32,6 @@ function posts_rff(){
     if(isset($_POST['cadastrarPostRff'])){
         if(isset($_POST['titulo']) && isset($_POST['conteudo'])){
             $current_user_id = get_current_user_id();
-            // echo '<br>'.$current_user_id.'++++++++++++';
-            // print_r($_POST['cats']);
             $post_data = array(
                 'post_title'    => $_POST['titulo'],
                 'post_content'  => $_POST['conteudo'],
@@ -42,6 +40,9 @@ function posts_rff(){
                 'post_type'     => $_POST['post_type'],
                 'post_category' => $_POST['cats'] //array(1, 2) IDs das categorias
             );
+            if(isset($_POST['cats'])){
+                $post_data['post_category'] = $_POST['cats'];
+            }
             $post_id = wp_insert_post($post_data);
             echo $post_id;
             if($post_id>0 && $post_id!=null){
@@ -51,7 +52,6 @@ function posts_rff(){
             }
         }
     }else if(isset($_POST['editarPostRff'])){
-        // echo 'CLICOU EM editar....';
         if(isset($_POST['titulo']) && isset($_POST['conteudo'])){
             // Dados do post a serem atualizados
             $post_data = array(
@@ -61,6 +61,9 @@ function posts_rff(){
                 'post_status'   => $_POST['post_status'],
                 'post_type'   => $_POST['post_type'],
             );
+            if(isset($_POST['cats'])){
+                $post_data['post_category'] = $_POST['cats'];
+            }
 
             // Atualiza o post
             $updated_post_id = wp_update_post( $post_data );
@@ -83,7 +86,6 @@ function posts_rff(){
     ?>
     <div id="wrap">
         <div class="tab">
-            <!-- <button id="btInsert" onclick="newPost()">Inserir novo</button> -->
             <h1 class="wp-heading-inline">Posts</h1>
             <a onclick="newPost()" class="page-title-action">Adicionar novo post</a>
 
@@ -97,15 +99,14 @@ function posts_rff(){
                 <?php
                     include_once(POSTS_RFF_DIR_EDITOR."editText2.php");
                 ?>
-                <!-- <form action="" method="post" id="formulario"  enctype="multipart/form-data" autocomplete="on" onsubmit="return ValidateContactForm();"> -->
                 <form method="post" name="formulario" id="formulario">
                     <input type="text" id="idPost" name="idPost" style="display:none" spellcheck="true">
                     <input type="text" id="titulo" name="titulo" placeholder="Insira o título do artigo" required spellcheck="true" style="width:100%; margin-top: 10px;">
                     <select name="post_status" id="post_status" style="margin-top: 10px;">
-                        <option value="publish">O post é publicado e visível ao público.</option>
-                        <option value="draft">O post está salvo como um rascunho e não está visível ao público.</option>
-                        <option value="pending">O post está aguardando revisão.</option>
-                        <option value="private">O post está visível apenas para usuários com permissões adequadas.</option>
+                        <option value="publish">(PUBLIC) O post é publicado e visível ao público.</option>
+                        <option value="draft">(DRAFT) O post está salvo como um rascunho e não está visível ao público.</option>
+                        <option value="pending">(PENDING) O post está aguardando revisão.</option>
+                        <option value="private">(PRIVATE) O post está visível apenas para usuários com permissões adequadas.</option>
                     </select>
                     <select name="post_type" id="post_type" style="margin-top: 10px;">
                         <option value="post">Um post de blog padrão.</option>
@@ -114,21 +115,18 @@ function posts_rff(){
                         <option value="revision">Uma revisão do post.</option>
                         <option value="custom_post_type">Tipos de post personalizados definidos por plugins ou temas.</option>
                     </select><br>
-                    <!-- <select name="categories" id="categories" required> -->
                         <?php
-                            $categories = get_categories();
+                            $categories = get_categories(['hide_empty' => false]);
                             if(!empty($categories)){
                                 echo '<div style="margin-top: 10px;">';
                                 foreach($categories as $catogorie){
                                     echo '<label>';
-                                    // echo '<option value="'.$catogorie->term_id.'">'.esc_html($catogorie->name).'</option>';
                                     echo '<input class="rffChecked" type="checkbox" name="cats[]" value="'.$catogorie->term_id.'" style="margin: 0 5px 0 20px;"> '.esc_html($catogorie->name);
                                     echo '</label>';
                                 }
                                 echo '</div>';
                             }
                         ?>
-                    <!-- </select> -->
                     <textarea name="conteudo" id="conteudo" cols="30" rows="10" style="display:none;" required></textarea>
                     <button type="submit" id="cadastrarPostRff" name="cadastrarPostRff" style="display:none;">Cadastrar</button>
                     <button type="submit" id="editarPostRff" name="editarPostRff" style="display:none;">Editar</button>
@@ -138,8 +136,7 @@ function posts_rff(){
             <script>
                 localStorage.setItem("POSTS_RFF_URL_EDITOR", document.getElementById('urlRff').innerHTML);
                 localStorage.setItem("POSTS_RFF_DIR_EDITOR", document.getElementById('dirRff').innerHTML);
-                // alert(localStorage.getItem("POSTS_RFF_DIR_EDITOR"))
-
+                
                 document.getElementById("cadastrarPostRff").addEventListener("click", async function(){
                     await insertTextoEmTextarea();
                 })
@@ -148,7 +145,6 @@ function posts_rff(){
                 })
                 async function insertTextoEmTextarea(){
                     var campoTexto = document.getElementById('texto').innerHTML;
-                    // document.getElementById("texto").innerHTML = '<div>Digite o seu artigo aqui...</div>';
                     console.log(campoTexto)
                     var conteudo = document.getElementById('conteudo');
                     conteudo.innerHTML = campoTexto;
@@ -169,7 +165,6 @@ function posts_rff(){
                 }
 
                 document.getElementById('formulario').addEventListener('submit', async function(event){
-                    // alert('robson')
                     await ValidateContactForm(event);
                 })
 
@@ -275,9 +270,7 @@ function posts_rff(){
                     if (empty($table->items)) {
                         echo '<p>Nenhum post encontrado.</p>'; // Mensagem quando não há posts
                     } else {
-                        // echo '<form method="post">';
                         $table->display(); // Renderiza a tabela
-                        // echo '</form>';
                     }
                 ?>
             </div>
