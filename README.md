@@ -9,14 +9,15 @@
   <li>Canais do Youtube: 
   </li>
     <ul>
-      <li>@robsonfdfarias: <a href="https://rffeditor.infocomrobson.com.br">RffEditor</a></li>
-      <li>@informaticacomrobsonfarias: <a href="https://rffeditor.infocomrobson.com.br">RffEditor</a></li>
+      <li>@robsonfdfarias: <a href="https://www.youtube.com/@RobsonFarias-os2di">RffEditor</a></li>
+      <li>@informaticacomrobsonfarias: <a href="https://www.youtube.com/c/Inform%C3%A1ticacomRobsonFarias">RffEditor</a></li>
     </ul>
 </ul><br><br>
 
 
 
 
+<div style="width:240px;">
 ▒▒▒▒▒▒▒▒▒▄▄▄▄▒▒▒▒▒▒▒
 ▒▒▒▒▒▒▄▀▀▓▓▓▀█▒▒▒▒▒▒
 ▒▒▒▒▄▀▓▓▄██████▄▒▒▒▒
@@ -31,3 +32,4 @@
 ▒▒█▀▓█████████▓▓▓█▒▒
 ▒▒█▓▓██▀▀▀▒▒▒▀▄▄█▀▒▒
 ▒▒▒▀▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+</div>
