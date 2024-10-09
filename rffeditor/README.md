@@ -18,11 +18,13 @@
 
 
 ><h3>Site</h3>
->Clique no link para acessar o site oficial: <a href="https://rffeditor.infocomrobson.com.br">RffEditor</a>
+>Clique no link para acessar o site oficial: <a href="https://rffeditor.infocomrobson.com.br">RffEditor</a><br>
+>Clique no link para acessar o site oficial: <a href="https://github.com/robsonfdfarias/rffeditor">RffEditor Github</a>
+
 
 
 ><h3>Canal do youtube</h3>
->Clique  <a href="https://rffeditor.infocomrobson.com.br">AQUI</a> para acessar o canal oficial com instruções de instalação e de uso do RffEditor
+>Clique  <a href="https://www.youtube.com/@RobsonFarias-os2di">AQUI</a> para acessar o canal oficial com instruções de instalação e de uso do RffEditor
 
 
 <h2>📚 Technologies</h2>
