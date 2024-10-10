@@ -10,6 +10,9 @@ if(!defined('WPINC')){
   if(file_exists(POSTS_RFF_CORE_INC.'posts-rff-class-table.php')){
     require_once(POSTS_RFF_CORE_INC.'posts-rff-class-table.php');
 }
+if(file_exists(POSTS_RFF_CORE_INC.'posts_rff_validate_fields.php')){
+  require_once(POSTS_RFF_CORE_INC.'posts_rff_validate_fields.php');
+}
 
 
 function add_menu_admin_page(){
@@ -29,16 +32,17 @@ add_action('admin_menu', 'add_menu_admin_page');
 $url_rff_dir_editor = POSTS_RFF_DIR_EDITOR;
 
 function posts_rff(){
+    $rffValid = new PostsRFFValidate();
     if(isset($_POST['cadastrarPostRff'])){
         if(isset($_POST['titulo']) && isset($_POST['conteudo'])){
             $current_user_id = get_current_user_id();
             $post_data = array(
-                'post_title'    => $_POST['titulo'],
+                'post_title'    => sanitize_text_field($_POST['titulo']),
                 'post_content'  => $_POST['conteudo'],
-                'post_status'   => $_POST['post_status'],
+                'post_status'   => $rffValid->post_status($_POST['post_status']),
                 'post_author'   => $current_user_id,
-                'post_type'     => $_POST['post_type'],
-                'post_category' => $_POST['cats'] //array(1, 2) IDs das categorias
+                'post_type'     => $rffValid->post_type($_POST['post_type']),
+                'post_category' => $rffValid->cats($_POST['cats']) //array(1, 2) IDs das categorias
             );
             if(isset($_POST['cats'])){
                 $post_data['post_category'] = $_POST['cats'];
@@ -56,13 +60,13 @@ function posts_rff(){
             // Dados do post a serem atualizados
             $post_data = array(
                 'ID'           => $_POST["idPost"],
-                'post_title'    => $_POST['titulo'],
+                'post_title'    => sanitize_text_field($_POST['titulo']),
                 'post_content'  => $_POST['conteudo'],
-                'post_status'   => $_POST['post_status'],
-                'post_type'   => $_POST['post_type'],
+                'post_status'   => $rffValid->post_status($_POST['post_status']),
+                'post_type'   => $rffValid->post_type($_POST['post_type']),
             );
             if(isset($_POST['cats'])){
-                $post_data['post_category'] = $_POST['cats'];
+                $post_data['post_category'] = $rffValid->cats($_POST['cats']);
             }
 
             // Atualiza o post
@@ -265,7 +269,8 @@ function posts_rff(){
                 
                 <?php
                     $table = new Posts_RFF_Posts_Table();
-                    $table->prepare_items(); // Prepara os itens
+                    $re = $table->prepare_items(); // Prepara os itens
+                    echo $re.'-----<br>';
     
                     if (empty($table->items)) {
                         echo '<p>Nenhum post encontrado.</p>'; // Mensagem quando não há posts
