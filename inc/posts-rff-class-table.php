@@ -156,7 +156,7 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
         $args = array('post_type' => 'post', 'posts_per_page' => -1);
 
         // Filtrar por data
-        if (!empty($_POST['m']) && $_POST['m'] != '0') {
+        if (!empty($_POST['m']) && $_POST['m'] != '0' && intval($_POST['m']) != 0) {
             $year_month = intval($_POST['m']);
             $year = floor($year_month / 100);
             $month = $year_month % 100;
@@ -169,7 +169,7 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
         }
 
         // Filtrar por categoria
-        if (!empty($_POST['cat']) && $_POST['cat'] != '0') {
+        if (!empty($_POST['cat']) && $_POST['cat'] != '0' && intval($_POST['cat'])!=0) {
             $args['cat'] = intval($_POST['cat']);
         }
 

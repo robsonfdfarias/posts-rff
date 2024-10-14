@@ -2,7 +2,7 @@
 /*
 Plugin Name: POSTS Rff
 Description: Cria posts com recurso css em inline para facilitar no uso do GraphQl.
-Version: 1.0
+Version: 2.0
 Author: Robson Ferreira de Farias
 */
 

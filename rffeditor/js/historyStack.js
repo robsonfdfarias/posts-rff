@@ -1,4 +1,4 @@
-const historyStack = [];
+var historyStack = [];
 var currentIndex = -1;
 var editor=null;
 var maxReg = 50;

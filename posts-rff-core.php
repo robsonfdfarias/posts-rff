@@ -207,9 +207,9 @@ function posts_rff(){
                     document.getElementById('formTituloPostsRff').innerHTML='Editar Poste';
                     document.getElementById('divForm').style.display='flex';
                     let arrayCat = json.post_categories.split(',');
-                    console.log(arrayCat);
+                    // console.log(arrayCat);
                     let cbCateg = document.getElementsByClassName('rffChecked');
-                    console.log(cbCateg.length);
+                    // console.log(cbCateg.length);
                     for(let i=0; i<cbCateg.length; i++){
                         cbCateg[i].checked=false;
                     }
@@ -269,8 +269,7 @@ function posts_rff(){
                 
                 <?php
                     $table = new Posts_RFF_Posts_Table();
-                    $re = $table->prepare_items(); // Prepara os itens
-                    echo $re.'-----<br>';
+                    $table->prepare_items(); // Prepara os itens
     
                     if (empty($table->items)) {
                         echo '<p>Nenhum post encontrado.</p>'; // Mensagem quando não há posts

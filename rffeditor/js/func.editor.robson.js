@@ -30,7 +30,6 @@ function updateDirEditor(){
 
 definedEditor(document.getElementById('texto'))
 saveState();
-saveState();
 var characters = 0;
 document.getElementById('texto').addEventListener('input', function(){
     characters++;

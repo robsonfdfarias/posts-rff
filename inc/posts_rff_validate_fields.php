@@ -29,13 +29,13 @@ class PostsRFFValidate {
         }
         return $ar;
     }
-    function validFilterDate($month, $year){
-        echo preg_match('/\d{2}/', $month).' <------<br>';
-        echo preg_match('/\d{4}/', $year).' <------<br>';
-        if(preg_match('/\d{2}/', $month) && preg_match('/\d{4}/', $year)){
-            return [$month, $year];
-        }else{
-            return false;
-        }
-    }
+    // function validFilterDate($month, $year){
+    //     echo preg_match('/\d{2}/', $month).' <------<br>';
+    //     echo preg_match('/\d{4}/', $year).' <------<br>';
+    //     if(preg_match('/\d{2}/', $month) && preg_match('/\d{4}/', $year)){
+    //         return [$month, $year];
+    //     }else{
+    //         return false;
+    //     }
+    // }
 }

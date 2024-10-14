@@ -107,9 +107,10 @@ function insertImg() {
   divPai.setAttribute('style', 'width:'+width+'px; height:'+height+'px; position:relative;');
   // divPai.setAttribute('onmouseover', "imgOver(this)")
   divPai.setAttribute('onmouseout', "imgOut(this)")
-  divPai.addEventListener('mouseover', function(){
-    imgOver(this);
-  }, true);
+  divPai.setAttribute('onmouseover', "imgOver(this)")
+  // divPai.addEventListener('mouseover', function(){
+  //   imgOver(this);
+  // }, true);
   let mediaAndCaption = document.createElement('div');
   mediaAndCaption.setAttribute('id', 'mediaAndCaption');
   mediaAndCaption.setAttribute('draggable', 'false');
@@ -333,7 +334,8 @@ function openWindowEditImage(img){
   localStorage.setItem('endImg', img.src);
   localStorage.setItem('widImg', width);
   localStorage.setItem('heigImg', height);
-  window.open(POSTS_RFF_DIR_EDITOR+"windowEditImage.php", 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
+  // window.open(POSTS_RFF_DIR_EDITOR+"windowEditImage.php", 'janela', 'height=100%, width=100%, top=50, left=100, scrollbar=no, fullscreen=no');
+  window.open(POSTS_RFF_DIR_EDITOR+"windowEditImage.php", 'janela', 'top=50, left=100, scrollbar=no, fullscreen=no');
 }
 
 function editImgNovo(width, height) {
