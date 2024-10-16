@@ -65,7 +65,7 @@ while($arquivo=$dir->read()){
             //echo $arquivo.'<br>';
         }
     }else{
-        if(!strpos($arquivo, '.txt') && !strpos($arquivo, '.php')){
+        if(!strpos($arquivo, '.txt') && !strpos($arquivo, '.php') && !strpos($arquivo, '.gitkeep')){
             echo '<div id="containerObj" class="pasta" style="width:200px; padding:0px; word-break: break-all; margin: 0 15px; margin-bottom: 20px; box-shadow: 0px 0px 4px rgba(0,0,0,0.5); position:relative;">';
             echo '<div id="tituloTarja" style="position:absolute; padding:5px; background-color:#000; color:#fff;">'.getTypeFile($arquivo).'</div>';
             // echo '<a onclick="clickFile(\'imagem\', \''.$pasta.'/'.$arquivo.'\'), fecharFoldersJan()"><div style="padding:5px; --rffeditor-bk-image: url(\''.$pasta.'/'.$arquivo.'\'); width:calc(100% - 10px); height: 150px;" class="imgFundo"></div></a>';
