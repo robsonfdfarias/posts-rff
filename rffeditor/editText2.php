@@ -6,7 +6,6 @@
 <title>Editor de Texto JavaScript ::: Linha de Código (Robson Farias)</title>
     <link rel="stylesheet" type="text/css" href="<?php echo POSTS_RFF_DIR_EDITOR; ?>editorRobsonFarias.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo POSTS_RFF_DIR_EDITOR; ?>janMovEdiExc.css" />
-    <script src="<?php echo POSTS_RFF_URL_EDITOR; ?>js/editorRffGeral.js"></script>
 <style>
     .tabela tr td{
         padding: 10px;
@@ -692,7 +691,7 @@
 <!-- <script src="<?php //echo POSTS_RFF_URL_EDITOR; ?>dragDrop.js"></script> -->
 <!-- <script src="<?php //echo POSTS_RFF_URL_EDITOR; ?>simplePDF.js"></script> -->
 <div id="scriptsImports"></div>
-
+<script src="<?php echo POSTS_RFF_URL_EDITOR; ?>js/editorRffGeral.js"></script>
 <script>
     // var janEfeitoTexto = document.getElementById("efeitosTexto");
     // function fechaJanEfeitosTexto(){

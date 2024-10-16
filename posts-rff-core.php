@@ -87,6 +87,10 @@ function posts_rff(){
     );
     $posts = get_posts($args);
 
+    $link_url = admin_url('admin.php?page=Posts+Rff&include_my_plugin_posts=1');
+
+    echo '<a href="'.$link_url.'">link...</a>';
+    echo '<span id="link_url" style="display:none;">'.$link_url.'</span>';
     ?>
     <div id="wrap">
         <div class="tab">
@@ -137,7 +141,11 @@ function posts_rff(){
                     <button type="submit" name="cancelarPostRff" id="cancelarPostRff" onclick="breakOperation()">Cancelar</button>
                 </form>
             </div>
+            <script src="<?php echo POSTS_RFF_URL_JS; ?>posts_rff_admin_get_url.js"></script>
             <script>
+                var adminGetUrl = new PostsRffAdminGetUrl();
+                adminGetUrl.verifyPostsRffVar(); // verifica se a variável posts_rff existe, se não, ele cria
+                
                 localStorage.setItem("POSTS_RFF_URL_EDITOR", document.getElementById('urlRff').innerHTML);
                 localStorage.setItem("POSTS_RFF_DIR_EDITOR", document.getElementById('dirRff').innerHTML);
                 
@@ -254,7 +262,7 @@ function posts_rff(){
                     document.getElementById('titulo').value='';
                     document.getElementById('texto').innerHTML = '<div>Digite o seu artigo aqui...</div>';
                     document.getElementById('divForm').style.display='flex';
-                    document.getElementById('formTituloPostsRff').innerHTML='Inserir Poste';
+                    document.getElementById('formTituloPostsRff').innerHTML='Inserir Post';
                 }
 
                 function rffmenuover(obj){
@@ -277,6 +285,18 @@ function posts_rff(){
                         $table->display(); // Renderiza a tabela
                     }
                 ?>
+                <script>
+                    document.getElementById('post-query-submit').addEventListener('click', () => {
+                        adminGetUrl.addUrlParameter('m', document.getElementById('filter-by-date').value);
+                        adminGetUrl.addUrlParameter('cat', document.getElementById('cat').value);
+                    })
+                    document.getElementById('clear_filter').addEventListener('click', (event) => {
+                        event.preventDefault();
+                        adminGetUrl.removeUrlParameter('cat');
+                        adminGetUrl.removeUrlParameter('m');
+                        document.getElementById('filters_posts').submit();
+                    })
+                </script>
             </div>
         </div>
     </div>

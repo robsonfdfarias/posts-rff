@@ -25,13 +25,28 @@ simplePDF.src = POSTS_RFF_DIR_EDITOR+'js/simplePDF.js';
 const internalScript = document.createElement('script');
 internalScript.src = POSTS_RFF_DIR_EDITOR+'js/internalScript.js';
 
-document.body.onload = ()=>{
-    document.body.insertBefore(historySt, document.body.firstChild);
+// document.body.onload = ()=>{
+//     document.body.insertBefore(historySt, document.body.firstChild);
+//     document.getElementById('scriptsImports').appendChild(upload);
+//     document.getElementById('scriptsImports').appendChild(func_editor_robson);
+//     document.getElementById('scriptsImports').appendChild(atalho);
+//     document.getElementById('scriptsImports').appendChild(dragDrop);
+//     document.getElementById('scriptsImports').appendChild(simplePDF);
+//     document.getElementById('scriptsImports').appendChild(internalScript);
+// }
+// document.getElementById('scriptsImports').addEventListener('load', ()=>{
+//     document.body.insertBefore(historySt, document.body.firstChild);
+//     document.getElementById('scriptsImports').appendChild(upload);
+//     document.getElementById('scriptsImports').appendChild(func_editor_robson);
+//     document.getElementById('scriptsImports').appendChild(atalho);
+//     document.getElementById('scriptsImports').appendChild(dragDrop);
+//     document.getElementById('scriptsImports').appendChild(simplePDF);
+//     document.getElementById('scriptsImports').appendChild(internalScript);
+// });
     document.getElementById('scriptsImports').appendChild(upload);
     document.getElementById('scriptsImports').appendChild(func_editor_robson);
     document.getElementById('scriptsImports').appendChild(atalho);
     document.getElementById('scriptsImports').appendChild(dragDrop);
     document.getElementById('scriptsImports').appendChild(simplePDF);
     document.getElementById('scriptsImports').appendChild(internalScript);
-}
 // document.appendChild(func_editor_robson);

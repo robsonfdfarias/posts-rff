@@ -96,7 +96,7 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
 
     function display_filters() {
         ?>
-        <form method="post">
+        <form method="post" id="filters_posts">
             <input type="hidden" name="page" value="lista-de-posts" />
 
             <div class="alignleft actions bulkactions">
@@ -135,6 +135,7 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
                 </select>
 
                 <input type="submit" name="filter_action" id="post-query-submit" class="button" value="Filtrar">
+                <input type="submit" name="clear_filter" id="clear_filter" class="button" value="Limpar filtros">
             </div>
             <br class="clear">
         <!-- </form> -->
@@ -156,8 +157,19 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
         $args = array('post_type' => 'post', 'posts_per_page' => -1);
 
         // Filtrar por data
-        if (!empty($_POST['m']) && $_POST['m'] != '0' && intval($_POST['m']) != 0) {
-            $year_month = intval($_POST['m']);
+        // if (!empty($_POST['m']) && $_POST['m'] != '0' && intval($_POST['m']) != 0) {
+        //     $year_month = intval($_POST['m']);
+        //     $year = floor($year_month / 100);
+        //     $month = $year_month % 100;
+        //     $args['date_query'] = array(
+        //         array(
+        //             'year'  => $year,
+        //             'month' => $month,
+        //         ),
+        //     );
+        // }
+        if (!empty($_GET['m']) && $_GET['m'] != '0' && intval($_GET['m']) != 0) {
+            $year_month = intval($_GET['m']);
             $year = floor($year_month / 100);
             $month = $year_month % 100;
             $args['date_query'] = array(
@@ -169,8 +181,11 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
         }
 
         // Filtrar por categoria
-        if (!empty($_POST['cat']) && $_POST['cat'] != '0' && intval($_POST['cat'])!=0) {
-            $args['cat'] = intval($_POST['cat']);
+        // if (!empty($_POST['cat']) && $_POST['cat'] != '0' && intval($_POST['cat'])!=0) {
+        //     $args['cat'] = intval($_POST['cat']);
+        // }
+        if (!empty($_GET['cat']) && $_GET['cat'] != '0' && intval($_GET['cat'])!=0) {
+            $args['cat'] = intval($_GET['cat']);
         }
 
         // Realizar a consulta

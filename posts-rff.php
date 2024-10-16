@@ -2,7 +2,7 @@
 /*
 Plugin Name: POSTS Rff
 Description: Cria posts com recurso css em inline para facilitar no uso do GraphQl.
-Version: 2.0
+Version: 2.1
 Author: Robson Ferreira de Farias
 */
 
@@ -29,6 +29,8 @@ function posts_rff_adicionar_scripts() {
     wp_enqueue_style('posts-rff-editor-p3-css', plugin_dir_url(__FILE__) . 'rffeditor/print.css');
     wp_enqueue_style('posts-rff-modal-css', plugin_dir_url(__FILE__) . 'css/posts_rff_style.css');
     wp_enqueue_script('posts-rff-modal-js', plugin_dir_url(__FILE__) . 'js/posts_rff_functions.js', array('jquery'), null, true);
+
+    wp_enqueue_script('posts-rff-admin-get-url-js', plugin_dir_url(__FILE__) . 'js/posts_rff_admin_get_url.js', array('jquery'), null, true);
   }
   
   add_action('admin_enqueue_scripts', 'posts_rff_adicionar_scripts');
