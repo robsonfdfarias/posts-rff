@@ -11,7 +11,7 @@ class PostsRffAdminGetUrl{
                 return false;
             }
         }
-        window.location.href = '?page=Posts+Rff&posts_rff=1'+final;
+        window.location.href = '?page=Posts_Rff&posts_rff=1'+final;
     }
 
     verifyVarUrl(varName){

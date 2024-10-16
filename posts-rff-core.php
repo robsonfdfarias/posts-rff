@@ -17,10 +17,10 @@ if(file_exists(POSTS_RFF_CORE_INC.'posts_rff_validate_fields.php')){
 
 function add_menu_admin_page(){
     add_menu_page(
-        "Posts Rff",
+        "Posts_Rff",
         "Posts Rff",
         "manage_options",
-        "Posts Rff",
+        "Posts_Rff",
         "posts_rff",
         "dashicons-menu",
         7,
@@ -87,10 +87,10 @@ function posts_rff(){
     );
     $posts = get_posts($args);
 
-    $link_url = admin_url('admin.php?page=Posts+Rff&include_my_plugin_posts=1');
+    // $link_url = admin_url('admin.php?page=Posts+Rff&include_my_plugin_posts=1');
 
-    echo '<a href="'.$link_url.'">link...</a>';
-    echo '<span id="link_url" style="display:none;">'.$link_url.'</span>';
+    // echo '<a href="'.$link_url.'">link...</a>';
+    // echo '<span id="link_url" style="display:none;">'.$link_url.'</span>';
     ?>
     <div id="wrap">
         <div class="tab">

@@ -66,7 +66,13 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
         $args = [
             'post_type' => 'post',
             'posts_per_page' => -1,
-            'post_status' => 'any'
+            'post_status' => 'any',
+            'meta_query' => array(
+                array(
+                    'key' => '_posts_rff', //Pega só os posts com meta_query _posts_rff que foram criados pelo plugin atual
+                    'compare' => 'EXISTS' // Para pegar apenas os posts do plugin
+                )
+            )
         ];
 
         // Adiciona filtros
