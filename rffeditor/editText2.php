@@ -563,7 +563,7 @@
 
 <body>
     
-<!-- <script src="<?php //echo POSTS_RFF_URL_EDITOR; ?>js/historyStack.js"></script> -->
+<script src="<?php echo POSTS_RFF_URL_EDITOR; ?>js/historyStack.js"></script>
 
 <div id="editVideo" onmousedown="getEventDrag(this)">
     <table width="100%" onmousedown="removeDrag()">

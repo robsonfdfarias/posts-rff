@@ -954,7 +954,7 @@ function insertTag(valor) {
     saveState();
     if(valor.toLowerCase() == getTags()){
         delElement();
-        exit;
+        return;
     }
     let sel = document.createElement(valor);
     sel.setAttribute('style', strategyTags(valor));

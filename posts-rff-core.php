@@ -7,7 +7,7 @@ if(!defined('WPINC')){
    /**
    * Includes PHP
    */
-  if(file_exists(POSTS_RFF_CORE_INC.'posts-rff-class-table.php')){
+if(file_exists(POSTS_RFF_CORE_INC.'posts-rff-class-table.php')){
     require_once(POSTS_RFF_CORE_INC.'posts-rff-class-table.php');
 }
 if(file_exists(POSTS_RFF_CORE_INC.'posts_rff_validate_fields.php')){
@@ -87,10 +87,6 @@ function posts_rff(){
     );
     $posts = get_posts($args);
 
-    // $link_url = admin_url('admin.php?page=Posts+Rff&include_my_plugin_posts=1');
-
-    // echo '<a href="'.$link_url.'">link...</a>';
-    // echo '<span id="link_url" style="display:none;">'.$link_url.'</span>';
     ?>
     <div id="wrap">
         <div class="tab">

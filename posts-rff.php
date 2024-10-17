@@ -20,8 +20,9 @@ function custom_post_meta_rff($post_id, $post, $update) {
     }
 }
 
+//essa função faz com que o plugin do post padrão do WP não pegue os posts criados pelo meu plugin.
+//e no meu plugin ele aparece apenas os posts criados por ele mesmo.
 add_action('pre_get_posts', 'my_posts_rff_privide');
-
 function my_posts_rff_privide($query) {
     if (is_admin() && $query->is_main_query() && $query->get('post_type') === 'post') {
         // Verifique se um parâmetro específico está na URL
@@ -43,7 +44,6 @@ function my_posts_rff_privide($query) {
     }
 }
 
-
  //Definição das constantes
  define('POSTS_RFF_CORE_INC', dirname(__FILE__).'/inc/'); //Caminho da pasta dos arquivos PHP
  define('POSTS_RFF_DIR_IMG', dirname(__FILE__).'/img/'); //Caminho da pasta das imagens
@@ -63,7 +63,7 @@ function posts_rff_adicionar_scripts() {
     wp_enqueue_style('posts-rff-modal-css', plugin_dir_url(__FILE__) . 'css/posts_rff_style.css');
     wp_enqueue_script('posts-rff-modal-js', plugin_dir_url(__FILE__) . 'js/posts_rff_functions.js', array('jquery'), null, true);
 
-    wp_enqueue_script('posts-rff-admin-get-url-js', plugin_dir_url(__FILE__) . 'js/posts_rff_admin_get_url.js', array('jquery'), null, true);
+    // wp_enqueue_script('posts-rff-admin-get-url-js', plugin_dir_url(__FILE__) . 'js/posts_rff_admin_get_url.js', array('jquery'), null, true);
   }
   
   add_action('admin_enqueue_scripts', 'posts_rff_adicionar_scripts');
@@ -82,3 +82,15 @@ if(file_exists(plugin_dir_path(__FILE__).'posts-rff-core.php')){
     require_once(plugin_dir_path(__FILE__).'posts-rff-core.php');
 }
 
+if(file_exists(POSTS_RFF_CORE_INC.'posts_rff_graphql.php')){
+    require_once(POSTS_RFF_CORE_INC.'posts_rff_graphql.php');
+}
+
+
+add_action('graphql_register_types', 'register_in_graphql_posts_rff');
+
+if(file_exists(POSTS_RFF_CORE_INC.'posts_rff_hooks.php')){
+    require_once(POSTS_RFF_CORE_INC.'posts_rff_hooks.php');
+    register_activation_hook(__FILE__, 'posts_rff_install');
+    register_deactivation_hook(__FILE__, 'posts_rff_uninstall');
+}
