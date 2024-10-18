@@ -212,13 +212,26 @@
         margin: -5px 5px;
     }
 
-    #efeitosTexto {
+    #fundoEfeitoTexto{
         width: 100%;
         position: absolute;
         margin: auto;
+        left:-20px;
+        top: -10px;
+        background-color: rgba(0,0,0,0.5);
+        padding: 20px;
+        height: 100%;
+        /* overflow-y: auto; */
+        display: none;
+    }
+
+    #efeitosTexto {
+        width: 90%;
+        position: relative;
+        margin: auto;
         background-color: white;
         padding: 20px;
-        height: 70%;
+        height: 86%;
         /* overflow-y: auto; */
         display: none;
         flex-direction: column;
@@ -274,15 +287,30 @@
         border-radius: 4px;
         font-size: 20px;
     }
+
+    
+
+    #fundoEmotions{
+        width: 100%;
+        position: absolute;
+        margin: auto;
+        left:-20px;
+        top: -10px;
+        background-color: rgba(0,0,0,0.5);
+        padding: 20px;
+        height: 100%;
+        /* overflow-y: auto; */
+        display: none;
+    }
     
 
     #emotions {
-        width: 94%;
-        position: absolute;
+        width: 90%;
+        position: relative;
         margin: auto;
         background-color: white;
         padding: 20px;
-        height: 70%;
+        height: 84%;
         /* overflow-y: auto; */
         display: none;
         flex-direction: column;
@@ -528,35 +556,6 @@
     padding-right: 20px;
 }
 
-
-/* #ferramentas img{
-    height: 40px;
-    transition: ease-in-out 0.2s;
-    border: 0px solid #cfcfcf;
-    cursor: pointer;
-    margin:4px 2px;
-} */
-
-
-/* #ferramentas .img {
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
-    padding: 5px;
-    cursor: pointer;
-    background-color: unset;
-    color: black;
-} */
-
-
-#ferramentas .img:hover {
-    /* transform: scale(1.0); */
-    /* transition: ease-in-out 0.2s; */
-}
-
-/* #ferramentas .img::before{
-    margin-left: -2px;
-} */
 </style>
 
 </head>
@@ -617,57 +616,55 @@
     <button onclick="cancelEditMedia()" onmousedown="removeDrag()">Cancelar</button>
 </div>
 
-<div id="efeitosTexto">
-    <div id="topEfeitoTexto">
-        <div id="tituloEfeitoTexto">Efeitos de texto</div>
-        <div id="fecharEfeitosTexto" onclick="fechaJanEfeitosTexto()">X</div>
-    </div>
-        <button id="testeSel" onclick="fechaJanEfeitosTexto(), delElement()">Remover efeito</button>
-    <div id="listaEfeitoTexto">
-        <button onClick="insertTag('rffEfeitoBGText'), fechaJanEfeitosTexto()"><rffEfeitoBGText>rff Efeito BG Text 1</rffEfeitoBGText></button><br>
-        <button onClick="insertTag('rffEfeitoBGText2'), fechaJanEfeitosTexto()"><rffEfeitoBGText2>rff Efeito BG Text 2</rffEfeitoBGText2></button><br>
-        <button onClick="insertTag('rffEfeitoBGText3'), fechaJanEfeitosTexto()"><rffEfeitoBGText3>rff Efeito BG Text 3</rffEfeitoBGText3></button><br>
-        <button onClick="insertTag('rffEfeitoBGText4'), fechaJanEfeitosTexto()"><rffEfeitoBGText4>rff Efeito BG Text 4</rffEfeitoBGText4></button><br>
-        <button onClick="insertTag('rffEfeitoBGText5'), fechaJanEfeitosTexto()"><rffEfeitoBGText5>rff Efeito BG Text 5</rffEfeitoBGText5></button><br>
-        <button onClick="insertTag('rffEfeitoBGText6'), fechaJanEfeitosTexto()"><rffEfeitoBGText6>rff Efeito BG Text 6</rffEfeitoBGText6></button><br>
-        <button onClick="insertTag('rffEfeitoBGText7'), fechaJanEfeitosTexto()"><rffEfeitoBGText7>rff Efeito BG Text 7</rffEfeitoBGText7></button><br>
-        <button onClick="insertTag('rffEfeitoBGText8'), fechaJanEfeitosTexto()"><rffEfeitoBGText8>rff Efeito BG Text 8</rffEfeitoBGText8></button><br>
-        <button onClick="insertTag('rffEfeitoBGText9'), fechaJanEfeitosTexto()"><rffEfeitoBGText9>rff Efeito BG Text 9</rffEfeitoBGText9></button><br>
-        <button onClick="insertTag('rffEfeitoBGText10'), fechaJanEfeitosTexto()"><rffEfeitoBGText10>rff Efeito BG Text 10</rffEfeitoBGText10></button><br>
-        <button onClick="insertTag('rffEfeitoBGText11'), fechaJanEfeitosTexto()"><rffEfeitoBGText11>rff Efeito BG Text 11</rffEfeitoBGText11></button><br>
-        <button onClick="insertTag('rffEfeitoBGText12'), fechaJanEfeitosTexto()"><rffEfeitoBGText12>rff Efeito BG Text 12</rffEfeitoBGText12></button><br>
-        <button onClick="insertTag('rffEfeitoBGText13'), fechaJanEfeitosTexto()"><rffEfeitoBGText13>rff Efeito BG Text 13</rffEfeitoBGText13></button><br>
-        <button onClick="insertTag('rffEfeitoBGText14'), fechaJanEfeitosTexto()"><rffEfeitoBGText14>rff Efeito BG Text 14</rffEfeitoBGText14></button><br>
-        <button onClick="insertTag('rffEfeitoBGText15'), fechaJanEfeitosTexto()"><rffEfeitoBGText15>rff Efeito BG Text 15</rffEfeitoBGText15></button><br>
-        <button onClick="insertTag('rffEfeitoBGText16'), fechaJanEfeitosTexto()"><rffEfeitoBGText16>rff Efeito BG Text 16</rffEfeitoBGText16></button><br>
-        <button onClick="insertTag('rffEfeitoBGText17'), fechaJanEfeitosTexto()"><rffEfeitoBGText17>rff Efeito BG Text 17</rffEfeitoBGText17></button>
-        <button onClick="insertTag('rffEfeitoBGText18'), fechaJanEfeitosTexto()"><rffEfeitoBGText18>rff Efeito BG Text 18</rffEfeitoBGText18></button>
-        <button onClick="insertTag('rffEfeitoBGText19'), fechaJanEfeitosTexto()"><rffEfeitoBGText19>rff Efeito BG Text 19</rffEfeitoBGText19></button>
-    </div>
-</div>
-
-
-
-<div id="emotions">
-    <div id="topEmotions">
-        <div id="tituloEmotions">Efeitos de texto</div>
-        <div id="fecharEmotions" onclick="fechaJanEmotions()">X</div>
-    </div>
-    <div id="listaEmotions">
-        <?php
-            include_once(POSTS_RFF_DIR_EDITOR."class/list-file.class.php");
-            $emotions = new ListFile();
-            $emotions->listFiles(POSTS_RFF_DIR_EDITOR.'icones');
-        ?>
+<div id="fundoEfeitoTexto">
+    <div id="efeitosTexto">
+        <div id="topEfeitoTexto">
+            <div id="tituloEfeitoTexto">Efeitos de texto</div>
+            <div id="fecharEfeitosTexto" onclick="fechaJanEfeitosTexto()">X</div>
+        </div>
+            <button id="testeSel" onclick="fechaJanEfeitosTexto(), delElement()">Remover efeito</button>
+        <div id="listaEfeitoTexto">
+            <button onClick="insertTag('rffEfeitoBGText'), fechaJanEfeitosTexto()"><rffEfeitoBGText>rff Efeito BG Text 1</rffEfeitoBGText></button><br>
+            <button onClick="insertTag('rffEfeitoBGText2'), fechaJanEfeitosTexto()"><rffEfeitoBGText2>rff Efeito BG Text 2</rffEfeitoBGText2></button><br>
+            <button onClick="insertTag('rffEfeitoBGText3'), fechaJanEfeitosTexto()"><rffEfeitoBGText3>rff Efeito BG Text 3</rffEfeitoBGText3></button><br>
+            <button onClick="insertTag('rffEfeitoBGText4'), fechaJanEfeitosTexto()"><rffEfeitoBGText4>rff Efeito BG Text 4</rffEfeitoBGText4></button><br>
+            <button onClick="insertTag('rffEfeitoBGText5'), fechaJanEfeitosTexto()"><rffEfeitoBGText5>rff Efeito BG Text 5</rffEfeitoBGText5></button><br>
+            <button onClick="insertTag('rffEfeitoBGText6'), fechaJanEfeitosTexto()"><rffEfeitoBGText6>rff Efeito BG Text 6</rffEfeitoBGText6></button><br>
+            <button onClick="insertTag('rffEfeitoBGText7'), fechaJanEfeitosTexto()"><rffEfeitoBGText7>rff Efeito BG Text 7</rffEfeitoBGText7></button><br>
+            <button onClick="insertTag('rffEfeitoBGText8'), fechaJanEfeitosTexto()"><rffEfeitoBGText8>rff Efeito BG Text 8</rffEfeitoBGText8></button><br>
+            <button onClick="insertTag('rffEfeitoBGText9'), fechaJanEfeitosTexto()"><rffEfeitoBGText9>rff Efeito BG Text 9</rffEfeitoBGText9></button><br>
+            <button onClick="insertTag('rffEfeitoBGText10'), fechaJanEfeitosTexto()"><rffEfeitoBGText10>rff Efeito BG Text 10</rffEfeitoBGText10></button><br>
+            <button onClick="insertTag('rffEfeitoBGText11'), fechaJanEfeitosTexto()"><rffEfeitoBGText11>rff Efeito BG Text 11</rffEfeitoBGText11></button><br>
+            <button onClick="insertTag('rffEfeitoBGText12'), fechaJanEfeitosTexto()"><rffEfeitoBGText12>rff Efeito BG Text 12</rffEfeitoBGText12></button><br>
+            <button onClick="insertTag('rffEfeitoBGText13'), fechaJanEfeitosTexto()"><rffEfeitoBGText13>rff Efeito BG Text 13</rffEfeitoBGText13></button><br>
+            <button onClick="insertTag('rffEfeitoBGText14'), fechaJanEfeitosTexto()"><rffEfeitoBGText14>rff Efeito BG Text 14</rffEfeitoBGText14></button><br>
+            <button onClick="insertTag('rffEfeitoBGText15'), fechaJanEfeitosTexto()"><rffEfeitoBGText15>rff Efeito BG Text 15</rffEfeitoBGText15></button><br>
+            <button onClick="insertTag('rffEfeitoBGText16'), fechaJanEfeitosTexto()"><rffEfeitoBGText16>rff Efeito BG Text 16</rffEfeitoBGText16></button><br>
+            <button onClick="insertTag('rffEfeitoBGText17'), fechaJanEfeitosTexto()"><rffEfeitoBGText17>rff Efeito BG Text 17</rffEfeitoBGText17></button>
+            <button onClick="insertTag('rffEfeitoBGText18'), fechaJanEfeitosTexto()"><rffEfeitoBGText18>rff Efeito BG Text 18</rffEfeitoBGText18></button>
+            <button onClick="insertTag('rffEfeitoBGText19'), fechaJanEfeitosTexto()"><rffEfeitoBGText19>rff Efeito BG Text 19</rffEfeitoBGText19></button>
+        </div>
     </div>
 </div>
 
-<!-- <div id="editVideo">
-    <input type="text" name="larg" id="larg">
-    <input type="text" name="alt" id="alt">
-    <button onclick="salveUpdateIframe()">alterar</button>
-    <button onclick="cancelEditMedia()">Cancelar</button>
-</div> -->
+
+
+<div id="fundoEmotions">
+    <div id="emotions">
+        <div id="topEmotions">
+            <div id="tituloEmotions">Efeitos de texto</div>
+            <div id="fecharEmotions" onclick="fechaJanEmotions()">X</div>
+        </div>
+        <div id="listaEmotions">
+            <?php
+                include_once(POSTS_RFF_DIR_EDITOR."class/list-file.class.php");
+                $emotions = new ListFile();
+                $emotions->listFiles(POSTS_RFF_DIR_EDITOR.'icones');
+            ?>
+        </div>
+    </div>
+</div>
+
 
 
 <?php
@@ -685,198 +682,8 @@
 
         <div id="preview"></div>
         <div id="porcento"></div>
-<!-- <script src="<?php //echo POSTS_RFF_URL_EDITOR; ?>upload.js"></script> -->
-<!-- <script src="<?php //echo POSTS_RFF_URL_EDITOR; ?>func.editor.robson.js"></script> -->
-<!-- <script src="<?php //echo POSTS_RFF_URL_EDITOR; ?>tecla-de-atalho.js"></script> -->
-<!-- <script src="<?php //echo POSTS_RFF_URL_EDITOR; ?>dragDrop.js"></script> -->
-<!-- <script src="<?php //echo POSTS_RFF_URL_EDITOR; ?>simplePDF.js"></script> -->
+
 <div id="scriptsImports"></div>
 <script src="<?php echo POSTS_RFF_URL_EDITOR; ?>js/editorRffGeral.js"></script>
-<script>
-    // var janEfeitoTexto = document.getElementById("efeitosTexto");
-    // function fechaJanEfeitosTexto(){
-    //     janEfeitoTexto.setAttribute("style", "display:none;");
-    // }
-    // function abreJanEfeitosTexto(){
-    //     janEfeitoTexto.setAttribute("style", "display:flex;");
-    // }
-
-    
-    // var emotions = document.getElementById("emotions");
-    // function fechaJanEmotions(){
-    //     emotions.setAttribute("style", "display:none;");
-    // }
-    // function abreJanEmotions(){
-    //     emotions.setAttribute("style", "display:flex;");
-    // }
-
-    // var divCorText = document.getElementById('divCorText');
-    // function openWindowsColorText(){
-    //     divCorText.setAttribute('style', 'display:flex;');
-    // }
-    // function closeWindowsColorText(){
-    //     divCorText.setAttribute('style', 'display:none;');
-    // }
-
-    // var divCorDestText = document.getElementById('divCorDestText');
-    // function openWindowsColorDestText(){
-    //     divCorDestText.setAttribute('style', 'display:flex;');
-    // }
-    // function closeWindowsColorDestText(){
-    //     divCorDestText.setAttribute('style', 'display:none;');
-    // }
-
-    // var nodePai = '';    
-
-    // function editVideo(ob, event, tipoObj){
-    //     let resourceAlt = document.getElementById('resourceAlt');
-    //     let resourceTitle = document.getElementById('resourceTitle');
-    //     document.getElementById('tipoObj').innerHTML = tipoObj;
-    //     const janVideoEdit = document.getElementById('editVideo');
-    //     // console.log(ob)
-    //     let pai = ob.parentNode;
-    //     // console.log(pai)
-    //     let paipai = pai.parentNode;
-    //     // console.log(paipai)
-    //     let position = paipai.getBoundingClientRect();
-    //     // console.log(position)
-    //     janVideoEdit.setAttribute('style', 'display:block; top:'+position.y+'px; left:'+position.x+'px;');
-    //     resourceAlt = paipai.getAttribute('alt');
-    //     resourceTitle = paipai.getAttribute('title');
-    //     // let ifr = paipai.children[1]
-    //     // console.log(paipai.getAttribute('style'))
-    //     let valores = paipai.getAttribute('style');
-    //     valores = valores.split(';');
-    //     let l='';
-    //     let a='';
-    //     // console.log('------------'+valores)
-    //     for(let i=0; i<valores.length;i++){
-    //         let item = valores[i].split(':');
-    //         // console.log(item)
-    //         if(item[0].includes("width")){
-    //             l=item[1].replace(' ', '').replace('px', '');
-    //         }else if(item[0].includes("height")){
-    //             a=item[1].replace(' ', '').replace('px', '');
-    //         }
-    //         if(item[0].includes("float")){
-    //             if(item[1].includes('left')){
-    //                 document.getElementById('esquerda').checked = true;
-    //             }else if(item[1].includes('right')){
-    //                 document.getElementById('direita').checked = true;
-    //             }
-    //         }
-    //         if(item[0].includes('margin')){
-    //             if(item[1].includes('auto')){
-    //                 document.getElementById('breakTextCenter').checked = true;
-    //             }else if(item[1].includes('0px')){
-    //                 document.getElementById('breakTextLeft').checked = true;
-    //             }else if(item[1].includes('0px 0px 0px auto')){
-    //                 document.getELementById('breakTextRight').checked = true;
-    //             }
-    //         }
-    //     }
-    //     let mediaAndCaption = paipai.children[1];
-    //     let captionMedia = mediaAndCaption.children[1];
-    //     // console.log(captionMedia.nodeName);
-    //     // if(captionMedia!=null){
-    //     //     document.getElementById('addCaption').innerHTML = 'Remover caption';
-    //     // }else{
-    //     //     document.getElementById('addCaption').innerHTML = 'Adicionar caption';
-    //     // }
-    //     document.getElementById('larg').value = l;
-    //     document.getElementById('alt').value = a;
-    //     nodePai = paipai;
-    // }
-
-    // function cancelEditMedia(){
-    //     document.getElementById('editVideo').setAttribute('style', 'display:none;');
-    // }
-
-    // function salveUpdateIframe(){
-    //     saveState();
-    //     // console.log('....................................................................')
-    //     let larg = document.getElementById('larg').value;
-    //     let alt = document.getElementById('alt').value;
-    //     if(document.getElementById('tipoObj').innerHTML=='img'){
-    //         if(alt==''){
-    //             alt='auto'
-    //         }else{
-    //             alt=alt+'px'
-    //         }
-    //         if(larg==''){
-    //             larg='auto'
-    //         }else{
-    //             larg=larg+'px'
-    //         }
-    //     }else{
-    //         larg=larg+'px'
-    //         alt=alt+'px'
-    //     }
-    //     nodePai.setAttribute('style', 'width: '+larg+'; height: '+alt+';');
-    //     let esquerda = document.getElementById('esquerda');
-    //     let breakTextLeft = document.getElementById('breakTextLeft');
-    //     let breakTextRight = document.getElementById('breakTextRight');
-    //     let breakTextCenter = document.getElementById('breakTextCenter');
-    //     let direita = document.getElementById('direita');
-    //     let resourceAlt = document.getElementById('resourceAlt');
-    //     let resourceTitle = document.getElementById('resourceTitle');
-    //     let direcao = null;
-    //     let margin = null;
-    //     let order = null;
-    //     if(esquerda.checked){
-    //         direcao='left';
-    //         // nodePai.style.marginRight='20px';
-    //         margin='0 20px 0 0';
-    //         order='none';
-    //     }else if(direita.checked){
-    //         direcao='right';
-    //         // nodePai.style.marginLeft='20px';
-    //         margin='0 0 0 20px';
-    //         order='none';
-    //     }else if(breakTextLeft.checked){
-    //         direcao='none';
-    //         // nodePai.style.margin='0';
-    //         margin='0';
-    //         order='none';
-    //     }else if(breakTextCenter.checked){
-    //         direcao='none';
-    //         // nodePai.style.margin='auto';
-    //         margin='auto';
-    //         order='none';
-    //     }else if(breakTextRight.checked){
-    //         direcao='none';
-    //         // nodePai.style.margin='0';
-    //         margin='0 0 0 auto';
-    //         order=1;
-    //     }
-    //     nodePai.style.margin=margin;
-    //     nodePai.style.order=order;
-    //     nodePai.style.width=larg;
-    //     nodePai.style.height=alt;
-    //     nodePai.style.float=direcao;
-    //     nodePai.setAttribute('alt', resourceAlt.value);
-    //     nodePai.setAttribute('title', resourceTitle.value);
-    //     document.getElementById('editVideo').setAttribute('style', 'display:none;')
-    //     cancelEditMedia()
-    //     saveState();
-    // }
-    // window.addEventListener('load', function(){
-    //     selectBtSumario();
-    // })
-
-    // function pdf(){
-    //     let pdf = new SimplePDF();
-    //     pdf.setBookName('Meu primeiro livro');
-    //     console.log(pdf.bookName)
-    //     pdf.toGenerateCleanPage('<center><h1>Livro Show de bola</h1></center>')
-    //     pdf.toGenerateCleanPage('<center><h2>SUMMARY</h2></center>')
-    //     pdf.header(pdf.bookName+' - Cabeçalho da página', '25px 25px 10px 25px');
-    //     pdf.getContent(document.getElementById('texto'));
-    //     pdf.footer('rodapé das páginas', '10px 70px 35px 70px', 'alternado');
-    //     pdf.toGeneratePDF();
-    // }
-
-    
-</script>
 </body>
 </html>

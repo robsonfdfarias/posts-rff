@@ -950,6 +950,23 @@ function upperAndLowerCase(val){
     saveState();
 }
 
+function insertShortcode(){
+    let selection = window.getSelection();
+    let range = selection.getRangeAt(0);
+    let div = document.createElement('div');
+    div.innerHTML = `
+        <!-- wp:paragraph -->
+        <p style="padding:0 4px; background-color:#cdcdcd;">[]</p>
+        <!-- /wp:paragraph -->
+        <div></div>
+    `;
+    range.deleteContents();
+    range.insertNode(div);
+    range.setStartBefore(div);
+    selection.removeAllRanges();
+    selection.addRange(range);
+}
+
 function insertTag(valor) {
     saveState();
     if(valor.toLowerCase() == getTags()){

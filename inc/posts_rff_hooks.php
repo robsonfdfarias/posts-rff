@@ -5,35 +5,7 @@ if(!defined('WPINC')){
  }
 
 function posts_rff_install(){
-    // global $wpdb;
-    // require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-    // $charset_collate = $wpdb->get_charset_collate();
-    // $table_categ = $wpdb->prefix.DOWNLOAD_RFF_TABLE_CATEG;
-    // $sqlCateg = "CREATE TABLE IF NOT EXISTS $table_categ (
-    //     id mediumint(9) NOT NULL AUTO_INCREMENT,
-    //     title varchar(200) NOT NULL,
-    //     statusItem varchar(20),
-    //     PRIMARY KEY (id)
-    // ) $charset_collate;";
-    // dbDelta($sqlCateg);
-    // $table_item = $wpdb->prefix.DOWNLOAD_RFF_TABLE_ITEMS;
-    // $sqlItem = "CREATE TABLE IF NOT EXISTS $table_item (
-    //     id mediumint(9) NOT NULL AUTO_INCREMENT,
-    //     title varchar(200) NOT NULL,
-    //     content TEXT NOT NULL,
-    //     urlPage varchar(200) NOT NULL,
-    //     urlDoc varchar(200) NOT NULL,
-    //     startDate varchar(20) NOT NULL,
-    //     endDate varchar(20) NOT NULL,
-    //     category mediumint(9) NOT NULL,
-    //     clicks varchar(200) NOT NULL,
-    //     tags TEXT NOT NULL,
-    //     statusItem varchar(20),
-    //     dateUp varchar(20),
-    //     orderItems mediumint(9),
-    //     PRIMARY KEY (id)
-    // ) $charset_collate;";
-    // dbDelta($sqlItem);
+    // ação que deve ocorrer na instalação do plugin
  }
 
 
@@ -55,3 +27,34 @@ function posts_rff_uninstall(){
         wp_delete_post($retorno[$i]->id, true); // O segundo parâmetro 'true' força a exclusão permanente
     }
  }
+
+
+ //Adiciona um meta_query ao posts que são criados pelo plugin
+function custom_post_meta_rff($post_id, $post, $update) {
+    if ($post->post_type === 'post' && isset($_GET['page']) && $_GET['page']=='Posts_Rff') { // Verifica se é um post
+        add_post_meta($post_id, '_posts_rff', '1', true);
+    }
+}
+
+//essa função faz com que o plugin do post padrão do WP não pegue os posts criados pelo meu plugin.
+//e no meu plugin ele aparece apenas os posts criados por ele mesmo.
+function my_posts_rff_privide($query) {
+    if (is_admin() && $query->is_main_query() && $query->get('post_type') === 'post') {
+        // Verifique se um parâmetro específico está na URL
+        if (!isset($_GET['page'])) {
+            $query->set('meta_query', array(
+                array(
+                    'key' => '_posts_rff',
+                    'compare' => 'NOT EXISTS'
+                )
+            ));
+        }else if(isset($_GET['page']) && $_GET['page']=='Posts_Rff'){
+            $query->set('meta_query', array(
+                array(
+                    'key' => '_posts_rff',
+                    'compare' => 'EXISTS'
+                )
+            ));
+        }
+    }
+}

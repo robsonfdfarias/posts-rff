@@ -105,6 +105,7 @@
     
     <!-- <img src="<?php //echo POSTS_RFF_URL_EDITOR; ?>imgEditor/pastTextWordWeb.svg" title="Capitular" onClick="capitular()" unselectable="on" spaw_state="true" id="pasteContentOfWeb" /> -->
     
+    <img class="img" src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/shortcode.svg" title="Inserir shortcode" onClick="insertShortcode()" unselectable="on" spaw_state="true" id="shortcode" />
     <a href="https://www.youtube.com/@RobsonFarias-os2di" target="_blank"><img src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/tutorial.svg" alt="Saiba como usar o editor" title="Saiba como usar o editor"></a>
     
 </div>

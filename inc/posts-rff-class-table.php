@@ -37,9 +37,10 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
     
         // Consultar os meses e anos que têm posts publicados
         $results = $wpdb->get_results("
-            SELECT DISTINCT YEAR(post_date) AS year, MONTH(post_date) AS month
-            FROM $wpdb->posts
-            WHERE post_type = 'post' AND post_status = 'publish'
+            SELECT DISTINCT YEAR(p.post_date) AS year, MONTH(p.post_date) AS month
+            FROM $wpdb->posts p
+            JOIN $wpdb->postmeta pm ON p.ID = pm.post_id
+            WHERE post_type = 'post' AND post_status = 'publish' AND pm.meta_key = '_posts_rff'
             ORDER BY post_date DESC
         ");
     
@@ -57,6 +58,7 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
     }
     
     function prepare_items() {
+        $this->trashPost();
         $rffValid = new PostsRffValidate();
         // Captura os filtros
         $filter_category = isset($_GET['cat']) ? sanitize_text_field($_GET['cat']) : '';
@@ -75,23 +77,22 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
             )
         ];
 
-        // Adiciona filtros
-        if ($filter_category && $filter_category != '0') {
-            $args['tax_query'] = [
-                [
-                    'taxonomy' => 'category',
-                    'field' => 'id',
-                    'terms' => $filter_category
-                ]
-            ];
+        // Filtrar por data
+        if (!empty($_GET['m']) && $_GET['m'] != '0' && intval($_GET['m']) != 0) {
+            $year_month = intval($_GET['m']);
+            $year = floor($year_month / 100);
+            $month = $year_month % 100;
+            $args['date_query'] = array(
+                array(
+                    'year'  => $year,
+                    'month' => $month,
+                ),
+            );
         }
 
-        // Filtro por data (exemplo simplificado)
-        if ($filter_date && $filter_date != '0' && $filter_date != '') {
-            $year = substr($filter_date, 0, 4);
-            $month = substr($filter_date, 4, 2);
-            $args['year'] = $year;
-            $args['monthnum'] = $month;
+        // Filtrar por categoria
+        if (!empty($_GET['cat']) && $_GET['cat'] != '0' && intval($_GET['cat'])!=0) {
+            $args['cat'] = intval($_GET['cat']);
         }
 
         $this->posts = get_posts($args);
@@ -109,7 +110,8 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
                 <label for="bulk-action-selector-top" class="screen-reader-text">Selecionar ação em massa</label>
                 <select name="action" id="bulk-action-selector-top">
                     <option value="-1">Ações em massa</option>
-                    <option value="trash">Mover para lixeira</option>
+                    <!-- <option value="trash">Mover para lixeira</option> -->
+                    <option value="trash">Excluir sem mover para lixeira</option>
                 </select>
                 <input type="submit" id="doaction" class="button action" value="Aplicar">
             </div>
@@ -122,8 +124,8 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
                     $datePosts = $this->getMonthAndYear();
                     $convertMonth = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
                     foreach($datePosts as $dp){
-                        echo $dp['month'];
-                        echo $convertMonth[$dp['month']];
+                        // echo $dp['month'];
+                        // echo $convertMonth[$dp['month']];
                         echo '<option value="' . esc_attr($dp['year']).$convertMonth[$dp['month']] . '">' . esc_html(date_i18n('F Y', mktime(0, 0, 0, $dp['month'], 1, $dp['year']))) . '</option>';
                     }
                     ?>
@@ -152,51 +154,15 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
         if(isset($_POST['action']) && isset($_POST['post_id'])){
             if(count($_POST['post_id'])>0 && $_POST['action']==='trash'){
                 foreach($_POST['post_id'] as $post_id){
-                    wp_trash_post(intval($post_id));
+                    // wp_trash_post(intval($post_id)); //manda para lixeira
+                    wp_delete_post(intval($post_id), true); // apaga definitivamente
                 }
             }
         }
     }
 
-    function addFilter(){
-        $this->trashPost();
-        $args = array('post_type' => 'post', 'posts_per_page' => -1);
-
-        // Filtrar por data
-        if (!empty($_GET['m']) && $_GET['m'] != '0' && intval($_GET['m']) != 0) {
-            $year_month = intval($_GET['m']);
-            $year = floor($year_month / 100);
-            $month = $year_month % 100;
-            $args['date_query'] = array(
-                array(
-                    'year'  => $year,
-                    'month' => $month,
-                ),
-            );
-        }
-
-        // Filtrar por categoria
-        if (!empty($_GET['cat']) && $_GET['cat'] != '0' && intval($_GET['cat'])!=0) {
-            $args['cat'] = intval($_GET['cat']);
-        }
-
-        // Realizar a consulta
-        $query = new WP_Query($args);
-
-        // Se existir conteúdo, então ele é atribuído a $this->items.
-        if (count($query->posts)>0) {
-            $this->items = $query->posts;
-        } else {
-            $this->items =[];
-            // echo 'Nenhum post encontrado.';
-        }
-
-        // Reset post data
-        wp_reset_postdata();
-    }
-
     function column_cb($post) {
-        return '<input type="checkbox" name="post_id[]" value="' . $post->ID . '" />';
+        return '<input type="checkbox" onclick="removeSelectionGeneralCheckbox()" class="checkboxpostsrff" name="post_id[]" value="' . $post->ID . '" />';
     }
 
     function column_title($post) {
@@ -260,7 +226,7 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
     // Renderiza a tabela
     function display() {
         if(isset($_POST['m']) || isset($_POST['cat'])){
-            $this->addFilter();
+            $this->prepare_items();
         }
 
         // Exibe os filtros
@@ -268,35 +234,36 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
 
         if (empty($this->items)) {
             echo '<p>Nenhum post encontrado.</p>'; // Mensagem quando não há posts
-            return;
-        }
-        // Cabeçalho da tabela
-        echo '<table class="wp-list-table widefat fixed striped">';
-        echo '<thead><tr>';
-        foreach ($this->get_columns() as $column_key => $column_title) {
-            if($column_title==''){
-                echo '<th scope="col" class="' . esc_attr($column_key) . '"><input id="cb-select-all-1" type="checkbox" style="margin:auto;"></th>';
-            }else{
-                echo '<th scope="col" class="' . esc_attr($column_key) . '">' . esc_html($column_title) . '</th>';
-            }
-        }
-        echo '</tr></thead>';
-
-        // Corpo da tabela
-        echo '<tbody id="the-list" data-wp-lists="list:post">';
-        foreach ($this->items as $item) {
-            echo '<tr>';
+        }else{
+            // Cabeçalho da tabela
+            echo '<table id="tableListPostsRff" class="wp-list-table widefat fixed striped">';
+            echo '<thead><tr>';
             foreach ($this->get_columns() as $column_key => $column_title) {
-                echo '<td class="' . esc_attr($column_key) . '" onmouseover="rffmenuover(\'rffmenuitem'.$item->ID.'\')" onmouseout="rffmenuout(\'rffmenuitem'.$item->ID.'\')">' . 
-                        $this->{'column_' . $column_key}($item) .
-                    '<div id="contentPost'.$item->ID.'" style="display:none;">'.
-                        $item->post_content.
-                    '</div>'. '</td>';
+                if($column_title==''){
+                    echo '<th scope="col" class="' . esc_attr($column_key) . '"><input id="cb-select-all-1" onclick="selectionAllItemList(this)" type="checkbox" style="margin:auto;"></th>';
+                }else{
+                    echo '<th scope="col" class="' . esc_attr($column_key) . '">' . esc_html($column_title) . '</th>';
+                }
             }
-            echo '</tr>';
+            echo '</tr></thead>';
+
+            // Corpo da tabela
+            echo '<tbody id="the-list" data-wp-lists="list:post">';
+            foreach ($this->items as $item) {
+                echo '<tr>';
+                foreach ($this->get_columns() as $column_key => $column_title) {
+                    echo '<td class="' . esc_attr($column_key) . '" onmouseover="rffmenuover(\'rffmenuitem'.$item->ID.'\')" onmouseout="rffmenuout(\'rffmenuitem'.$item->ID.'\')">' . 
+                            $this->{'column_' . $column_key}($item) .
+                        '<div id="contentPost'.$item->ID.'" style="display:none;">'.
+                            $item->post_content.
+                        '</div>'. '</td>';
+                }
+                echo '</tr>';
+            }
+            echo '</tbody>';
+            echo '</table>';
         }
-        echo '</tbody>';
-        echo '</table>';
+        
         echo '</form>';
     }
 }

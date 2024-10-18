@@ -98,7 +98,7 @@ function posts_rff(){
         </div>
         <div id="content">
             
-            <div id="divForm" style="position:absolute; width:98%; height:100%; display:none; flex-direction:column; padding: 20px; top:0;left:0; background-color: #fff; margin-left:-20px;">
+            <div id="divForm" style="position:absolute; width:98%; height:90vh; display:none; flex-direction:column; padding: 20px; top:0;left:0; background-color: #fff; margin-left:-20px;">
                 <h1 id="formTituloPostsRff">Você está na new</h1>
                 <?php
                     include_once(POSTS_RFF_DIR_EDITOR."editText2.php");
@@ -274,24 +274,26 @@ function posts_rff(){
                 <?php
                     $table = new Posts_RFF_Posts_Table();
                     $table->prepare_items(); // Prepara os itens
+                    $table->display();
     
-                    if (empty($table->items)) {
-                        echo '<p>Nenhum post encontrado.</p>'; // Mensagem quando não há posts
-                    } else {
-                        $table->display(); // Renderiza a tabela
-                    }
                 ?>
                 <script>
-                    document.getElementById('post-query-submit').addEventListener('click', () => {
-                        adminGetUrl.addUrlParameter('m', document.getElementById('filter-by-date').value);
-                        adminGetUrl.addUrlParameter('cat', document.getElementById('cat').value);
-                    })
-                    document.getElementById('clear_filter').addEventListener('click', (event) => {
-                        event.preventDefault();
-                        adminGetUrl.removeUrlParameter('cat');
-                        adminGetUrl.removeUrlParameter('m');
-                        document.getElementById('filters_posts').submit();
-                    })
+                    var post_query_submit = document.getElementById('post-query-submit');
+                    if(post_query_submit){
+                        post_query_submit.addEventListener('click', () => {
+                            adminGetUrl.addUrlParameter('m', document.getElementById('filter-by-date').value);
+                            adminGetUrl.addUrlParameter('cat', document.getElementById('cat').value);
+                        })
+                    }
+                    var clear_filter = document.getElementById('clear_filter');
+                    if(clear_filter){
+                        clear_filter.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            adminGetUrl.removeUrlParameter('cat');
+                            adminGetUrl.removeUrlParameter('m');
+                            document.getElementById('filters_posts').submit();
+                        })
+                    }
                 </script>
             </div>
         </div>

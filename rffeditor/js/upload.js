@@ -325,7 +325,7 @@ function onDragStart(event, elem) {
 function openWindowInsertImage(){
   updateDirEditor();
   // window.open("rffeditor/windowInsertImage.php");
-  window.open(POSTS_RFF_DIR_EDITOR+"windowInsertImage.php", 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
+  window.open(POSTS_RFF_DIR_EDITOR+"windowInsertImage.php", 'janela', 'top=50, left=100, scrollbar=no, fullscreen=no');
 }
 
 function openWindowEditImage(img){

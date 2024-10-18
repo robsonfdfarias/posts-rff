@@ -1,18 +1,24 @@
 var janEfeitoTexto = document.getElementById("efeitosTexto");
+var fundoEfeitoTexto = document.getElementById("fundoEfeitoTexto");
     function fechaJanEfeitosTexto(){
         janEfeitoTexto.setAttribute("style", "display:none;");
+        fundoEfeitoTexto.setAttribute("style", "display:none;");
     }
     function abreJanEfeitosTexto(){
         janEfeitoTexto.setAttribute("style", "display:flex;");
+        fundoEfeitoTexto.setAttribute("style", "display:flex;");
     }
 
     
     var emotions = document.getElementById("emotions");
+    var fundoEmotions = document.getElementById("fundoEmotions");
     function fechaJanEmotions(){
         emotions.setAttribute("style", "display:none;");
+        fundoEmotions.setAttribute("style", "display:none;");
     }
     function abreJanEmotions(){
         emotions.setAttribute("style", "display:flex;");
+        fundoEmotions.setAttribute("style", "display:flex;");
     }
 
     var divCorText = document.getElementById('divCorText');

@@ -91,6 +91,7 @@
     <img class="img" src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/summary.svg" title="Inserir/remover Sumário" onClick="setOrRemoveHeading()" unselectable="on" spaw_state="true" id="sumario" />
     
     <img class="img" src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/pastTextWordWeb.svg" title="Colar um conteúdo tirado da WEB ou do Word" onClick="openPasteContentOfWeb()" unselectable="on" spaw_state="true" id="pasteContentOfWeb" />
+    <img class="img" src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/shortcode.svg" title="Inserir shortcode" onClick="insertShortcode()" unselectable="on" spaw_state="true" id="shortcode" />
     
     <a href="https://www.youtube.com/@RobsonFarias-os2di" target="_blank"><img class="img" src="<?php echo POSTS_RFF_URL_EDITOR; ?>imgEditor/tutorial.svg" alt="Saiba como usar o editor" title="Saiba como usar o editor"></a>
     
