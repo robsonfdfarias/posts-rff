@@ -32,6 +32,13 @@ add_action('admin_menu', 'add_menu_admin_page');
 $url_rff_dir_editor = POSTS_RFF_DIR_EDITOR;
 
 function posts_rff(){
+    // global $shortcode_tags;
+
+    // echo '<ul>';
+    // foreach ($shortcode_tags as $shortcode => $callback) {
+    //     echo '<li>' . esc_html($shortcode) . '</li>';
+    // }
+    // echo '</ul>';
     $rffValid = new PostsRFFValidate();
     if(isset($_POST['cadastrarPostRff'])){
         if(isset($_POST['titulo']) && isset($_POST['conteudo'])){
