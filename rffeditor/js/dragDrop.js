@@ -25,20 +25,20 @@ var obj = '';
 // handle the dragstart 
 
 function dragStart(e) {
-    console.log(e.target.getAttribute('id')+'3333333333333333')
+    // console.log(e.target.getAttribute('id')+'3333333333333333')
     e.dataTransfer.setData('text/plain', e.target.id);
     setTimeout(() => {
         e.target.classList.add('hide');
     }, 0);
-   console.log('drag starts...'+e);
+//    console.log('drag starts...'+e);
 }
 function drag(e) {
-    console.log(e.target.getAttribute('id')+'3333333333333333')
+    // console.log(e.target.getAttribute('id')+'3333333333333333')
     e.dataTransfer.setData('text/plain', e.target.id);
     setTimeout(() => {
         e.target.classList.add('hide');
     }, 0);
-   console.log('drag...'+e);
+//    console.log('drag...'+e);
 }
 //Aqui ele mostra o bloco, se ele foi arrastado para um lugar não válido, ele mostra o elemento no lugar original
 function dragEnd(e) {
@@ -47,7 +47,7 @@ function dragEnd(e) {
     setTimeout(() => {
         e.target.classList.remove('hide');
     }, 0);
-   console.log('drag END...'+e);
+//    console.log('drag END...'+e);
 }
 
 
@@ -120,7 +120,7 @@ function allowDrop(ev){
     // console.log(pai)
     if(pai!=null){
         obj=pai;
-        console.log(obj)
+        // console.log(obj)
     }
     if (ev.target.getAttribute("droppable") == "false"){
         ev.dataTransfer.dropEffect = "none"; // dropping is not allowed
@@ -134,7 +134,7 @@ function allowDrop(ev){
 function allowDrop2(ev){
     if(ev.target!=null){
         obj=ev.target;
-        console.log(obj)
+        // console.log(obj)
     }
     if (ev.target.getAttribute("droppable") == "false"){
         ev.dataTransfer.dropEffect = "none"; // dropping is not allowed

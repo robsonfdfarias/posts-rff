@@ -140,7 +140,7 @@ function imgOver(div){
   tools.setAttribute('draggable', 'false');
   tools.setAttribute('droppable', 'false');
   tools.setAttribute('contenteditable', 'false');
-  tools.setAttribute('style', 'display:flex; position:absolute; left: 0; top:-20px; background-color: rgba(0,0,0,0.0); width:104%; cursor: default;')
+  tools.setAttribute('style', 'display:flex; position:absolute; left: 0; top:-20px; background-color: rgba(0,0,0,0.0); width:80%; cursor: default;')
   tools.addEventListener('dragstart', function (event) {
     event.preventDefault();
   })

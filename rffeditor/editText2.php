@@ -4,8 +4,8 @@
 <head>
 
 <title>Editor de Texto JavaScript ::: Linha de Código (Robson Farias)</title>
-    <link rel="stylesheet" type="text/css" href="<?php echo POSTS_RFF_DIR_EDITOR; ?>editorRobsonFarias.css" />
-    <link rel="stylesheet" type="text/css" href="<?php echo POSTS_RFF_DIR_EDITOR; ?>janMovEdiExc.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo POSTS_RFF_URL_EDITOR; ?>editorRobsonFarias.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo POSTS_RFF_URL_EDITOR; ?>janMovEdiExc.css" />
 <style>
     .tabela tr td{
         padding: 10px;
@@ -563,7 +563,6 @@
 <body>
     
 <script src="<?php echo POSTS_RFF_URL_EDITOR; ?>js/historyStack.js"></script>
-
 <div id="editVideo" onmousedown="getEventDrag(this)">
     <table width="100%" onmousedown="removeDrag()">
         <tr style="margin">
