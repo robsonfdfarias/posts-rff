@@ -632,6 +632,25 @@ function teste(){
     window.getSelection().getRangeAt(0).insertNode(id_('bold').firstChild);
 }
 
+function verifyIfIsIntoDivTexto(value){
+    let v = verify(value, []);
+    function verify(data, char){
+        let val = data.parentNode;
+        if(val != null){
+            if(val.nodeName=='DIV'){
+                if(val.getAttribute('id') == 'texto'){
+                    return true;
+                }
+                if(val.getAttribute('id')=='divForm'){
+                    return false;
+                }
+            }
+        }
+        return verify(val, char);
+    }
+    return v;
+}
+
 function setOrderType(type, style_type, texto){
     // let tag = document.createElement(type);
     // tag.setAttribute('style', 'list-style-type: '+style_type+'; margin-left: 2em;');
@@ -647,11 +666,9 @@ function addTagOrder(type, style_type){
     let start = range.startContainer.parentNode;
     let texto = selection.toString();
     let tags = [start]
-    // console.log(start.nodeName)
-    // if(start.nodeName=='LI'){
-    //     console.log(start);
-    //     return;
-    // }
+    if(verifyIfIsIntoDivTexto(start)==false){
+        return;
+    }
     if(texto.includes('\n')){
         let end = range.endContainer.parentNode;
         let currentTag = start.nextElementSibling;

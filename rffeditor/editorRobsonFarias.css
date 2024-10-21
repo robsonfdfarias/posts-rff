@@ -144,10 +144,10 @@
     z-index: 10;
 }
 
-#inseriImagemCentro input, button{
+/* #inseriImagemCentro input button{
     padding: 10px;
     font-size: 1.1rem;
-}
+} */
 
 
 #inseriEditCentro{
@@ -162,10 +162,10 @@
     z-index: 10;
 }
 
-#editImagemCentro input, button{
+/* #editImagemCentro input button{
     padding: 10px;
     font-size: 1.1rem;
-}
+} */
 
 
 input[type="file"]{
