@@ -32,7 +32,7 @@ for($r=1; $r<=count($pp); $r++){
 // print_r($charFolderInitial);
 $acumula = '';
 $inicial = 0;
-for($i=$inicial; $i<=count($charFolder); $i++){
+for($i=$inicial; $i<count($charFolder); $i++){
     if($i==$inicial){
         $acumula.=$charFolder[$i];
     }else{

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Inserir imagem</title>
     
 <style>
     body{
@@ -220,7 +220,7 @@
     
 </div>
 
-<script src="upload.js"></script>
+<script src="js/upload.js"></script>
 <script>
     function insert(){
         var img = document.getElementById("previewImage");

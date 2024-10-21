@@ -32,6 +32,7 @@ add_action('admin_menu', 'add_menu_admin_page');
 $url_rff_dir_editor = POSTS_RFF_DIR_EDITOR;
 
 function posts_rff(){
+    createFolderIfNotExists();
     // global $shortcode_tags;
 
     // echo '<ul>';
@@ -307,4 +308,14 @@ function posts_rff(){
     </div>
     <?php
     
+}
+
+function createFolderIfNotExists(){
+    $folder = plugin_dir_path(__FILE__).'imagens';
+    if(!is_dir($folder)){
+        mkdir($folder, 0777, true);
+        echo "Pasta criada com sucesso";
+    }else{
+        echo "a pasta já existe";
+    }
 }
