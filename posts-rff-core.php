@@ -314,8 +314,8 @@ function createFolderIfNotExists(){
     $folder = plugin_dir_path(__FILE__).'imagens';
     if(!is_dir($folder)){
         mkdir($folder, 0777, true);
-        echo "Pasta criada com sucesso";
+        // echo "Pasta criada com sucesso";
     }else{
-        echo "a pasta já existe";
+        // echo "a pasta já existe";
     }
 }
