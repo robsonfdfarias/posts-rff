@@ -323,6 +323,11 @@ function onDragStart(event, elem) {
 }
 
 function openWindowInsertImage(){
+  let isInDivTexto = verifyIfIsIntoDivTexto();
+  if(isInDivTexto==false){
+    alert('Clique na caixa de texto antes de usar esse recurso');
+      return;
+  }
   updateDirEditor();
   // window.open("rffeditor/windowInsertImage.php");
   window.open(POSTS_RFF_DIR_EDITOR+"windowInsertImage.php", 'janela', 'top=50, left=100, scrollbar=no, fullscreen=no');

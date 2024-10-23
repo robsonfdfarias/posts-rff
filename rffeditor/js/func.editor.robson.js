@@ -374,6 +374,12 @@ function InsertCapitular(tagPai){
 }
 
 function capitular(){
+    let isInDivTexto = verifyIfIsIntoDivTexto();
+    if(isInDivTexto==false){
+      alert('Clique na caixa de texto antes de usar esse recurso');
+        return;
+    }
+    saveState();
     let selecao = window.getSelection().getRangeAt(0).startContainer;
     let pai = returnTagFather(selecao, []);
     function returnTagFather(selecao, tags){
@@ -410,6 +416,7 @@ function capitular(){
     }else{
         InsertCapitular(pai);
     }
+    saveState();
 }
 
 function getTagFather(tag){
@@ -452,6 +459,11 @@ function insertVi(){
 
 
 function openWindowLink(){
+    let isInDivTexto = verifyIfIsIntoDivTexto();
+    if(isInDivTexto==false){
+      alert('Clique na caixa de texto antes de usar esse recurso');
+        return;
+    }
     updateDirEditor();
     var selecao = window.getSelection().getRangeAt(0).startContainer;
     var tag = selecao.parentNode;
@@ -593,6 +605,11 @@ function refazer(){
 }
 
 function removeFormatT(){
+    let isInDivTexto = verifyIfIsIntoDivTexto();
+    if(isInDivTexto==false){
+        alert('Clique na caixa de texto antes de usar esse recurso');
+        return;
+    }
     saveState();
     delElement();
     saveState();
@@ -632,8 +649,17 @@ function teste(){
     window.getSelection().getRangeAt(0).insertNode(id_('bold').firstChild);
 }
 
-function verifyIfIsIntoDivTexto(value){
-    let v = verify(value, []);
+function itIsInTheTextDiv(){
+    let isInDivTexto = verifyIfIsIntoDivTexto();
+    if(isInDivTexto==false){
+      alert('Clique na caixa de texto antes de usar esse recurso');
+        return;
+    }
+}
+
+function verifyIfIsIntoDivTexto(){
+    let container = window.getSelection().getRangeAt(0).startContainer;
+    let v = verify(container, []);
     function verify(data, char){
         let val = data.parentNode;
         if(val != null){
@@ -641,7 +667,7 @@ function verifyIfIsIntoDivTexto(value){
                 if(val.getAttribute('id') == 'texto'){
                     return true;
                 }
-                if(val.getAttribute('id')=='divForm'){
+                if(val.getAttribute('id')=='divForm' || val.getAttribute('id')=='wpwrap'){
                     return false;
                 }
             }
@@ -660,15 +686,17 @@ function setOrderType(type, style_type, texto){
     return li;
 }
 function addTagOrder(type, style_type){
+    let isInDivTexto = verifyIfIsIntoDivTexto();
+    if(isInDivTexto==false){
+        alert('Clique na caixa de texto antes de usar esse recurso');
+        return;
+    }
     saveState();
     let selection = window.getSelection();
     let range = selection.getRangeAt(0);
     let start = range.startContainer.parentNode;
     let texto = selection.toString();
     let tags = [start]
-    if(verifyIfIsIntoDivTexto(start)==false){
-        return;
-    }
     if(texto.includes('\n')){
         let end = range.endContainer.parentNode;
         let currentTag = start.nextElementSibling;
@@ -805,12 +833,17 @@ function upperAndLowerCase(val){
     let selection = window.getSelection();
     let range = selection.getRangeAt(0);
     let texto = selection.toString();
+    let isInDivTexto = verifyIfIsIntoDivTexto();
+    if(isInDivTexto==false){
+      alert('Clique na caixa de texto antes de usar esse recurso');
+        return;
+    }
     if(texto!='' && texto.length>0){
         let nodeText = document.createElement('div');
         nodeText.append(range.cloneContents());
         if(val=='upper'){
             // texto = texto.toUpperCase();
-            console.log(nodeText)
+            // console.log(nodeText)
             nodeText.innerHTML=nodeText.innerHTML.toUpperCase();
             texto=nodeText;
         }else if(val=='upperAndLower'){
@@ -833,13 +866,13 @@ function upperAndLowerCase(val){
             texto=nodeText;
         }else if(val=='lower'){
             // texto = texto.toLocaleLowerCase();
-            console.log(nodeText)
+            // console.log(nodeText)
             nodeText.innerHTML=nodeText.innerHTML.toLocaleLowerCase();
             texto=nodeText;
         }
         range.deleteContents();
         // range.insertNode(document.createTextNode(texto));
-        console.log(texto)
+        // console.log(texto)
         let container = document.createDocumentFragment();
         container.append(...Array.from(texto.childNodes));
         range.insertNode(container);
@@ -850,6 +883,11 @@ function upperAndLowerCase(val){
 }
 
 function insertShortcode(){
+    let isInDivTexto = verifyIfIsIntoDivTexto();
+    if(isInDivTexto==false){
+      alert('Clique na caixa de texto antes de usar esse recurso');
+        return;
+    }
     let selection = window.getSelection();
     let range = selection.getRangeAt(0);
     let container = range.startContainer;
@@ -890,6 +928,11 @@ function insertShortcode(){
 }
 
 function insertTag(valor) {
+    let isInDivTexto = verifyIfIsIntoDivTexto();
+    if(isInDivTexto==false){
+      alert('Clique na caixa de texto antes de usar esse recurso');
+        return;
+    }
     saveState();
     if(valor.toLowerCase() == getTags()){
         delElement();
@@ -1257,6 +1300,11 @@ function insertH(valor) {
 /////////////////////////////////////////////////////////
 
 function insertTable() {
+    let isInDivTexto = verifyIfIsIntoDivTexto();
+    if(isInDivTexto==false){
+      alert('Clique na caixa de texto antes de usar esse recurso');
+        return;
+    }
     updateDirEditor();
     console.log(POSTS_RFF_DIR_EDITOR+"windowInsertTable.php")
     window.open(POSTS_RFF_DIR_EDITOR+"windowInsertTable.php", 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
@@ -2195,6 +2243,11 @@ function openWindowConfigBackgroundTable(){
 // }
 
 function openWindowInsertVideo(){
+    let isInDivTexto = verifyIfIsIntoDivTexto();
+    if(isInDivTexto==false){
+      alert('Clique na caixa de texto antes de usar esse recurso');
+        return;
+    }
     updateDirEditor();
     window.open(POSTS_RFF_DIR_EDITOR+"windowInsertVideo.php", 'janela', 'height=350, width=500, top=50, left=100, scrollbar=no, fullscreen=no');
 }
@@ -2683,6 +2736,11 @@ function selectBtSumario(){
 
 
 function insertBreakPage(){
+    let isInDivTexto = verifyIfIsIntoDivTexto();
+    if(isInDivTexto==false){
+      alert('Clique na caixa de texto antes de usar esse recurso');
+        return;
+    }
     saveState();
     let node = verifyGetNode('DIV');
     console.log(node)

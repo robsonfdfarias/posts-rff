@@ -17,6 +17,11 @@ var fundoEfeitoTexto = document.getElementById("fundoEfeitoTexto");
         fundoEmotions.setAttribute("style", "display:none;");
     }
     function abreJanEmotions(){
+        let isInDivTexto = verifyIfIsIntoDivTexto();
+        if(isInDivTexto==false){
+          alert('Clique na caixa de texto antes de usar esse recurso');
+            return;
+        }
         emotions.setAttribute("style", "display:flex;");
         fundoEmotions.setAttribute("style", "display:flex;");
     }
