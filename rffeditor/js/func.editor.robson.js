@@ -2284,9 +2284,10 @@ function insertVideo(codVideo, si, width, height) {
     divPai.setAttribute('contenteditable', 'false');
     divPai.setAttribute('style', 'width:'+width+'; height:'+height+';');
     divPai.setAttribute('onmouseout', "videoOut(this)")
-    divPai.addEventListener('mouseover', function(){
-        videoOver(this);
-    }, true);
+    divPai.setAttribute('onmouseover', "videoOver(this)")
+    // divPai.addEventListener('mouseover', function(){
+    //     videoOver(this);
+    // }, true);
     let mediaAndCaption = document.createElement('div');
     mediaAndCaption.setAttribute('id', 'mediaAndCaption');
     mediaAndCaption.setAttribute('draggable', 'false');
