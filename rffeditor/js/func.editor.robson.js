@@ -1319,10 +1319,70 @@ function insertTableNovo(numRow, numCol) {
     let range = window.getSelection().getRangeAt(0);
     selection = window.getSelection().toString();
     let divPai = document.createElement('div');
+    divPai.setAttribute('class', 'item');
+    divPai.setAttribute('id', 'item');
+    divPai.setAttribute('dragstart', 'dragStart(event)');
+    divPai.setAttribute('drag', 'drag(event)');
+    divPai.setAttribute('dragend', 'dragend(event)');
+    divPai.setAttribute('draggable', 'true');
+    divPai.setAttribute('droppable', 'false');
+    divPai.setAttribute('ondragover', 'allowDrop2(event)');
     divPai.setAttribute('contenteditable', 'false');
-    divPai.setAttribute('spellcheck', 'false');
-    divPai.setAttribute('class', 'tabelaObj');
-    var table ='<div class="configTable" contenteditable="false" spellcheck="false">'
+    divPai.setAttribute('style', 'width:'+width+'px; height:'+height+'px; position:relative;overflow:visible;');
+    // divPai.setAttribute('onmouseover', "imgOver(this)")
+    divPai.setAttribute('onmouseout', "divToolsTableOut(this)")
+    divPai.setAttribute('onmouseover', "divToolsTableOver(this)")
+    var table = '';
+    table += '<table cellspacing="0" class="tabela" id="tabelaInserida" onkeydown="keydownTable(event, this)" onkeyup="keyupTable(event, this)">';
+    for(i=0; i<=numRow; i++){
+        table+='<tr contenteditable="false" spellcheck="false">';
+        // table+='<tr contenteditable="false" spellcheck="false">';
+        if(i==0){
+            for(j=0;j<=numCol;j++){
+                if(j==0){
+                    table+='<td style="" contenteditable="false" spellcheck="false" id="tableTdInicialPoint"></td>';
+                }else{
+                    table+='<td contenteditable="false" spellcheck="false" id="tableTdInicialLarg" style=""></td>';
+                }
+            }
+        }else{
+            for(j=0;j<=numCol;j++){
+                if(j==0){
+                    // table+='<td style="'+styleFirstColumn+'" contenteditable="false" spellcheck="false" id="tableTdInicialSmall"></td>';
+                    table+='<td contenteditable="false" spellcheck="false" id="tableTdInicialSmall"></td>';
+                }else{
+                    table+='<td style="" contenteditable="true" spellcheck="true" onclick="actionClickTd(this)" class="">&nbsp;</td>';
+                    // table+='<td contenteditable="true" spellcheck="true">&nbsp;</td>';
+                }
+            }
+        }
+        table+='</tr>';
+    }
+    table+='</table>';
+    divPai.innerHTML=table;
+    range.insertNode(divPai);
+    saveState();
+}
+
+function divToolsTableOver(div){
+    controller=true;
+    let tools = document.createElement('div');
+    tools.setAttribute('id', 'tools');
+    tools.setAttribute('draggable', 'false');
+    tools.setAttribute('droppable', 'false');
+    tools.setAttribute('contenteditable', 'false');
+    tools.setAttribute('style', 'display:flex; position:absolute; left: 0; top:-60px; background-color: rgba(0,0,0,0.0); width:80%; cursor: default;')
+    tools.addEventListener('dragstart', function (event) {
+        event.preventDefault();
+    })
+    tools.addEventListener('mouseover', function(){
+        controller=true;
+    })
+    tools.addEventListener('mouseout', function(){
+        controller=false;
+    })
+    // var table ='<div class="configTable" contenteditable="false" spellcheck="false">'
+    var table =''
     // table+='<button id="testeSel" onclick="merge(\'row\', \'add\')"><img src="rffeditor/imgEditor/mesclar-celula.svg" width="50" title="Opções de mesclagem"></button>';
     table+='<ul id="menuTable">';
     table+='<li><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/mesclar-celula.svg" height="40" title="Opções de mesclagem">';
@@ -1366,41 +1426,34 @@ function insertTableNovo(numRow, numCol) {
     table+='</ul>';
     table+='</li>';
 
-    table+='<li><button id="testeSel" onclick="openWindowConfigBackgroundTable()"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/configTable.svg" height="40" title="Configurar tabela"></button></li>';
+    table+='<li><button id="testeSel" onclick="openWindowConfigBackgroundTable()" style="margin: 0;"><img src="'+POSTS_RFF_DIR_EDITOR+'imgEditor/configTable.svg" height="40" title="Configurar tabela"></button></li>';
     table+='</ul>';
-    table+='<button onclick="fecharJanTab(this)" draggable="false" droppable="false">X</button>';
-    table+='</div>';
-    table += '<table cellspacing="0" class="tabela" id="tabelaInserida" onkeydown="keydownTable(event, this)" onkeyup="keyupTable(event, this)">';
-    for(i=0; i<=numRow; i++){
-        table+='<tr contenteditable="false" spellcheck="false">';
-        // table+='<tr contenteditable="false" spellcheck="false">';
-        if(i==0){
-            for(j=0;j<=numCol;j++){
-                if(j==0){
-                    table+='<td style="" contenteditable="false" spellcheck="false" id="tableTdInicialPoint"></td>';
-                }else{
-                    table+='<td contenteditable="false" spellcheck="false" id="tableTdInicialLarg" style=""></td>';
-                }
+    table+='<button onclick="fecharJanTab(this)" draggable="false" droppable="false" style="margin: 0 0 5px; 0">X</button>';
+    // table+='</div>';
+    table+='';
+    tools.innerHTML = table;
+    if(div.childNodes.length<=1){
+        div.appendChild(tools)
+        div.addEventListener('mouseout', function(e){
+        controller=false;
+        setTimeout(()=>{
+            if(controller==false){
+            tools.remove();
             }
-        }else{
-            for(j=0;j<=numCol;j++){
-                if(j==0){
-                    // table+='<td style="'+styleFirstColumn+'" contenteditable="false" spellcheck="false" id="tableTdInicialSmall"></td>';
-                    table+='<td contenteditable="false" spellcheck="false" id="tableTdInicialSmall"></td>';
-                }else{
-                    table+='<td style="" contenteditable="true" spellcheck="true" onclick="actionClickTd(this)" class="">&nbsp;</td>';
-                    // table+='<td contenteditable="true" spellcheck="true">&nbsp;</td>';
-                }
-            }
-        }
-        table+='</tr>';
+        }, 1);
+        })
     }
-    table+='</table>';
-    divPai.innerHTML=table;
-    range.insertNode(divPai);
-    saveState();
 }
 
+function divToolsTableOut(obj){
+    let first = obj.firstElementChild;
+    if(first.getAttribute('id')==='tools'){
+        if(controller==false){
+        first.replaceChildren();
+        controller=true;
+        }
+    }
+}
 
 
 
