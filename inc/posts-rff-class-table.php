@@ -5,9 +5,9 @@ if (!class_exists('WP_List_Table')) {
     require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
 }
 
-if(file_exists(POSTS_RFF_CORE_INC.'posts_rff_validate_fields.php')){
-    require_once(POSTS_RFF_CORE_INC.'posts_rff_validate_fields.php');
-  }
+// if(file_exists(POSTS_RFF_CORE_INC.'posts_rff_validate_fields.php')){
+//     require_once(POSTS_RFF_CORE_INC.'posts_rff_validate_fields.php');
+//   }
 
 class Posts_RFF_Posts_Table extends WP_List_Table {
     private $posts;
@@ -59,7 +59,7 @@ class Posts_RFF_Posts_Table extends WP_List_Table {
     
     function prepare_items() {
         $this->trashPost();
-        $rffValid = new PostsRffValidate();
+        // $rffValid = new PostsRffValidate();
         // Captura os filtros
         $filter_category = isset($_GET['cat']) ? sanitize_text_field($_GET['cat']) : '';
         $filter_date = isset($_GET['m']) ? sanitize_text_field($_GET['m']) : '';
