@@ -29,6 +29,13 @@ class PostsRFFValidate {
         }
         return $ar;
     }
+    function validNumber($num){
+        if(is_numeric($num)){
+            return sanitize_key($num);
+        }else{
+            return false;
+        }
+    }
     // function validFilterDate($month, $year){
     //     echo preg_match('/\d{2}/', $month).' <------<br>';
     //     echo preg_match('/\d{4}/', $year).' <------<br>';

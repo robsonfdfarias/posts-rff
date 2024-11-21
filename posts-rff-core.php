@@ -13,6 +13,12 @@ if(file_exists(POSTS_RFF_CORE_INC.'posts-rff-class-table.php')){
 if(file_exists(POSTS_RFF_CORE_INC.'posts_rff_validate_fields.php')){
   require_once(POSTS_RFF_CORE_INC.'posts_rff_validate_fields.php');
 }
+if(file_exists(POSTS_RFF_CORE_INC.'posts_rff_submit_controller.php')){
+    require_once(POSTS_RFF_CORE_INC.'posts_rff_submit_controller.php');
+}
+if(file_exists(POSTS_RFF_CORE_INC.'posts_rff_db_posts.php')){
+    require_once(POSTS_RFF_CORE_INC.'posts_rff_db_posts.php');
+}
 
 
 function add_menu_admin_page(){
@@ -33,6 +39,9 @@ $url_rff_dir_editor = POSTS_RFF_DIR_EDITOR;
 
 function posts_rff(){
     createFolderIfNotExists();
+    $postRffSubmitController = new PostRffSubmitController();
+    $postRffSubmitController->submitController();
+    $postsRffDB = new PostsRffDB();
     // global $shortcode_tags;
 
     // echo '<ul>';
@@ -40,60 +49,14 @@ function posts_rff(){
     //     echo '<li>' . esc_html($shortcode) . '</li>';
     // }
     // echo '</ul>';
-    $rffValid = new PostsRFFValidate();
-    if(isset($_POST['cadastrarPostRff'])){
-        if(isset($_POST['titulo']) && isset($_POST['conteudo'])){
-            $current_user_id = get_current_user_id();
-            $post_data = array(
-                'post_title'    => sanitize_text_field($_POST['titulo']),
-                'post_content'  => $_POST['conteudo'],
-                'post_status'   => $rffValid->post_status($_POST['post_status']),
-                'post_author'   => $current_user_id,
-                'post_type'     => $rffValid->post_type($_POST['post_type']),
-                'post_category' => $rffValid->cats($_POST['cats']) //array(1, 2) IDs das categorias
-            );
-            if(isset($_POST['cats'])){
-                $post_data['post_category'] = $_POST['cats'];
-            }
-            $post_id = wp_insert_post($post_data);
-            echo $post_id;
-            if($post_id>0 && $post_id!=null){
-                echo '<div class="notice notice-success is-dismissible"><p>Post criado com sucesso. ID do post: <a href="'.home_url().'?p='. $post_id.'" target="_blank">'. $post_id.'</a></p></div>';
-            }else{
-                echo '<div class="notice notice-failure is-dismissible"><p>Erro ao criar o post, por favor, tente novamente.</p></div>';
-            }
-        }
-    }else if(isset($_POST['editarPostRff'])){
-        if(isset($_POST['titulo']) && isset($_POST['conteudo'])){
-            // Dados do post a serem atualizados
-            $post_data = array(
-                'ID'           => $_POST["idPost"],
-                'post_title'    => sanitize_text_field($_POST['titulo']),
-                'post_content'  => $_POST['conteudo'],
-                'post_status'   => $rffValid->post_status($_POST['post_status']),
-                'post_type'   => $rffValid->post_type($_POST['post_type']),
-            );
-            if(isset($_POST['cats'])){
-                $post_data['post_category'] = $rffValid->cats($_POST['cats']);
-            }
-
-            // Atualiza o post
-            $updated_post_id = wp_update_post( $post_data );
-
-            // Verifica se a atualização foi bem-sucedida
-            if ( is_wp_error( $updated_post_id ) ) {
-                // Trata o erro
-                $error_message = $updated_post_id->get_error_message();
-                echo '<div class="notice notice-failure is-dismissible"><p>Erro ao atualizar o post: '. $error_message.'</p></div>';
-            } else {
-                echo '<div class="notice notice-success is-dismissible"><p>Post atualizado com sucesso. ID do post: <a href="'.home_url().'?p='. $updated_post_id.'" target="_blank">'. $updated_post_id.'</a></p></div>';
-            }
-        }
-    }
+    
     $args = array(
         'posts_per_page' => 10,
     );
     $posts = get_posts($args);
+    if(isset($_GET['idPost'])){
+        $postsRffDB->printDataInDiv($_GET['idPost']);
+    }
 
     ?>
     <div id="wrap">
@@ -168,6 +131,7 @@ function posts_rff(){
 
                 async function ValidateContactForm(event){
                     await insertTextoEmTextarea();
+                    adminGetUrl.removeUrlParameter('idPost');
                     var titulo = document.getElementById("titulo");
                     var conteudo = document.getElementById("conteudo");
                     if(!empty(titulo)){
@@ -184,7 +148,15 @@ function posts_rff(){
                     await ValidateContactForm(event);
                 })
 
-                function openEditPost(json, id){
+                function insertIdInURL(id){
+                    adminGetUrl.addUrlParameter('idPost', id);
+                    location.reload();
+                }
+
+                if(adminGetUrl.verifyVarUrl('idPost')){
+                    openEditPost();
+                }
+                function openEditPost(){
                     let type = [];
                     type["post"] = `<option value="post" class="deleteItemType" selected>-> Um post de blog padrão.</option>`;
                     type["page"] = `<option value="page" class="deleteItemType" selected>-> Uma página estática.</option>`;
@@ -196,7 +168,19 @@ function posts_rff(){
                     status["draft"] = `<option value="draft" class="deleteItemStatus" selected>-> O post está salvo como um rascunho e não está visível ao público.</option>`;
                     status["pending"] = `<option value="pending" class="deleteItemStatus" selected>-> O post está aguardando revisão.</option>`;
                     status["private"] = `<option value="private" class="deleteItemStatus" selected>-> O post está visível apenas para usuários com permissões adequadas.</option>`;
-                    let post = document.getElementById('contentPost'+id)
+                    let data = document.getElementById('postsRffJson').innerHTML;
+                    let json;
+                    try{
+                        json = JSON.parse(data);
+                    }catch(error){
+                        console.log(error);
+                        json=null;
+                    }
+                    if(json==null){
+                        alert("Impossível converter para JSON.");
+                        return;
+                    }
+                    let post = document.getElementById('postsRffContent')
                     let post_type=document.getElementById('post_type');
                     for(let i=0;i<post_type.children.length; i++){
                         if(post_type.children[i].getAttribute('class')==='deleteItemType'){
@@ -247,6 +231,7 @@ function posts_rff(){
                     document.getElementById('titulo').value='';
                     document.getElementById('texto').innerHTML = '<div>Digite o seu artigo aqui...</div>';
                     document.getElementById('divForm').style.display='none';
+                    adminGetUrl.removeUrlParameter('idPost');
                 }
                 function newPost(){
                     let post_type=document.getElementById('post_type');
@@ -260,6 +245,10 @@ function posts_rff(){
                         if(post_status.children[i].getAttribute('class')==='deleteItemStatus'){
                             post_status.children[i].remove();
                         }
+                    }
+                    let cbCateg = document.getElementsByClassName('rffChecked');
+                    for(let i=0; i<cbCateg.length; i++){
+                        cbCateg[i].checked=false;
                     }
                     document.getElementById('editarPostRff').style.display='none';
                     document.getElementById('cadastrarPostRff').style.display='inline';
