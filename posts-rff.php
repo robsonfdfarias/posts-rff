@@ -38,6 +38,7 @@ function posts_rff_adicionar_scripts() {
  // Adiciona o CSS e JS
  function posts_rff_adicionar_scripts_wp() {
     wp_enqueue_style('posts-rff-editor-p1-css', plugin_dir_url(__FILE__) . 'rffeditor/editorRobsonFarias.css');
+    wp_enqueue_script('posts-rff-core-js', plugin_dir_url(__FILE__) . 'js/posts_rff_core.js', array('jquery'), null, true);
   }
   
   add_action('wp_enqueue_scripts', 'posts_rff_adicionar_scripts_wp');

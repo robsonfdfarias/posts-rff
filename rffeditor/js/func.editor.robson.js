@@ -891,7 +891,7 @@ function insertShortcode(){
     let selection = window.getSelection();
     let range = selection.getRangeAt(0);
     let container = range.startContainer;
-    let father = getTagFather(container);
+    let father = container.parentNode;
     console.log(container.nodeValue)
     console.log(father)
     if(father.nodeName=='P'){
@@ -917,15 +917,60 @@ function insertShortcode(){
     div2.innerHTML=' ';
     if(container.nodeValue!=null){
         div2.innerHTML='.';
-        let father2 = father.parentNode;
-        father2.insertBefore(div2, father);
-        father2.insertBefore(div, div2);
+        father.insertBefore(div2, container);
+        father.insertBefore(div, div2);
     }else{
         father.insertBefore(div2, container);
         father.insertBefore(div, div2);
     }
     container.nodeValue = '';
 }
+
+
+// function insertShortcode(){
+//     let isInDivTexto = verifyIfIsIntoDivTexto();
+//     if(isInDivTexto==false){
+//       alert('Clique na caixa de texto antes de usar esse recurso');
+//         return;
+//     }
+//     let selection = window.getSelection();
+//     let range = selection.getRangeAt(0);
+//     let container = range.startContainer;
+//     let father = getTagFather(container);
+//     console.log(container.nodeValue)
+//     console.log(father)
+//     if(father.nodeName=='P'){
+//         if(father.id=='shortcode'){
+//             let fatherGenarete = father.parentNode;
+//             fatherGenarete.innerHTML='';
+//             fatherGenarete.append(container);
+//             return;
+//         }
+//     }
+//     let div = document.createElement('div');
+//     let varClear='';
+//     if(container.nodeValue!=null){
+//         varClear = container.nodeValue.replace('[', '');
+//         varClear = varClear.replace(']', '');
+//     }
+//     div.innerHTML = `
+//         <!-- wp:paragraph -->
+//         <p id="shortcode" style="padding:0 4px; background-color:#cdcdcd;">[${varClear}]</p>
+//         <!-- /wp:paragraph -->
+//     `;
+//     let div2 = document.createElement('div');
+//     div2.innerHTML=' ';
+//     if(container.nodeValue!=null){
+//         div2.innerHTML='.';
+//         let father2 = father.parentNode;
+//         father2.insertBefore(div2, father);
+//         father2.insertBefore(div, div2);
+//     }else{
+//         father.insertBefore(div2, container);
+//         father.insertBefore(div, div2);
+//     }
+//     container.nodeValue = '';
+// }
 
 function insertTag(valor) {
     let isInDivTexto = verifyIfIsIntoDivTexto();
