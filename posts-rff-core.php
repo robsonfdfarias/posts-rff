@@ -21,6 +21,40 @@ if(file_exists(POSTS_RFF_CORE_INC.'posts_rff_db_posts.php')){
 }
 
 
+// Função para verificar e criar o menu "Administration RFF"
+// function verificar_menu_administracao_rff() {
+//     // Verifica se o menu principal "Administration RFF" já existe
+//     global $menu;
+
+//     $menu_slug = 'administration_rff'; // Slug único para o menu principal
+
+//     // Percorre todos os menus registrados para verificar se o menu "Administration RFF" já foi criado
+//     $menu_existe = false;
+//     foreach ($menu as $item) {
+//         if (isset($item[2]) && $item[2] === $menu_slug) {
+//             $menu_existe = true;
+//             break;
+//         }
+//     }
+
+//     // Se o menu não existe, cria o menu "Administration RFF"
+//     if (!$menu_existe) {
+//         add_menu_page(
+//             'Administration RFF',      // Título do menu principal
+//             'Administration RFF',      // Nome exibido no menu
+//             'manage_options',          // Capacidade necessária para acessar
+//             $menu_slug,                // Slug do menu
+//             '__return_false',            // Callback vazio, não vai renderizar nada
+//             'dashicons-admin-tools',   // Ícone do menu
+//             60                         // Posição no menu (ajustável)
+//         );
+//     }
+// }
+// // Adiciona o menu principal ao inicializar
+// add_action('admin_menu', 'verificar_menu_administracao_rff');
+
+
+
 function add_menu_admin_page(){
     add_menu_page(
         "Posts_Rff",

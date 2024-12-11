@@ -27,3 +27,5 @@ function divToolsTableOut(){}
 function divToolsTableOver(){}
 
 function actionClickTd(obj){}
+
+function allowDrop2(){}
